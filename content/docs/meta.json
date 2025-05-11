@@ -1,0 +1,8 @@
+{
+    "pages": [
+        "index",
+        "plugin"
+    ],
+    "defaultOpen": true,
+    "icon":"hand"
+}

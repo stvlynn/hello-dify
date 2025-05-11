@@ -1,0 +1,8 @@
+{
+    "title": "Plugin",
+    "icon": "plug-line",
+    "pages": [
+        "ssh-plugin-vibe-coding",
+        /*"cursor-rule"*/
+    ]
+} 

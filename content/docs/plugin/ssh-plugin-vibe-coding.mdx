@@ -1,0 +1,101 @@
+---
+title: "Vibe Coding Tutorial: Building SSH Plugin with Cursor"
+description: A Codeless Approach to Server Management
+---
+
+
+## Introduction
+Last month, Dify released v1.0.0 with plugin functionality. In this article, I'll walk you through how I built an SSH plugin for Dify to enable server management capabilities.
+
+The plugin repository is available on [GitHub](https://github.com/stvlynn/SSH-Dify-Plugin).
+
+## Inspiration from Manus AI
+The SSH plugin draws inspiration from Manus AI's "Computer Use" functionality, adapted specifically for server management. Manus AI stands apart from traditional chatbots by autonomously executing tasks, leveraging its advanced "Browser Use" and "Computer Use" integrations.
+
+
+Two key ideas inspired by Manus AI include:
+
+Server Interaction: Transforming Manus's "Computer Use" capability into server management.
+
+Agent-driven Task Planning: Employing AI agents to efficiently manage and execute tasks.
+
+## SSH Plugin Overview
+The SSH plugin facilitates remote command execution and secure file transfers, effectively adapting Manus AI's concept of "Computer Use" to remote server interactions. By leveraging the SSH protocol—an industry-standard method for secure communication over an unsecured network—the plugin enables AI agents to independently manage tasks such as configuring servers, deploying applications, or conducting troubleshooting operations.
+
+
+## Installation
+The plugin is easily installed from the Dify Marketplace by searching for "SSH."
+
+
+## Development Process
+The plugin development process leverages Cursor, an LLM-powered development tool that significantly enhances efficiency, allowing even those without coding experience to build plugins effortlessly.
+
+### Step-by-step Guide:
+1. Preparation
+
+Install Cursor and complete the subscription or integrate an LLM API.
+
+Create a new project and open the AI Pane (⌥Option+⌘Command+B), switching to "Agent mode."
+
+
+Add Dify documentation by typing @ and entering the URL: https://docs.dify.ai/.
+
+
+Enable "Yolo mode" from Settings → Features to streamline command executions (use cautiously).
+
+
+2. Plugin Creation
+
+Open a new terminal (Terminal → New Terminal).
+
+Create a new plugin with Dify's provided plugin scaffold and follow the configuration prompts.
+
+3. Development and Debugging
+
+Input the following prompt in Cursor:
+
+```
+Read the plugin development section in Dify documentation.
+I've already created a plugin project using the scaffold at @ssh.
+Please develop the SSH plugin based on this project
+```
+
+## Creating a Server Management Chatflow
+You can efficiently handle server management by designing workflows in Dify with the following recommended structure:
+
+
+### Workflow Components
+#### Todo Planning
+- Generate task lists in Markdown format (`[ ]`indicates pending tasks).
+
+- Clearly prioritize tasks for efficient execution.
+
+### Execution Loop
+The loop includes these steps:
+
+1. Task Reading: Identify pending tasks and generate corresponding SSH commands.
+
+2. SSH Execution: Run commands remotely via SSH.
+
+3. Recording Results: Store command results and extract critical details such as IP addresses.
+
+4. Todo Updates:
+
+- Create new tasks to resolve issues that arise.
+
+- Mark completed tasks with `[x]`.
+
+5. Completion Check: Verify completion of all tasks, ending the loop once all tasks are marked complete ([x]).
+
+### Response Node
+Communicate results to users clearly in natural language, removing the need for technical understanding.
+
+This workflow ensures AI autonomously manages server tasks, effectively addresses issues, and clearly communicates outcomes to users. Now you can easily manage your cloud servers using Dify's Agentic Workflow!
+
+- Automate Deployments: Install services, update configurations, and restart applications effortlessly.
+
+- Remote File Management: Create, edit, and manage files without manual login.
+
+- Run Custom Scripts: Execute commands, manage cron jobs, and automate maintenance tasks.
+
+- Monitor & Troubleshoot: Fetch logs, check system health, and resolve issues instantly.
