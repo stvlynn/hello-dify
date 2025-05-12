@@ -1,6 +1,7 @@
 {
     "title": "Workflow",
     "icon": "flow-chart",
+    "defaultOpen": true,
     "pages": [
         "twitter-mbti-receipt"
     ]

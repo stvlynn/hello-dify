@@ -1,6 +1,7 @@
 {
     "title": "Plugin",
     "icon": "plug-line",
+    "defaultOpen": true,
     "pages": [
         "cursor-rules",
         "ssh-plugin-vibe-coding"
