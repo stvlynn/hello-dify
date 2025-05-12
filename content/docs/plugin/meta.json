@@ -2,6 +2,7 @@
     "title": "Plugin",
     "icon": "plug-line",
     "pages": [
+        "cursor-rules",
         "ssh-plugin-vibe-coding"
     ]
 } 
