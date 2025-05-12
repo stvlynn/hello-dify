@@ -1,6 +1,7 @@
 {
     "pages": [
         "index",
+        "workflow",
         "plugin"
     ],
     "defaultOpen": true,

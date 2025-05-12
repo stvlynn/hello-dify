@@ -1,0 +1,171 @@
+---
+title: No-Code Journey with Dify and Windsurf
+description: Building a Twitter MBTI Analyzer
+---
+
+If you have been focusing on AI products recently, you probably have heard about Windsurf and Cursor, the next-generation IDEs powered by AI.
+
+In this article, I'll share my journey of creating a successful product using Windsurf and Dify, despite having no prior IT background.
+
+The hit product, "Twitter MBTI Receipt," garnered 200,000 hits on Twitter within just three days of launch. This application uses a Twitter scraper to analyze a user's profile and generate an MBTI personality report, all built using Dify's workflow.
+
+You can [try it](https://twi.am/) now and star it on [GitHub](https://github.com/stvlynn/twi.am).
+
+![image.png](https://s2.loli.net/2025/05/12/bDNACQq2Stp4L76.png)
+
+## Project Overview
+The project leveraged two key technologies:
+
+- Dify for building the backend
+
+- Windsurf for developing the frontend
+
+The two components communicate via HTTP requests, creating a seamless integration.
+
+![image.png](https://s2.loli.net/2025/05/12/eoBwWtTvycgm2UH.png)
+
+
+## Building the Backend with Dify
+**Dify is an LLM application platform that enables you to build AI applications without writing code.** It's particularly suitable for backend development.
+
+Before creating a new application on Dify, we have to make sure the necessary processes in the workflow. Let's start with a mind map:
+
+![image.png](https://s2.loli.net/2025/05/12/9ns2jVKIfqCmuU6.png)
+
+Now, let's achieve that on the Dify workflow.
+
+While chatflow enables ongoing dialogue, a workflow acts like a "script" - you input variables and receive a one-time output.
+
+![image.png](https://s2.loli.net/2025/05/12/23hjZYABy9wreF8.png)
+
+Just in case you don't know what workflow is: Building workflow is just like how we create mind maps. You can add and drag nodes, and set variables on nodes.
+
+### Start Node
+In start node, you can add some variables. Let's add user_id and languages.
+
+### HTTP Request Node
+In the next node, you need a HTTP request node to call scrapers. Twitter developer platform provides official API. If you want to deploy your own scraper, you can try RSS Hub, which is an open-source scraper supporting Twitter.
+
+### LLM Node
+In LLM node, you need to adjust the prompt to generate a comprehensive report. If you don't know how to write prompt efficiently, please refer to our workshop.
+
+### Parameter Extractor Node
+Parameter Extractor converts a passage into several parameters in JSON format, getting the data ready for the frontend.
+
+The following is a minimal workflow that can scrape data from Twitter, generate reports and output. You can see the full backend in my GitHub repository.
+
+![image.png](https://s2.loli.net/2025/05/12/yIV2BqYxn8gE7KZ.png)
+
+## MVP Web App
+Dify provides a web application after publishing, allowing quick sharing and testing.
+
+![image.png](https://s2.loli.net/2025/05/12/fa2hAWljsrSQyDE.png)
+
+## Building Frontend with Windsurf
+Windsurf's AI assistant, Cascade (powered by Claude-3.5-sonnet), stands out from other AI coding assistants. It can:
+
+- Access project directories
+
+- Create and edit multiple files simultaneously
+
+- Execute terminal commands autonomously
+
+![image.png](https://s2.loli.net/2025/05/12/rnW1mXCTMxjGY9P.png)
+
+
+## Connecting Backend: How does API work?
+Dify provides API documentation in the left sidebar. It provides a cURL request example. Please copy and save your API keys in a safe place. We strongly recommend you not keep API keys in the frontend.
+
+![image.png](https://s2.loli.net/2025/05/12/j84ducal6ztR3Xv.png)
+
+Scroll down, and you will see the example request and respond.
+
+![image.png](https://s2.loli.net/2025/05/12/2FwjCalDzkxPMmI.png)
+
+An HTTP request and response to Dify are demonstrated in this chart:
+
+![image.png](https://s2.loli.net/2025/05/12/hvmA9RrDz3joSi7.png)
+
+The variables in inputs are the variables in the start node, and variables in output are the variables in the end node. Please make sure variables can be interpreted correctly as they are written in JSON format.
+
+Also, don't forget to fill in the API token in the header.
+
+Before integrating into frontend, you can copy the example request and test locally using [Postman](https://postman.com/).
+
+Paste cURL command in the input box and Postman will convert it. You need to fill in the variables mentioned above.
+
+![image.png](https://s2.loli.net/2025/05/12/wBpekOiDuLdcrW6.png)
+
+## Building Frontend
+With the help of Cascade, you can create a frontend within minutes. Let's start with the following questions:
+
+- What are you building?
+
+- What kind of frame are you going to use?
+
+- Describe the web design.
+
+- How to connect with the backend?
+
+If you don't know how to describe HTTP request and response to Cascade, you can copy the request and response tested in Postman as an example.
+
+Here's my prompt when designing this project:
+```
+<Design>
+Create a Twitter MBTI Receipt that takes a user ID as input and outputs the user's MBTI report. In the input box, you need to place an @ symbol on the far left to prompt users to enter an ID instead of a username. This requires making a request to Dify's backend. In the request, you need to send two variables: one is the user's ID (without the @) (variable name: user_id), and the other is the user's browser language (variable name: lang).
+</Design>
+<Backend_Request>
+An example request is as follows:
+curl --location 'http://api.dify.ai/v1/workflows/run' \
+--header 'Authorization: Bearer ****' \
+--header 'Content-Type: application/json' \
+--data '{
+"inputs": {"lang":"en-US","user_id":"stv_lynn"},
+"response_mode": "streaming",
+"user": "abc-123"
+}'
+</Backend_Request>
+<Backend_Response>
+An example response is as follows:
+{
+"event": "workflow_finished",
+"workflow_run_id": "a2214d-9246-4bd7-976d-****",
+"task_id": "715420e1-a5eb-478b-b08c-****",
+"data": {
+"id": "a20412fd-9436-4bd7-976d-****",
+"workflow_id": "05ba4685-8768-42a5-****",
+"sequence_number": 14,
+"status": "succeeded",
+"outputs": {
+"mbti": "INTJ",
+"IE_report": "From Steven Lynn's tweets, it can be seen that he enjoys working and studying alone, excelling in thinking and analysis. In his tweets, he mentions that he likes to use AI and programming to solve problems, indicating that he is an introverted person who prefers to take time to think and solve issues.",
+"SN_report": "Steven Lynn's tweets mention his use of tools like GPT and Hugging Face for language and data processing, suggesting that he is an intuitive person who enjoys exploring and discovering new things. In his profile, he also notes that he is a graduate student, and during graduate studies, students typically need to explore and discover new things to complete their research.",
+"TF_report": "From Steven Lynn's tweets, it can be seen that he is a thoughtful person who likes to use logic and analysis to solve problems. In his tweets, he mentions using many programming and data analysis tools to address issues, which indicates that he enjoys applying logic and analysis to problem-solving.",
+"JP_report": "Steven Lynn's tweets mention that he likes to use planning and organization to complete tasks, indicating that he is a judging person who prefers to plan and organize to achieve goals. In his profile, he also states that he is a graduate student, where planning and organization are typically needed to complete research.",
+"celebrity": "Steve Jobs",
+"celebrity_report": "People with the INTJ type are often experts in innovation and problem-solving. Celebrities like Steve Jobs are also INTJ types, showcasing the typical traits of INTJs through their entrepreneurial and innovative work at Apple."
+},
+"error": null,
+"elapsed_time": 47.11438198480755,
+"total_tokens": 7040,
+"total_steps": 9,
+"created_by": {
+"id": "1e2889b0-c001-4418-badf-4e12352c5f",
+"user": "abc-123"
+},
+"created_at": 1732352687,
+"finished_at": 1732352734,
+"files": []
+}
+}
+</Backend_Response>
+<Task>
+You need to extract the variables from the output and display them in the Receipt. The response takes about 60 seconds, so you need to set a sufficiently long wait time. 
+</Task>
+<Frame>
+This project requires the use of Vue, Tailwind CSS, and TypeScript.
+</Frame>
+XML Structural Prompting
+There's no strict rules on prompting. However, I recommend you write the prompt in XML format. Structural prompts are easier for LLMs to understand and generate high-quality output.
+```
+Please refer to Anthoropic's documentation: Prompt engineering - Use XML tags to structure your prompts
