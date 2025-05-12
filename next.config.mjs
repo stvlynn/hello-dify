@@ -5,9 +5,10 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  // 禁用Turbopack以解决字体加载问题
   experimental: {
-    turbo: false
+    turbo: {
+      enabled: false
+    }
   },
   images: {
     domains: ['s2.loli.net'],

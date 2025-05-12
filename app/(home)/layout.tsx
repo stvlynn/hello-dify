@@ -11,6 +11,16 @@ export default function Layout({ children }: { children: ReactNode }) {
           text: 'Documentation',
           url: '/docs',
         },
+        {
+          text: 'GitHub',
+          url: 'https://github.com/stvlynn/hello-dify',
+          external: true,
+        },
+        {
+          text: 'Discord',
+          url: 'https://discord.gg/drd3HnTv',
+          external: true,
+        },
       ]}
     >
       {children}
