@@ -1,45 +1,46 @@
-# hello-dify
+# Hello Dify
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+<p align="center">
+  <img src="./public/images/hello-dify.png" alt="Hello Dify Logo" width="180" />
+</p>
 
-Run development server:
+<p align="center">
+  A FirstLab project designed to help newcomers quickly learn Dify through best practices.
+</p>
 
-```bash
-npm run dev
-# or
-pnpm dev
-# or
-yarn dev
+## What is this?
+
+Hello Dify is a documentation website. It serves as:
+
+- **Learning Resource**: A collection of tutorials and best practices for Dify plugin development
+- **Reference Implementation**: A modern, responsive website demonstrating Fumadocs capabilities
+- **Community Project**: A collaborative effort by FirstLab community members
+
+
+## Join FirstLab
+
+FirstLab is a community of developers interested in AI development and Dify ecosystem.
+
+- **Discord**: Join our [Discord server](https://discord.gg/drd3HnTv) to connect with other developers
+
+
+## Project Structure
+
+```
+hello-dify/
+├── app/             # Next.js app directory
+├── content/         # Documentation content (MDX files)
+├── public/          # Static assets
+│   └── images/      # Image files
+└── lib/             # Shared utilities
 ```
 
-Open http://localhost:3000 with your browser to see the result.
+## Contributors
 
-## Explore
+[![Contributors](https://contrib.rocks/image?repo=stvlynn/hello-dify)](https://github.com/stvlynn/hello-dify/graphs/contributors)
 
-In the project, you can see:
+Want to contribute? Check out our [contribution guidelines](CONTRIBUTING.md).
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `app/layout.config.tsx`: Shared options for layouts, optional but preferred to keep.
+## License
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
-
-### Fumadocs MDX
-
-A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
-
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
-
-## Learn More
-
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs
+[AGPL-3.0](./LICENSE)
