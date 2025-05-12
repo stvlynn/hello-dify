@@ -8,6 +8,9 @@ const config = {
   // 禁用Turbopack以解决字体加载问题
   experimental: {
     turbo: false
+  },
+  images: {
+    domains: ['s2.loli.net'],
   }
 };
 
