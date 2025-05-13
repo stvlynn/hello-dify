@@ -1,0 +1,141 @@
+---
+title: "Iteration: Execute All Tasks Simultaneously"
+description: Building a Multilingual Document Translation Tool with  Dify
+---
+
+# Introduction
+In the rapidly evolving landscape of AI application development, low-code platforms are revolutionizing how enterprises implement intelligent solutions. Dify emerges as a transformative open-source platform that empowers teams to build, deploy, and scale AI-driven workflows with minimal coding effort. Its modular architecture and visual workflow design enable seamless integration of AI capabilities—from document processing to multilingual collaboration—while abstracting away infrastructure complexities.
+
+This article will leverage DeepSeek R1, combined with Dify, an open-source low-code development platform, to demonstrate how to quickly build an enterprise-level multilingual document translation tool. Through Dify's seamless integration, users can automate document parsing, stylistic translation, and batch processing without complex programming, significantly improving cross-language collaboration efficiency. Whether it's precise translation of technical manuals or flexible adaptation of multilingual marketing content, this solution can be easily implemented through modular workflows, providing a cost-effective and highly controllable AI solution for global teams.
+
+# Backend as a Service: Building an AI Application Backend with Dify Low-Code
+
+## Prerequisites
+1. Apply for a DeepSeek API key.
+
+2. Register for a Dify account.
+
+### Applying for a DeepSeek API Key
+Method 1: Via the DeepSeek API Open Platform
+
+Visit the [DeepSeek API Open Platform](https://platform.deepseek.com/) and follow the on-screen instructions to apply for an API key.
+
+### Registering for Dify
+Dify is a platform that helps you quickly build generative AI applications. By integrating with the DeepSeek API, you can quickly create an easy-to-use DeepSeek AI application.
+
+#### Connecting DeepSeek to Dify
+Visit the Dify platform, click on your avatar in the upper right corner -> Settings -> Model Provider, find DeepSeek, and paste the API Key you obtained earlier.
+
+![image.png](https://s2.loli.net/2025/05/13/hDtK2TxFXIPOpzu.png)
+
+Click Save. A success message will appear after the validation is successful.
+
+#### Creating an Application
+Enter the **Studio**, click Create from **Blank -> Workflow**.
+
+> **What are Chatflow and Workflow?**
+> In Dify's advanced application types, there are Chatflow and Workflow. Chatflow behaves more like a chatbot, that is, a robot that can interact with users in a loop; while Workflow behaves more like a script, which is only executed once when called and is usually used as the application backend.
+> You need to choose the appropriate application type according to the application scenario you are building. In this demonstration, we will choose the Workflow type.
+
+![image.png](https://s2.loli.net/2025/05/13/OkqsFUW4Q3LCzb1.png)
+
+## Building the Workflow
+After entering the application, you can edit the workflow by adding and connecting nodes, without having to process the code.
+
+The following demonstrates how to create a document translation tool:
+
+### Start Node
+In the start node, click `+` to add a variable of the File type. Select the file type as File List, set the file type to Document, and name the variable "file".
+
+![image.png](https://s2.loli.net/2025/05/13/1BCq9ijeUFDJoOl.png)
+
+Also, we need to limit the translation style, for example: Formal, Professional, Casual, Enthusiastic, Humorous. Click `+` Add Option type variables, enter the content of each option, and set the variable name to `style`.
+
+![image.png](https://s2.loli.net/2025/05/13/lR17g6h4rnz9Aas.png)
+
+### Iteration
+In the Start node, we set a list of files. To avoid repeatedly constructing the workflow nodes, Dify introduces an iteration node. In the iteration node, the workflow executes all the list-type variables completely and outputs them separately.
+
+For detailed instructions on the iteration, please refer to the [Documentation -> Iteration](https://docs.dify.ai/guides/workflow/node/iteration).
+
+![image.png](https://s2.loli.net/2025/05/13/PGnh629VLObweQ8.png)
+
+
+Below, we will further configure the workflow within the iteration node:
+
+First, add the Iteration node after the Start node. You will find that the Iteration node is like a smaller workflow, in which there are also start variables and output variables. Here, you need to set the Iteration node's input variable to `file`.
+
+![image.png](https://s2.loli.net/2025/05/13/1EVQUTfvPuNBCtb.png)
+
+
+Then add nodes within the Iteration node. Since the LLM cannot directly read the content of uploaded documents, you need to add a Document Extractor to convert the document content into text that the LLM can read. The input variable of the Document Extractor is the file file in the Start node.
+
+After the Document Extractor, add an LLM node and set the system prompt and user input.
+
+Here's the system prompt:
+
+```
+<Role>
+You are a Chinese-English translation expert, translating user input from Chinese to English, or user input from English to Chinese.
+</Role>
+<Task>
+You need to follow the required translation style.
+For non-Chinese content, it will provide Chinese translation results. Users can send content to the assistant for translation, and the assistant will answer with corresponding translation results, ensuring compliance with Chinese language habits. You can adjust the tone and style, and consider the cultural connotations and regional differences of certain words.
+As a translator, the translation should be in accordance with the standards of fidelity, expressiveness and elegance. "Fidelity" means being faithful to the content and intention of the original text; "expressiveness" means that the translation should be smooth and easy to understand, and the expression should be clear; and "elegance" seeks the cultural aesthetics and beauty of the language in the translation. The goal is to create translations that are both faithful to the spirit of the original and conform to the aesthetic appreciation of the target language culture and readers.
+Translation Style: {{style}}
+</Task>
+<Limitation>
+Do not output irrelevant nonsense.
+</Limitation>
+```
+
+In the system prompt, you can type `/` or `{` to insert variables.
+
+The official DeepSeek provides a [prompt library](https://api-docs.deepseek.com/prompt-library) for all users to refer to.
+
+For building LLM applications from scratch, Dify also offers more comprehensive and easy-to-use templates. You can open the [Explore page](https://cloud.dify.ai/explore/apps) to view and pull the desired template into your studio for editing.
+
+![image.png](https://s2.loli.net/2025/05/13/24OE8MUklQ3CHKZ.png)
+
+Finally, click the Iteration node and set the output variable to the output of the LLM.
+
+![image.png](https://s2.loli.net/2025/05/13/Xv4qfCtujdzr15g.png)
+
+
+## Testing and Publishing
+Before publishing, you can perform testing to ensure that the service is functioning properly.
+
+Click **"Run"**, enter all the variables, and click **"Start Run"** to start the execution.
+
+![image.png](https://s2.loli.net/2025/05/13/CuSRDVpAQLMZBYs.png)
+![image.png](https://s2.loli.net/2025/05/13/4LFlRPZgrDwV73U.png)
+
+
+After the test passes, click **"Publish"** to deploy the application online. You can share the deployment link with friends to test it together.
+
+![image.png](https://s2.loli.net/2025/05/13/fBQYcbX86i3uVOU.png)
+
+If you want to further develop the application's front-end interface, you can refer to Dify's API documentation. Click **"Access API"** on the right to view the API documentation and manage the application's API Key.
+
+![image.png](https://s2.loli.net/2025/05/13/Of7D5MLNQFnXUpe.png)
+
+## Optimizing Performance
+In testing, you may find that the speed of translating documents is slow, especially when using inference models like DeepSeek R1. To maximize the speed, we need to improve the iteration in the workflow.
+
+Select the Iteration node, turn on Parallel Mode, and set a reasonable number of parallel tasks.
+
+![image.png](https://s2.loli.net/2025/05/13/en53gXl1mREt6wB.png)
+
+After enabling parallel mode, the workflow will execute all tasks simultaneously instead of sequentially. This significantly improves efficiency.
+
+![image.png](https://s2.loli.net/2025/05/13/iEPgUbmuS9WGMod.png)
+
+## Obtaining Templates
+If you find it difficult to build the workflow yourself, you can directly pull the template from the DeepSeek column on the Explore page, or copy the link below and select **"Import from DSL"** when creating a blank application and fill in the URL.
+
+
+English Template
+
+Japanese Template
+
+Chinese Template
