@@ -1,0 +1,9 @@
+{
+    "title": "ワークフロー",
+    "icon": "flow-chart",
+    "defaultOpen": true,
+    "pages": [
+        "node",
+        "twitter-mbti-receipt"
+    ]
+} 

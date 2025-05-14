@@ -1,0 +1,9 @@
+{
+    "title": "工作流",
+    "icon": "flow-chart",
+    "defaultOpen": true,
+    "pages": [
+        "node",
+        "twitter-mbti-receipt"
+    ]
+} 

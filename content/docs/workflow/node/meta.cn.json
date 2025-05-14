@@ -1,0 +1,8 @@
+{
+    "title": "节点",
+    "icon": "node-tree",
+    "defaultOpen": false,
+    "pages": [
+        "multilingual-document-translator"
+    ]
+} 
