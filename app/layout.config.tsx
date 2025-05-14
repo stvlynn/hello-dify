@@ -12,17 +12,17 @@ import Image from 'next/image';
 export function baseOptions(locale: string): BaseLayoutProps {
   return {
     i18n,
-    nav: {
-      title: (
-        <>
+  nav: {
+    title: (
+      <>
           <Image
             src="/images/hello-dify.png"
             alt="Hello Dify Logo"
             width={100}
             height={50}
           />
-        </>
+      </>
       )
     }
-  };
+};
 }

@@ -8,11 +8,10 @@ export default async function Layout({
   params
 }: {
   children: ReactNode;
-  params: Promise<{ lang: string }>;
+  params: { lang: string };
 }) {
-  // 先await params再解构
-  const resolvedParams = await params;
-  const lang = resolvedParams.lang;
+  // 直接从params解构
+  const { lang } = params;
   
   // 根据当前语言获取页面树
   const pageTree = source.pageTree[lang] || source.pageTree.en;

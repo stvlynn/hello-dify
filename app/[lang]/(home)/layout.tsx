@@ -7,11 +7,9 @@ export default async function Layout({
   params
 }: { 
   children: ReactNode;
-  params: Promise<{ lang: string }>
+  params: { lang: string }
 }) {
-  // 先await params再解构
-  const resolvedParams = await params;
-  const lang = resolvedParams.lang;
+  const { lang } = params;
   
   // 根据不同语言设置链接文本
   const docText = {

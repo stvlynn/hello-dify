@@ -7,15 +7,13 @@ import {
 } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/mdx-components';
-import { use } from 'react';
 
-export default function Page({
+export default async function Page({
   params
 }: {
-  params: Promise<{ slug?: string[]; lang: string }>
+  params: { slug?: string[]; lang: string }
 }) {
-  const resolvedParams = use(params);
-  const { slug, lang } = resolvedParams;
+  const { slug, lang } = params;
   
   const page = source.getPage(slug, lang);
   
@@ -55,15 +53,13 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-// 生成页面元数据 - 不使用hooks，改用async/await
+// 生成页面元数据
 export async function generateMetadata({
   params
 }: {
-  params: Promise<{ slug?: string[]; lang: string }>
+  params: { slug?: string[]; lang: string }
 }) {
-  // 先await params再解构
-  const resolvedParams = await params;
-  const { slug, lang } = resolvedParams;
+  const { slug, lang } = params;
   
   const page = source.getPage(slug, lang);
   

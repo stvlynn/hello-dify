@@ -1,5 +1,157 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# Hello Dify Internationalization (i18n) Guidelines
+
+This document outlines the structure and standard operating procedures for managing multilingual content in the Hello Dify documentation website.
+
+## Supported Languages
+
+The Hello Dify project currently supports the following languages:
+- English (en) - Default language
+- Chinese (cn)
+- Japanese (jp)
+
+## File Structure
+
+### MDX Documentation Files
+
+Documentation content is stored as MDX files in the following directory structure:
+
+```
+content/
+└── docs/
+    ├── meta.json             # English metadata
+    ├── meta.cn.json          # Chinese metadata
+    ├── meta.jp.json          # Japanese metadata
+    ├── index.mdx             # English documentation
+    ├── index.cn.mdx          # Chinese documentation
+    ├── index.jp.mdx          # Japanese documentation
+    ├── plugin/
+    │   ├── meta.json
+    │   ├── meta.cn.json
+    │   ├── meta.jp.json
+    │   ├── ssh-plugin-vibe-coding.mdx
+    │   ├── ssh-plugin-vibe-coding.cn.mdx
+    │   ├── ssh-plugin-vibe-coding.jp.mdx
+    │   └── ...
+    └── workflow/
+        ├── meta.json
+        ├── meta.cn.json
+        ├── meta.jp.json
+        └── node/
+            ├── meta.json
+            ├── meta.cn.json
+            ├── meta.jp.json
+            ├── multilingual-document-translator.mdx
+            ├── multilingual-document-translator.cn.mdx
+            ├── multilingual-document-translator.jp.mdx
+            └── ...
+```
+
+## Naming Conventions
+
+1. **Documentation Files**:
+   - English (default): `filename.mdx`
+   - Chinese: `filename.cn.mdx`
+   - Japanese: `filename.jp.mdx`
+
+2. **Metadata Files**:
+   - English (default): `meta.json`
+   - Chinese: `meta.cn.json`
+   - Japanese: `meta.jp.json`
+
+## Language-Specific Routing
+
+The application uses Next.js routing with language parameter:
+- Base structure: `/app/[lang]/...`
+- URLs follow the pattern: `/{lang}/docs/...`
+- Example: `/en/docs/workflow/node/multilingual-document-translator`
+
+## Standard Operating Procedure for i18n
+
+### Creating New Content
+
+1. **Always create the English version first**: 
+   - Create the English MDX file (`filename.mdx`)
+   - Update the English metadata file (`meta.json`) to include the new page
+
+2. **Then create translations**:
+   - Create Chinese translation (`filename.cn.mdx`)
+   - Create Japanese translation (`filename.jp.mdx`)
+   - Update respective metadata files (`meta.cn.json` and `meta.jp.json`)
+
+### Updating Metadata
+
+When adding a new page:
+
+1. English metadata example (`meta.json`):
+```json
+{
+    "title": "Node",
+    "icon": "node-tree",
+    "defaultOpen": false,
+    "pages": [
+        "multilingual-document-translator"
+    ]
+}
+```
+
+2. Create corresponding Chinese metadata (`meta.cn.json`):
+```json
+{
+    "title": "节点",
+    "icon": "node-tree",
+    "defaultOpen": false,
+    "pages": [
+        "multilingual-document-translator"
+    ]
+}
+```
+
+3. Create corresponding Japanese metadata (`meta.jp.json`):
+```json
+{
+    "title": "ノード",
+    "icon": "node-tree",
+    "defaultOpen": false,
+    "pages": [
+        "multilingual-document-translator"
+    ]
+}
+```
+
+### Document Content Structure
+
+Each MDX document should maintain this structure:
+
+```md
+---
+title: "Title in the respective language"
+description: "Description in the respective language"
+---
+
+# Content in the respective language
+...
+```
+
+### Handling Missing Translations
+
+The system will fall back to English content when a translated version is not available.
+
+## Guidelines for Translators
+
+1. Maintain the same document structure between languages
+2. Preserve all code blocks exactly as they appear in the English version
+3. Translate UI elements mentioned in the document to match the actual translated UI
+4. Keep image references the same across all translations
+5. Preserve links but update any link text that needs translation
+
+## Validation Tips
+
+- Ensure all language versions of a document have the same frontmatter fields
+- Verify that all links work correctly in each language version
+- Check that metadata entries align across all language versions
+- Test navigation between translated pages to ensure proper language persistence

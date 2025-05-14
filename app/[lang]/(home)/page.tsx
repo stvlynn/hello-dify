@@ -29,14 +29,13 @@ const texts = {
   }
 };
 
-export default async function HomePage({ 
+export default function HomePage({ 
   params 
 }: { 
-  params: Promise<{ lang: string }> 
+  params: { lang: string } 
 }) {
-  // 先await params再解构
-  const resolvedParams = await params;
-  const { lang } = resolvedParams;
+  // 从params直接解构，不再使用await
+  const { lang } = params;
   const t = texts[lang as keyof typeof texts] || texts.en;
   
   const logoRef = useRef<HTMLDivElement>(null);
