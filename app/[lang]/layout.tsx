@@ -40,10 +40,11 @@ export default async function Layout({
   params 
 }: { 
   children: ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
-  // 直接从params解构
-  const { lang } = params;
+  // 使用await解构params
+  const resolvedParams = await params;
+  const { lang } = resolvedParams;
   
   // 根据语言选择翻译
   const translations = {

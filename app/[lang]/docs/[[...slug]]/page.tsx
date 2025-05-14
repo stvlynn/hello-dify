@@ -11,9 +11,11 @@ import { getMDXComponents } from '@/mdx-components';
 export default async function Page({
   params
 }: {
-  params: { slug?: string[]; lang: string }
+  params: Promise<{ slug?: string[]; lang: string }>
 }) {
-  const { slug, lang } = params;
+  // 使用await解构params
+  const resolvedParams = await params;
+  const { slug, lang } = resolvedParams;
   
   const page = source.getPage(slug, lang);
   
@@ -57,9 +59,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params
 }: {
-  params: { slug?: string[]; lang: string }
+  params: Promise<{ slug?: string[]; lang: string }>
 }) {
-  const { slug, lang } = params;
+  // 使用await解构params
+  const resolvedParams = await params;
+  const { slug, lang } = resolvedParams;
   
   const page = source.getPage(slug, lang);
   
