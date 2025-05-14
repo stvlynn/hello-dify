@@ -1,0 +1,8 @@
+{
+    "title": "ノード",
+    "icon": "node-tree",
+    "defaultOpen": false,
+    "pages": [
+        "multilingual-document-translator"
+    ]
+} 

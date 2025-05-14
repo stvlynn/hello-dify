@@ -1,0 +1,171 @@
+---
+title: "构建MVP：前端与后端"
+description: "使用Dify和Windsurf的无代码旅程：构建Twitter MBTI分析器"
+---
+
+如果您最近关注AI产品，可能听说过Windsurf和Cursor，这些由AI驱动的下一代集成开发环境。
+
+在本文中，我将分享我使用Windsurf和Dify创建成功产品的经历，尽管我没有IT背景。
+
+这款热门产品"Twitter MBTI Receipt"在发布后短短三天内就在Twitter上获得了20万次点击。该应用程序使用Twitter爬虫分析用户的个人资料并生成MBTI性格报告，全部使用Dify的工作流构建。
+
+您现在可以[尝试它](https://twi.am/)并在[GitHub](https://github.com/stvlynn/twi.am)上为它点星。
+
+![image.png](https://s2.loli.net/2025/05/12/bDNACQq2Stp4L76.png)
+
+## 项目概述
+该项目利用了两项关键技术：
+
+- Dify用于构建后端
+
+- Windsurf用于开发前端
+
+这两个组件通过HTTP请求进行通信，创建了无缝集成。
+
+![image.png](https://s2.loli.net/2025/05/12/eoBwWtTvycgm2UH.png)
+
+
+## 使用Dify构建后端
+**Dify是一个LLM应用平台，使您能够在不编写代码的情况下构建AI应用程序。**它特别适合后端开发。
+
+在Dify上创建新应用程序之前，我们必须确保工作流中的必要流程。让我们从思维导图开始：
+
+![image.png](https://s2.loli.net/2025/05/12/9ns2jVKIfqCmuU6.png)
+
+现在，让我们在Dify工作流上实现它。
+
+虽然对话流支持持续对话，但工作流就像一个"脚本"——您输入变量并接收一次性输出。
+
+![image.png](https://s2.loli.net/2025/05/12/23hjZYABy9wreF8.png)
+
+如果您不知道什么是工作流：构建工作流就像我们创建思维导图一样。您可以添加和拖动节点，并在节点上设置变量。
+
+### 开始节点
+在开始节点中，您可以添加一些变量。让我们添加user_id和languages。
+
+### HTTP请求节点
+在下一个节点中，您需要一个HTTP请求节点来调用爬虫。Twitter开发者平台提供官方API。如果您想部署自己的爬虫，可以尝试RSS Hub，这是一个支持Twitter的开源爬虫。
+
+### LLM节点
+在LLM节点中，您需要调整提示以生成全面的报告。如果您不知道如何有效编写提示，请参考我们的工作坊。
+
+### 参数提取器节点
+参数提取器将一段文本转换为JSON格式的几个参数，为前端准备数据。
+
+以下是一个最小的工作流，可以从Twitter抓取数据，生成报告并输出。您可以在我的GitHub仓库中看到完整的后端。
+
+![image.png](https://s2.loli.net/2025/05/12/yIV2BqYxn8gE7KZ.png)
+
+## MVP网络应用
+Dify在发布后提供网络应用程序，允许快速共享和测试。
+
+![image.png](https://s2.loli.net/2025/05/12/fa2hAWljsrSQyDE.png)
+
+## 使用Windsurf构建前端
+Windsurf的AI助手Cascade（由Claude-3.5-sonnet提供支持）在其他AI编码助手中脱颖而出。它可以：
+
+- 访问项目目录
+
+- 同时创建和编辑多个文件
+
+- 自主执行终端命令
+
+![image.png](https://s2.loli.net/2025/05/12/rnW1mXCTMxjGY9P.png)
+
+
+## 连接后端：API如何工作？
+Dify在左侧边栏提供API文档。它提供了一个cURL请求示例。请复制并将您的API密钥保存在安全的地方。我们强烈建议您不要在前端保存API密钥。
+
+![image.png](https://s2.loli.net/2025/05/12/j84ducal6ztR3Xv.png)
+
+向下滚动，您将看到示例请求和响应。
+
+![image.png](https://s2.loli.net/2025/05/12/2FwjCalDzkxPMmI.png)
+
+此图表中演示了对Dify的HTTP请求和响应：
+
+![image.png](https://s2.loli.net/2025/05/12/hvmA9RrDz3joSi7.png)
+
+inputs中的变量是开始节点中的变量，output中的变量是结束节点中的变量。请确保变量可以正确解释，因为它们是以JSON格式编写的。
+
+另外，不要忘记在标头中填写API令牌。
+
+在集成到前端之前，您可以复制示例请求并使用[Postman](https://postman.com/)进行本地测试。
+
+在输入框中粘贴cURL命令，Postman将转换它。您需要填写上面提到的变量。
+
+![image.png](https://s2.loli.net/2025/05/12/wBpekOiDuLdcrW6.png)
+
+## 构建前端
+在Cascade的帮助下，您可以在几分钟内创建前端。让我们从以下问题开始：
+
+- 你在构建什么？
+
+- 你打算使用什么样的框架？
+
+- 描述网页设计。
+
+- 如何与后端连接？
+
+如果您不知道如何向Cascade描述HTTP请求和响应，可以复制在Postman中测试的请求和响应作为示例。
+
+以下是我设计这个项目时的提示：
+```
+<Design>
+创建一个Twitter MBTI Receipt，它接受用户ID作为输入并输出用户的MBTI报告。在输入框中，您需要在最左侧放置@符号，以提示用户输入ID而不是用户名。这需要向Dify的后端发出请求。在请求中，您需要发送两个变量：一个是用户的ID（不带@）（变量名：user_id），另一个是用户的浏览器语言（变量名：lang）。
+</Design>
+<Backend_Request>
+示例请求如下：
+curl --location 'http://api.dify.ai/v1/workflows/run' \
+--header 'Authorization: Bearer ****' \
+--header 'Content-Type: application/json' \
+--data '{
+"inputs": {"lang":"en-US","user_id":"stv_lynn"},
+"response_mode": "streaming",
+"user": "abc-123"
+}'
+</Backend_Request>
+<Backend_Response>
+示例响应如下：
+{
+"event": "workflow_finished",
+"workflow_run_id": "a2214d-9246-4bd7-976d-****",
+"task_id": "715420e1-a5eb-478b-b08c-****",
+"data": {
+"id": "a20412fd-9436-4bd7-976d-****",
+"workflow_id": "05ba4685-8768-42a5-****",
+"sequence_number": 14,
+"status": "succeeded",
+"outputs": {
+"mbti": "INTJ",
+"IE_report": "从Steven Lynn的推文中，可以看出他喜欢独自工作和学习，擅长思考和分析。在他的推文中，他提到喜欢使用AI和编程来解决问题，表明他是一个内向的人，喜欢花时间思考和解决问题。",
+"SN_report": "Steven Lynn的推文中提到他使用GPT和Hugging Face等工具进行语言和数据处理，表明他是一个直觉型的人，喜欢探索和发现新事物。在他的个人资料中，他还注明自己是一名研究生，而在研究生学习期间，学生通常需要探索和发现新事物来完成研究。",
+"TF_report": "从Steven Lynn的推文中，可以看出他是一个善于思考的人，喜欢使用逻辑和分析来解决问题。在他的推文中，他提到使用很多编程和数据分析工具来解决问题，这表明他喜欢应用逻辑和分析来解决问题。",
+"JP_report": "Steven Lynn的推文中提到他喜欢使用计划和组织来完成任务，表明他是一个判断型的人，喜欢通过计划和组织来实现目标。在他的个人资料中，他还表示自己是一名研究生，在研究生阶段通常需要计划和组织来完成研究。",
+"celebrity": "史蒂夫·乔布斯",
+"celebrity_report": "INTJ类型的人往往是创新和解决问题的专家。像史蒂夫·乔布斯这样的名人也是INTJ类型，通过他们在苹果公司的创业和创新工作展示了INTJ的典型特质。"
+},
+"error": null,
+"elapsed_time": 47.11438198480755,
+"total_tokens": 7040,
+"total_steps": 9,
+"created_by": {
+"id": "1e2889b0-c001-4418-badf-4e12352c5f",
+"user": "abc-123"
+},
+"created_at": 1732352687,
+"finished_at": 1732352734,
+"files": []
+}
+}
+</Backend_Response>
+<Task>
+您需要从输出中提取变量并将它们显示在Receipt中。响应大约需要60秒，因此您需要设置足够长的等待时间。
+</Task>
+<Frame>
+此项目需要使用Vue、Tailwind CSS和TypeScript。
+</Frame>
+XML结构化提示
+提示没有严格的规则。但是，我建议您以XML格式编写提示。结构化提示更容易被LLM理解并生成高质量输出。
+```
+请参考Anthropic的文档：提示工程 - 使用XML标签构建您的提示
