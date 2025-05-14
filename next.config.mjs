@@ -15,4 +15,16 @@ const config = {
   }
 };
 
+config.headers = async () => [
+  {
+    source: '/(.*)',
+    headers: [
+      {
+        key: 'Content-Security-Policy',
+        value: "frame-ancestors 'self' *.hellodify.com; frame-src 'self' *.hellodify.com; child-src 'self' *.hellodify.com;"
+      }
+    ]
+  }
+];
+
 export default withMDX(config);
