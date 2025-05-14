@@ -10,12 +10,12 @@ const inter = Inter({
 });
 
 // 中文翻译
-const cn: Partial<Translations> = {
+const zh: Partial<Translations> = {
   search: '搜索'
 };
 
 // 日语翻译
-const jp: Partial<Translations> = {
+const ja: Partial<Translations> = {
   search: '検索'
 };
 
@@ -27,11 +27,11 @@ const locales = [
   },
   {
     name: '中文',
-    locale: 'cn',
+    locale: 'zh',
   },
   {
     name: '日本語',
-    locale: 'jp',
+    locale: 'ja',
   },
 ];
 
@@ -48,8 +48,8 @@ export default async function Layout({
   
   // 根据语言选择翻译
   const translations = {
-    cn,
-    jp
+    zh,
+    ja
   }[lang];
 
   return (

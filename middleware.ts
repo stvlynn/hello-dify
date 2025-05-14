@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
   // 如果路径已经有语言前缀，则不做任何更改
-  if (/^\/(en|jp|cn)($|\/)/.test(pathname)) {
+  if (/^\/(en|ja|zh)($|\/)/.test(pathname)) {
     return;
   }
 
@@ -26,10 +26,10 @@ export function middleware(request: NextRequest) {
   // 检测用户首选语言
   let locale = 'en'; // 默认英语
   
-  if (acceptLanguage.includes('zh') || acceptLanguage.includes('cn')) {
-    locale = 'cn';
-  } else if (acceptLanguage.includes('ja') || acceptLanguage.includes('jp')) {
-    locale = 'jp';
+  if (acceptLanguage.includes('zh')) {
+    locale = 'zh';
+  } else if (acceptLanguage.includes('ja')) {
+    locale = 'ja';
   }
   
   // 创建重定向URL

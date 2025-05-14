@@ -10,14 +10,14 @@ const texts = {
     joinCommunity: "Join FirstLab Community",
     readyToStart: "Ready to build amazing AI applications with Dify? Start exploring our documentation!"
   },
-  cn: {
+  zh: {
     title: "Hello Dify",
     description: "一个 FirstLab 项目，通过一系列最佳实践帮助新手快速学习 Dify。",
     documentation: "文档",
     joinCommunity: "加入 FirstLab 社区",
     readyToStart: "准备使用 Dify 构建出色的 AI 应用程序？开始探索我们的文档吧！"
   },
-  jp: {
+  ja: {
     title: "Hello Dify",
     description: "FirstLab プロジェクトの一つで、一連のベストプラクティスを通じて初心者が Dify を迅速に学ぶのをサポートします。",
     documentation: "ドキュメント",

@@ -15,20 +15,20 @@ export default async function Layout({
   
   // 根据不同语言设置链接文本
   const docText = {
-    'cn': '文档',
-    'jp': 'ドキュメント',
+    'zh': '文档',
+    'ja': 'ドキュメント',
     'en': 'Documentation'
   }[lang] || 'Documentation';
   
   const githubText = {
-    'cn': 'GitHub',
-    'jp': 'GitHub',
+    'zh': 'GitHub',
+    'ja': 'GitHub',
     'en': 'GitHub'
   }[lang];
   
   const discordText = {
-    'cn': 'Discord 社区',
-    'jp': 'Discord コミュニティ',
+    'zh': 'Discord 社区',
+    'ja': 'Discord コミュニティ',
     'en': 'Discord'
   }[lang] || 'Discord';
 

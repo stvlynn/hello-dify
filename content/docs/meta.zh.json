@@ -1,0 +1,9 @@
+{
+    "icon":"home-4-line",
+    "pages": [
+        "index",
+        "workflow",
+        "plugin"
+    ],
+    "defaultOpen": true
+} 
