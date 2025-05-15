@@ -1,16 +1,16 @@
 import type { ReactNode } from 'react';
+import { use } from 'react';
 import { HomeLayout } from 'fumadocs-ui/layouts/home';
 import { baseOptions } from '@/app/layout.config';
 
-export default async function Layout({ 
+export default function Layout({ 
   children,
   params
 }: { 
   children: ReactNode;
   params: Promise<{ lang: string }>
 }) {
-  // 使用await解构params
-  const resolvedParams = await params;
+  const resolvedParams = use(params);
   const { lang } = resolvedParams;
   
   // 根据不同语言设置链接文本

@@ -2,6 +2,7 @@ import '../global.css';
 import 'remixicon/fonts/remixicon.css';
 import { RootProvider } from 'fumadocs-ui/provider';
 import { Inter } from 'next/font/google';
+import { use } from 'react';
 import type { ReactNode } from 'react';
 import type { Translations } from 'fumadocs-ui/i18n';
 import type { Metadata } from 'next';
@@ -36,10 +37,9 @@ const locales = [
   },
 ];
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
-  // 等待params解析
-  const resolvedParams = await params;
-  const lang = resolvedParams.lang;
+export async function generateMetadata({ params }: { params: { lang: string } }) {
+  // 获取语言参数
+  const { lang } = params;
   
   // 根据不同语言设置不同的标题和描述
   const titles = {
@@ -94,15 +94,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-export default async function Layout({ 
+export default function Layout({ 
   children,
   params 
 }: { 
   children: ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  // 使用await解构params
-  const resolvedParams = await params;
+  const resolvedParams = use(params);
   const { lang } = resolvedParams;
   
   // 根据语言选择翻译
@@ -112,18 +111,14 @@ export default async function Layout({
   }[lang];
 
   return (
-    <html lang={lang} className={inter.className} suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen" suppressHydrationWarning>
-        <RootProvider
-          i18n={{
-            locale: lang,
-            locales,
-            translations
-          }}
-        >
-          {children}
-        </RootProvider>
-      </body>
-    </html>
+    <RootProvider
+      i18n={{
+        locale: lang,
+        locales,
+        translations
+      }}
+    >
+      {children}
+    </RootProvider>
   );
 }
