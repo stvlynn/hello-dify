@@ -37,9 +37,10 @@ const locales = [
   },
 ];
 
-export async function generateMetadata({ params }: { params: { lang: string } }) {
-  // 获取语言参数
-  const { lang } = params;
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  // 解析Promise获取语言参数
+  const resolvedParams = await params;
+  const { lang } = resolvedParams;
   
   // 根据不同语言设置不同的标题和描述
   const titles = {
