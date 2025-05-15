@@ -1,7 +1,7 @@
 {
     "title": "体验区",
     "icon": "run-line",
-    "defaultOpen": false,
+    "defaultOpen": true,
     "pages": [
         "artifacts",
         "x"

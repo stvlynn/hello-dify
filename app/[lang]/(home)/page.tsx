@@ -5,21 +5,21 @@ import Image from 'next/image';
 const texts = {
   en: {
     title: "Hello Dify",
-    description: "A FirstLab project designed to help newcomers quickly learn Dify through a series of best practices.",
+    description: "The most comprehensive online Dify tutorial, powered by FirstLab.",
     documentation: "Documentation",
     joinCommunity: "Join FirstLab Community",
     readyToStart: "Ready to build amazing AI applications with Dify? Start exploring our documentation!"
   },
   zh: {
     title: "Hello Dify",
-    description: "一个 FirstLab 项目，通过一系列最佳实践帮助新手快速学习 Dify。",
+    description: "最全面的 Dify 在线教程, 由 FirstLab 驱动",
     documentation: "文档",
     joinCommunity: "加入 FirstLab 社区",
     readyToStart: "准备使用 Dify 构建出色的 AI 应用程序？开始探索我们的文档吧！"
   },
   ja: {
     title: "Hello Dify",
-    description: "FirstLab プロジェクトの一つで、一連のベストプラクティスを通じて初心者が Dify を迅速に学ぶのをサポートします。",
+    description: "FirstLab が提供する、最も充実した Dify オンラインチュートリアルです。",
     documentation: "ドキュメント",
     joinCommunity: "FirstLab コミュニティに参加",
     readyToStart: "Dify で素晴らしい AI アプリケーションを構築する準備はできましたか？ドキュメントの探索を始めましょう！"
@@ -61,7 +61,7 @@ export default async function HomePage({
         <Link
           href={`/${lang}/docs`}
           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full 
-            bg-fd-primary text-white hover:bg-fd-primary/90 
+            bg-fd-primary text-white hover:bg-fd-primary/90 dark:text-black dark:hover:text-black 
             text-lg font-medium shadow-md hover:shadow-lg"
         >
           <i className="ri-book-open-line"></i>

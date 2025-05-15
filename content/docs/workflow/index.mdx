@@ -4,13 +4,33 @@ description: Learn about Dify workflow development
 ---
 
 
-<iframe
- src="http://instance.hellodify.com/chatbot/eFakl0I8NP7qFC9X"
- style={{
-   width: '100%',
-   height: '100%',
-   minHeight: '700px'
- }}
- frameBorder="0"
- allow="microphone">
-</iframe>
+## 🤔 Chatflow & Workflow: What's the differences?
+
+In Dify's advanced application types, there are Chatflow and Workflow. Chatflow behaves more like a chatbot, that is, a robot that can interact with users in a loop; while Workflow behaves more like a script, which is only executed once when called and is usually used as the application backend.
+
+You need to choose the appropriate application type according to the application scenario you are building. In this demonstration, we will choose the Workflow type.
+
+🌰 In a nutshell:
+
+| Feature | Chatflow | Workflow |
+|---------|----------|----------|
+| Trigger | Initiated by user messages and continues in a loop | Invoked once per API call, completes then stops |
+| Interaction model | Conversational, multi-turn | One-shot script-like execution |
+| State management | Maintains context across turns | Stateless except for inputs/outputs of a single run |
+| Best suited for | Front-end chat experiences, support bots | Back-end automation, data processing pipelines |
+| Response format | Natural language text, rich cards | Structured JSON or other machine-readable payload |
+
+
+## Get Started
+
+### Vibe coding: building MVP
+
+<Cards>
+   <Card 
+    href="./playground/twitter-mbti-receipt" 
+    title="Building MVP: Frontend & Backend"
+  >
+  <p>No-Code Journey with Dify and Windsurf</p>
+    <img src="https://s2.loli.net/2025/05/12/bDNACQq2Stp4L76.png" alt="Twitter MBTI Receipt" />
+    </Card>
+</Cards>
