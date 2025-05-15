@@ -1,0 +1,149 @@
+---
+title: "X（前身为Twitter）"
+description: "发送和删除推文。"
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/x-dify-plugin" 
+    title="GitHub"
+  >
+  <p>在GitHub上查看仓库</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/stvlynn/x" 
+    title="Dify市场"
+  >
+  <p>从Dify市场安装</p>
+  </Card>
+</Cards>
+
+---
+
+## 描述
+
+该插件允许您通过官方API与X（前身为Twitter）平台交互。
+
+它提供了发送和删除推文的工具。
+
+## 功能
+
+- **发布推文**：向您的X账户发送推文并接收推文ID作为响应
+- **删除推文**：通过ID删除推文
+- **发布媒体推文**：发送带有媒体附件（图片或视频）的推文
+
+## 设置
+
+1. 在[X开发者门户](https://developer.twitter.com/)创建一个开发者账户
+2. 创建项目和应用程序以获取API密钥：
+   - 前往[开发者门户仪表板](https://developer.twitter.com/en/portal/dashboard)
+   - 点击"创建项目"并按照步骤操作
+   ![image.png](https://s2.loli.net/2025/05/15/TXPEe3tQmszhSfK.png)
+   - 在您的项目中，创建一个应用程序以获取API密钥和令牌
+   - 导航至"密钥和令牌"部分查找您的消费者密钥（API密钥和密钥）
+   ![image.png](https://s2.loli.net/2025/05/15/u8RxPvQoYVfDksr.png)
+3. 设置认证：
+   - 将此仓库克隆到您的本地机器：
+     ```
+     git clone https://github.com/stvlynn/X-Dify-Plugin.git
+     cd X-Dify-Plugin
+     ```
+   - 编辑`auth.py`文件并填入您的消费者密钥和密钥
+   ![image.png](https://s2.loli.net/2025/05/15/XGa6fQjeI7HTsck.png)
+   - 运行认证脚本：
+     ```
+     python auth.py
+     ```
+   - 脚本将提供一个授权URL。在浏览器中打开它
+   - 授权您的应用程序并在提示时输入验证码
+   ![image.png](https://s2.loli.net/2025/05/15/UJPdYHaqThkAQnR.png)
+   - 脚本将输出您的ACCESS_TOKEN和ACCESS_TOKEN_SECRET
+4. 在Dify中配置插件：
+   - 从Dify市场安装X插件
+   - 在插件设置中，输入以下凭据：
+     - **API密钥**：您的X API密钥（消费者密钥）
+     - **API密钥**：您的X API密钥（消费者密钥）
+     - **访问令牌**：从auth.py生成的OAuth 1.0a访问令牌
+     - **访问令牌密钥**：从auth.py生成的OAuth 1.0a访问令牌密钥
+
+### 认证说明
+
+- 所有凭据都被安全存储，仅用于与X API进行认证
+- 您需要为您的应用程序设置读取和写入权限，以便发布和删除推文
+- 为验证您的凭据是否有效，插件将向X API发送一个测试API调用
+
+### 使用方法
+
+#### 发布推文
+
+![image.png](https://s2.loli.net/2025/05/15/QgHeYb6BGDUFipL.png)
+
+```json
+{
+  "text": "您的推文内容"
+}
+```
+
+响应：
+```json
+{
+  "status": "success",
+  "tweet_id": "1234567890123456789",
+  "text": "您的推文内容",
+  "message": "推文成功发布，ID为：1234567890123456789"
+}
+```
+
+#### 删除推文
+
+![image.png](https://s2.loli.net/2025/05/15/u3vP9NWbkflzH8x.png)
+
+```json
+{
+  "tweet_id": "1234567890123456789"
+}
+```
+
+响应：
+```json
+{
+  "status": "success",
+  "message": "ID为1234567890123456789的推文已成功删除"
+}
+```
+
+#### 发布媒体推文
+
+此操作允许您上传并附加媒体（图片或视频）到您的推文。
+
+![image.png](https://s2.loli.net/2025/05/15/dgBr9VzOMQota6y.png)
+
+参数：
+- `text`：您的推文的文本内容（最多280个字符）
+- `media`：要附加的媒体文件（图片或视频）
+
+支持的媒体格式：
+- 图片：JPEG、PNG、GIF
+- 视频：MP4（推荐H.264编解码器）
+
+注意：在推文发布前，视频可能需要在X平台上花费更长时间处理。
+
+```json
+{
+  "text": "看看这个很棒的媒体！",
+  "media": [二进制文件数据]
+}
+```
+
+响应：
+```json
+{
+  "status": "success",
+  "tweet_id": "1234567890123456789",
+  "text": "看看这个很棒的媒体！",
+  "media_id": "9876543210987654321",
+  "message": "带媒体的推文已成功发布，ID为：1234567890123456789"
+}
+```

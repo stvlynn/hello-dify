@@ -11,8 +11,8 @@ This document outlines the structure and standard operating procedures for manag
 
 The Hello Dify project currently supports the following languages:
 - English (en) - Default language
-- Chinese (cn)
-- Japanese (jp)
+- Chinese (zh)
+- Japanese (ja)
 
 ## File Structure
 
@@ -24,30 +24,30 @@ Documentation content is stored as MDX files in the following directory structur
 content/
 └── docs/
     ├── meta.json             # English metadata
-    ├── meta.cn.json          # Chinese metadata
-    ├── meta.jp.json          # Japanese metadata
+    ├── meta.zh.json          # Chinese metadata
+    ├── meta.ja.json          # Japanese metadata
     ├── index.mdx             # English documentation
-    ├── index.cn.mdx          # Chinese documentation
-    ├── index.jp.mdx          # Japanese documentation
+    ├── index.zh.mdx          # Chinese documentation
+    ├── index.ja.mdx          # Japanese documentation
     ├── plugin/
     │   ├── meta.json
-    │   ├── meta.cn.json
-    │   ├── meta.jp.json
+    │   ├── meta.zh.json
+    │   ├── meta.ja.json
     │   ├── ssh-plugin-vibe-coding.mdx
-    │   ├── ssh-plugin-vibe-coding.cn.mdx
-    │   ├── ssh-plugin-vibe-coding.jp.mdx
+    │   ├── ssh-plugin-vibe-coding.zh.mdx
+    │   ├── ssh-plugin-vibe-coding.ja.mdx
     │   └── ...
     └── workflow/
         ├── meta.json
-        ├── meta.cn.json
-        ├── meta.jp.json
+        ├── meta.zh.json
+        ├── meta.ja.json
         └── node/
             ├── meta.json
-            ├── meta.cn.json
-            ├── meta.jp.json
+            ├── meta.zh.json
+            ├── meta.ja.json
             ├── multilingual-document-translator.mdx
-            ├── multilingual-document-translator.cn.mdx
-            ├── multilingual-document-translator.jp.mdx
+            ├── multilingual-document-translator.zh.mdx
+            ├── multilingual-document-translator.ja.mdx
             └── ...
 ```
 
@@ -55,13 +55,13 @@ content/
 
 1. **Documentation Files**:
    - English (default): `filename.mdx`
-   - Chinese: `filename.cn.mdx`
-   - Japanese: `filename.jp.mdx`
+   - Chinese: `filename.zh.mdx`
+   - Japanese: `filename.ja.mdx`
 
 2. **Metadata Files**:
    - English (default): `meta.json`
-   - Chinese: `meta.cn.json`
-   - Japanese: `meta.jp.json`
+   - Chinese: `meta.zh.json`
+   - Japanese: `meta.ja.json`
 
 ## Language-Specific Routing
 
@@ -79,9 +79,9 @@ The application uses Next.js routing with language parameter:
    - Update the English metadata file (`meta.json`) to include the new page
 
 2. **Then create translations**:
-   - Create Chinese translation (`filename.cn.mdx`)
-   - Create Japanese translation (`filename.jp.mdx`)
-   - Update respective metadata files (`meta.cn.json` and `meta.jp.json`)
+   - Create Chinese translation (`filename.zh.mdx`)
+   - Create Japanese translation (`filename.ja.mdx`)
+   - Update respective metadata files (`meta.zh.json` and `meta.ja.json`)
 
 ### Updating Metadata
 
@@ -99,7 +99,7 @@ When adding a new page:
 }
 ```
 
-2. Create corresponding Chinese metadata (`meta.cn.json`):
+2. Create corresponding Chinese metadata (`meta.zh.json`):
 ```json
 {
     "title": "节点",
@@ -111,7 +111,7 @@ When adding a new page:
 }
 ```
 
-3. Create corresponding Japanese metadata (`meta.jp.json`):
+3. Create corresponding Japanese metadata (`meta.ja.json`):
 ```json
 {
     "title": "ノード",

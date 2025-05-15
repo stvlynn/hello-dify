@@ -1,0 +1,9 @@
+{
+    "title": "Playground",
+    "icon": "run-line",
+    "defaultOpen": false,
+    "pages": [
+        "artifacts",
+        "x"
+    ]
+} 

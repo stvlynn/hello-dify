@@ -3,6 +3,20 @@ title: "Iteration: Execute All Tasks Simultaneously"
 description: Building a Multilingual Document Translation Tool with  Dify
 ---
 
+⬇️ Try it out before reading
+
+<iframe
+ src="https://instance.hellodify.com/workflow/fmyDgq6yIS76TYZD"
+ style={{
+   width: '100%',
+   minHeight: '400px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
 # Introduction
 In the rapidly evolving landscape of AI application development, low-code platforms are revolutionizing how enterprises implement intelligent solutions. Dify emerges as a transformative open-source platform that empowers teams to build, deploy, and scale AI-driven workflows with minimal coding effort. Its modular architecture and visual workflow design enable seamless integration of AI capabilities—from document processing to multilingual collaboration—while abstracting away infrastructure complexities.
 
@@ -31,6 +45,7 @@ Visit the Dify platform, click on your avatar in the upper right corner -> Setti
 Click Save. A success message will appear after the validation is successful.
 
 #### Creating an Application
+
 Enter the **Studio**, click Create from **Blank -> Workflow**.
 
 > **What are Chatflow and Workflow?**
@@ -40,6 +55,9 @@ Enter the **Studio**, click Create from **Blank -> Workflow**.
 ![image.png](https://s2.loli.net/2025/05/13/OkqsFUW4Q3LCzb1.png)
 
 ## Building the Workflow
+
+![document translator by deepseek.png](https://s2.loli.net/2025/05/15/EcHqJQVslgP3N2v.png)
+
 After entering the application, you can edit the workflow by adding and connecting nodes, without having to process the code.
 
 The following demonstrates how to create a document translation tool:
@@ -74,7 +92,7 @@ After the Document Extractor, add an LLM node and set the system prompt and user
 
 Here's the system prompt:
 
-```
+```xml
 <Role>
 You are a Chinese-English translation expert, translating user input from Chinese to English, or user input from English to Chinese.
 </Role>
@@ -134,8 +152,13 @@ After enabling parallel mode, the workflow will execute all tasks simultaneously
 If you find it difficult to build the workflow yourself, you can directly pull the template from the DeepSeek column on the Explore page, or copy the link below and select **"Import from DSL"** when creating a blank application and fill in the URL.
 
 
-English Template
-
-Japanese Template
-
-Chinese Template
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="Get the workflow"
+  >
+  <p>Join FirstLab to get DSL file</p>
+    <img src="https://s2.loli.net/2025/05/15/EcHqJQVslgP3N2v.png" alt="Twitter Receipt" />
+  </Card>
+</Cards>

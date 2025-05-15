@@ -3,6 +3,7 @@
     "icon": "plug-line",
     "defaultOpen": true,
     "pages": [
+        "playground",
         "cursor-rules",
         "ssh-plugin-vibe-coding"
     ]

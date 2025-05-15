@@ -1,0 +1,149 @@
+---
+title: "X（旧Twitter）"
+description: "ツイートの送信と削除。"
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/x-dify-plugin" 
+    title="GitHub"
+  >
+  <p>GitHubでリポジトリを見る</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/stvlynn/x" 
+    title="Difyマーケットプレイス"
+  >
+  <p>Difyマーケットプレイスからインストール</p>
+  </Card>
+</Cards>
+
+---
+
+## 説明
+
+このプラグインは、公式APIを通じてX（旧Twitter）プラットフォームとやり取りすることができます。
+
+ツイートの送信と削除のツールを提供します。
+
+## 機能
+
+- **ツイート投稿**：Xアカウントにツイートを送信し、ツイートIDを応答として受け取る
+- **ツイート削除**：IDによってツイートを削除する
+- **メディアツイート投稿**：メディア添付（画像や動画）付きのツイートを送信する
+
+## セットアップ
+
+1. [X開発者ポータル](https://developer.twitter.com/)で開発者アカウントを作成する
+2. プロジェクトとアプリを作成してAPIキーを取得する：
+   - [開発者ポータルダッシュボード](https://developer.twitter.com/en/portal/dashboard)に移動
+   - 「プロジェクト作成」をクリックし、手順に従う
+   ![image.png](https://s2.loli.net/2025/05/15/TXPEe3tQmszhSfK.png)
+   - プロジェクト内で、アプリを作成してAPIキーとトークンを取得する
+   - 「キーとトークン」セクションに移動してコンシューマーキー（APIキーとシークレット）を見つける
+   ![image.png](https://s2.loli.net/2025/05/15/u8RxPvQoYVfDksr.png)
+3. 認証を設定する：
+   - このリポジトリをローカルマシンにクローンする：
+     ```
+     git clone https://github.com/stvlynn/X-Dify-Plugin.git
+     cd X-Dify-Plugin
+     ```
+   - `auth.py`ファイルを編集して、コンシューマーキーとシークレットを入力する
+   ![image.png](https://s2.loli.net/2025/05/15/XGa6fQjeI7HTsck.png)
+   - 認証スクリプトを実行する：
+     ```
+     python auth.py
+     ```
+   - スクリプトは認証URLを提供します。ブラウザでそれを開く
+   - アプリケーションを承認し、プロンプトが表示されたら確認コードを入力する
+   ![image.png](https://s2.loli.net/2025/05/15/UJPdYHaqThkAQnR.png)
+   - スクリプトはACCESS_TOKENとACCESS_TOKEN_SECRETを出力します
+4. Difyでプラグインを設定する：
+   - DifyマーケットプレイスからXプラグインをインストールする
+   - プラグイン設定で、以下の認証情報を入力する：
+     - **APIキー**：あなたのX APIキー（コンシューマーキー）
+     - **APIシークレット**：あなたのX APIシークレット（コンシューマーシークレット）
+     - **アクセストークン**：auth.pyから生成されたOAuth 1.0aアクセストークン
+     - **アクセストークンシークレット**：auth.pyから生成されたOAuth 1.0aアクセストークンシークレット
+
+### 認証メモ
+
+- すべての認証情報は安全に保存され、X APIでの認証にのみ使用されます
+- ツイートの投稿と削除には、アプリに読み取りと書き込みの権限が必要です
+- 認証情報が機能しているか確認するために、プラグインはX APIにテストAPI呼び出しを行います
+
+### 使用方法
+
+#### ツイートの投稿
+
+![image.png](https://s2.loli.net/2025/05/15/QgHeYb6BGDUFipL.png)
+
+```json
+{
+  "text": "あなたのツイート内容をここに"
+}
+```
+
+レスポンス：
+```json
+{
+  "status": "success",
+  "tweet_id": "1234567890123456789",
+  "text": "あなたのツイート内容をここに",
+  "message": "ツイートがID：1234567890123456789で正常に公開されました"
+}
+```
+
+#### ツイートの削除
+
+![image.png](https://s2.loli.net/2025/05/15/u3vP9NWbkflzH8x.png)
+
+```json
+{
+  "tweet_id": "1234567890123456789"
+}
+```
+
+レスポンス：
+```json
+{
+  "status": "success",
+  "message": "ID 1234567890123456789のツイートが正常に削除されました"
+}
+```
+
+#### メディアツイートの投稿
+
+このアクションでは、メディア（画像や動画）をアップロードしてツイートに添付することができます。
+
+![image.png](https://s2.loli.net/2025/05/15/dgBr9VzOMQota6y.png)
+
+パラメータ：
+- `text`：ツイートのテキスト内容（最大280文字）
+- `media`：添付するメディアファイル（画像または動画）
+
+サポートされているメディア形式：
+- 画像：JPEG、PNG、GIF
+- 動画：MP4（H.264コーデック推奨）
+
+注意：ツイートが公開される前に、動画はXプラットフォームでの処理に時間がかかる場合があります。
+
+```json
+{
+  "text": "この素晴らしいメディアをチェックしてください！",
+  "media": [バイナリファイルデータ]
+}
+```
+
+レスポンス：
+```json
+{
+  "status": "success",
+  "tweet_id": "1234567890123456789",
+  "text": "この素晴らしいメディアをチェックしてください！",
+  "media_id": "9876543210987654321",
+  "message": "メディア付きツイートがID：1234567890123456789で正常に公開されました"
+}
+```

@@ -1,0 +1,9 @@
+{
+    "title": "体验区",
+    "icon": "run-line",
+    "defaultOpen": false,
+    "pages": [
+        "artifacts",
+        "x"
+    ]
+}
