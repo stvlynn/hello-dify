@@ -1,0 +1,232 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Hello Dify Documentation Format Guidelines
+
+This document outlines the standard formatting rules for MDX files in the Hello Dify documentation. Following these guidelines ensures consistency across all documentation pages in all supported languages.
+
+## 1. MDX Metadata Format
+
+Every MDX file must include a YAML frontmatter section at the beginning with the following format:
+
+```yaml
+---
+title: "Page Title"
+description: "A brief description of the page content"
+---
+```
+
+- `title`: Should be concise but descriptive
+- `description`: Should be under 160 characters for SEO purposes
+- Quotes around values are optional but recommended for values containing special characters
+
+## 2. iFrame Embedding Format
+
+When embedding iFrames (e.g., for demos), use the following format:
+
+### English
+```jsx
+⬇️ Try it out before reading
+<iframe
+ src="https://instance.hellodify.com/e/bohpf11fe0nwncl3/"
+ style={{
+   width: '100%',
+   minHeight: '500px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+```
+
+### Chinese (zh)
+```jsx
+⬇️ 阅读前先体验
+<iframe
+ src="https://instance.hellodify.com/e/bohpf11fe0nwncl3/"
+ style={{
+   width: '100%',
+   minHeight: '500px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+```
+
+### Japanese (ja)
+```jsx
+⬇️ 読む前に試してみてください
+<iframe
+ src="https://instance.hellodify.com/e/bohpf11fe0nwncl3/"
+ style={{
+   width: '100%',
+   minHeight: '500px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+```
+
+## 3. Plugin Cards Format (GitHub + Marketplace)
+
+For plugin documentation with GitHub repository and Marketplace links, use the following cards format:
+
+### English
+```jsx
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/username/repository" 
+    title="GitHub"
+  >
+  <p>See the repository on GitHub</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/username/plugin-name" 
+    title="Dify Marketplace"
+  >
+  <p>Install from Dify Marketplace</p>
+  </Card>
+</Cards>
+
+---
+```
+
+### Chinese (zh)
+```jsx
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/username/repository" 
+    title="GitHub"
+  >
+  <p>在GitHub上查看仓库</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/username/plugin-name" 
+    title="Dify市场"
+  >
+  <p>从Dify市场安装</p>
+  </Card>
+</Cards>
+
+---
+```
+
+### Japanese (ja)
+```jsx
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/username/repository" 
+    title="GitHub"
+  >
+  <p>GitHubでリポジトリを見る</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/username/plugin-name" 
+    title="Difyマーケットプレイス"
+  >
+  <p>Difyマーケットプレイスからインストール</p>
+  </Card>
+</Cards>
+
+---
+```
+
+## 4. DSL File Download Cards Format
+
+For providing users with DSL file downloads, use the following format:
+
+### English
+```jsx
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/your-invite-link" 
+    title="Get the workflow"
+  >
+  <p>Join FirstLab to get DSL file</p>
+    <img src="https://s2.loli.net/2025/05/15/h2qntU94eHZyBXr.png" alt="Workflow Image" />
+  </Card>
+</Cards>
+```
+
+### Chinese (zh)
+```jsx
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/your-invite-link" 
+    title="获取工作流"
+  >
+  <p>加入 FirstLab 获取 DSL 文件</p>
+    <img src="https://s2.loli.net/2025/05/15/h2qntU94eHZyBXr.png" alt="工作流图片" />
+  </Card>
+</Cards>
+```
+
+### Japanese (ja)
+```jsx
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/your-invite-link" 
+    title="ワークフローを入手する"
+  >
+  <p>DSLファイルを入手するには、FirstLabに参加してください</p>
+    <img src="https://s2.loli.net/2025/05/15/h2qntU94eHZyBXr.png" alt="ワークフロー画像" />
+  </Card>
+</Cards>
+```
+
+## 5. Code Block Format
+
+When including code blocks, always specify the language for proper syntax highlighting:
+
+```jsx
+```python
+def example_function():
+    return "Hello Dify"
+```
+```
+
+For code blocks without a specific language, use:
+
+```jsx
+```
+Plain text content here
+```
+```
+
+## 6. Horizontal Rule
+
+Use three hyphens for horizontal rules to separate sections:
+
+```
+---
+```
+
+## 7. Images
+
+Use the following format for images:
+
+```jsx
+![Alt text](https://example.com/image.png)
+```
+
+For images with specific dimensions or styling, use the Next.js Image component:
+
+```jsx
+<img src="/images/example.png" alt="Description" width={500} height={300} />
+```

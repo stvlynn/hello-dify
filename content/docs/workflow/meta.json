@@ -4,6 +4,7 @@
     "defaultOpen": true,
     "pages": [
         "node",
+        "playground",
         "twitter-mbti-receipt"
     ]
 } 
