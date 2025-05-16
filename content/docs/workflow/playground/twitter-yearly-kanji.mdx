@@ -1,0 +1,137 @@
+---
+title: "Twitter Yearly Kanji"
+description: "Get a personalized Japanese kanji character summarizing your year."
+---
+
+⬇️ Try it out before reading
+
+<Callout title="How to use">Input your Twitter ID(whithout "@") and select an output language.</Callout>
+
+<iframe
+ src="https://instance.hellodify.com/workflow/wlm4Co8dw18MgR4V"
+ style={{
+   width: '100%',
+   minHeight: '600px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/TwitterYearlyKanji" 
+    title="GitHub"
+  >
+  <p>See the repository on GitHub</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-pages-line" />} 
+    href="https://kanji.twi.am" 
+    title="Full Demo"
+  >
+  <p>Try full demo on twi.am</p>
+  </Card>
+</Cards>
+
+---
+
+## What is Twitter Yearly Kanji?
+
+Twitter Yearly Kanji is a Dify workflow that analyzes a user's Twitter/X posts and generates a single Japanese kanji character that best summarizes their content. Inspired by Japan's tradition of selecting a "Kanji of the Year" to represent the defining events and mood of the past year, this workflow creates a personalized kanji for individual Twitter users.
+
+## How It Works
+
+The workflow consists of several interconnected components:
+
+![.png](https://s2.loli.net/2025/05/16/4Vn5jBCuRyNxTbp.png)
+
+### 1. LLM Node
+The purpose of the LLM node is to analyze the user's tweet content. 
+
+The system prompt for this node is as follows:
+
+```
+<role>
+You are a Japanese Kanji expert who is experienced in summerizing user's tweets into one character.
+</role>
+
+<task>
+Read user's tweets, give one keyword to summarize those posts. The result should be one Kanji character, and the sample of the keyword. 
+You need to write at least 4 explainations for this character in Japanese dictionary format.
+Please also write detailed reason why choose this Kanji in Japanese.
+Ensure the selected kanji have sufficient literary merit.
+</task>
+
+<format>
+The output should be in markdown format, and the chosen character should be Japanese Kanji.
+You should also refer to Used_Japanese_Yearly_Kanji, and you can also choose character other than that.
+You should only choose one most important character.
+The titles are: Chosen Character, Character's Katakana, Character's Romaji, Kanji's Explaination, Reason
+<example_output>
+### Chosen Character
+新
+
+### Character's Katakana
+シン
+
+### Character's Romaji
+shin
+
+### Explaination
+
+
+### Reason
+ユーザーのツイートを読んでその内容を分析すると、Dify.AI という組織がリリースや更新に関する情報をツイートしていることが分かります。新しいバージョンのリリースや機能の強化、新しいモデルの追加、パフォーマンスの改善などがツイートの主なテーマであり、これらの全てが「新」という概念に関連しています。そのため、これらのツイートを1つの漢字で要約するならば「新」が最も適切と考えられます。
+</example_output>
+
+</format>
+
+<constraint>
+- Do not speak nonsense
+- Write in Japanese only. 
+- Do not use other languages. 
+- Do not translate into another language.
+- Do not copy character from example_output. Use kanji other than example_output.
+</constraint>
+```
+
+
+### 2. Parameter Extraction
+
+![2025-05-16 12.51.43.png](https://s2.loli.net/2025/05/16/hJDjwF4e7gxuNmR.png)
+
+- Uses a Large Language Model (qwen3-4b) to analyze the tweets
+- Extracts key parameters including:
+  - The chosen kanji character
+  - The character's katakana reading
+  - The romaji (Latin alphabet) transcription
+  - Detailed explanation of the kanji
+  - Reasoning for selecting this specific character
+
+### 3. Language Handling
+- Implements conditional logic using IF/ELSE nodes
+- Detects if Japanese language is present
+- Routes to appropriate language models based on the language context
+
+### 4. Result Generation
+- The primary LLM (gemma-3-4b-it-qat for Japanese content) synthesizes all information
+- Generates a detailed analysis with dictionary-style explanations
+- Presents the chosen kanji with its readings and justification
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="Get the workflow"
+  >
+  <p>Join FirstLab to get DSL file</p>
+    <img src="https://s2.loli.net/2025/05/16/4Vn5jBCuRyNxTbp.png" alt="Twitter Yearly Kanji" />
+  </Card>
+</Cards>
+
+

@@ -1,0 +1,130 @@
+---
+title: "Twitterの年間漢字"
+description: "あなたのTwitter内容を要約する個性的な日本の漢字を取得"
+---
+
+⬇️ 読む前に試してみてください
+
+<Callout title="使用方法">Twitter ID（「@」なし）を入力して、出力言語を選択してください。</Callout>
+
+<iframe
+ src="https://instance.hellodify.com/workflow/wlm4Co8dw18MgR4V"
+ style={{
+   width: '100%',
+   minHeight: '600px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/TwitterYearlyKanji" 
+    title="GitHub"
+  >
+  <p>GitHubでリポジトリを見る</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-pages-line" />} 
+    href="https://kanji.twi.am" 
+    title="完全デモ"
+  >
+  <p>twi.amで完全デモを試す</p>
+  </Card>
+</Cards>
+
+---
+
+## Twitterの年間漢字とは？
+
+Twitterの年間漢字は、ユーザーのTwitter/X投稿を分析し、その内容を最もよく要約する日本の漢字一文字を生成するDifyワークフローです。過去一年の重要な出来事や雰囲気を表す「今年の漢字」を選ぶ日本の伝統にインスパイアされ、このワークフローは各Twitterユーザーに個性的な漢字を作成します。
+
+![.png](https://s2.loli.net/2025/05/16/4Vn5jBCuRyNxTbp.png)
+
+### 1. LLMノード
+LLMノードの目的は、ユーザーのツイート内容を分析することです。
+
+このノードのシステムプロンプトは次のとおりです：
+
+```
+<role>
+You are a Japanese Kanji expert who is experienced in summerizing user's tweets into one character.
+</role>
+
+<task>
+Read user's tweets, give one keyword to summarize those posts. The result should be one Kanji character, and the sample of the keyword. 
+You need to write at least 4 explainations for this character in Japanese dictionary format.
+Please also write detailed reason why choose this Kanji in Japanese.
+Ensure the selected kanji have sufficient literary merit.
+</task>
+
+<format>
+The output should be in markdown format, and the chosen character should be Japanese Kanji.
+You should also refer to Used_Japanese_Yearly_Kanji, and you can also choose character other than that.
+You should only choose one most important character.
+The titles are: Chosen Character, Character's Katakana, Character's Romaji, Kanji's Explaination, Reason
+<example_output>
+### Chosen Character
+新
+
+### Character's Katakana
+シン
+
+### Character's Romaji
+shin
+
+### Explaination
+
+
+### Reason
+ユーザーのツイートを読んでその内容を分析すると、Dify.AI という組織がリリースや更新に関する情報をツイートしていることが分かります。新しいバージョンのリリースや機能の強化、新しいモデルの追加、パフォーマンスの改善などがツイートの主なテーマであり、これらの全てが「新」という概念に関連しています。そのため、これらのツイートを1つの漢字で要約するならば「新」が最も適切と考えられます。
+</example_output>
+
+</format>
+
+<constraint>
+- Do not speak nonsense
+- Write in Japanese only. 
+- Do not use other languages. 
+- Do not translate into another language.
+- Do not copy character from example_output. Use kanji other than example_output.
+</constraint>
+```
+
+### 2. パラメーター抽出
+
+![2025-05-16 12.51.43.png](https://s2.loli.net/2025/05/16/hJDjwF4e7gxuNmR.png)
+
+- 大規模言語モデル(qwen3-4b)を使用してツイートを分析
+- 以下の重要パラメーターを抽出：
+  - 選択された漢字
+  - 漢字のカタカナ読み
+  - ローマ字表記
+  - 漢字の詳細な説明
+  - この特定の漢字を選んだ理由
+
+### 3. 言語処理
+- IF/ELSEノードを使用して条件付きロジックを実装
+- 日本語の存在を検出
+- 言語コンテキストに基づいて適切な言語モデルにルーティング
+
+### 4. 結果生成
+- 主要LLM（日本語コンテンツ用のgemma-3-4b-it-qat）がすべての情報を統合
+- 辞書スタイルの説明を含む詳細な分析を生成
+- 選択された漢字とその読み方、選定理由を提示
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="ワークフローを入手する"
+  >
+  <p>DSLファイルを入手するには、FirstLabに参加してください</p>
+    <img src="https://s2.loli.net/2025/05/16/4Vn5jBCuRyNxTbp.png" alt="Twitterの年間漢字" />
+  </Card>
+</Cards> 

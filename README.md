@@ -33,7 +33,16 @@ Hello Dify is a documentation website. It serves as:
 - 🎨 **Modern UI**: Clean, accessible interface with dark mode support
 - 📚 **Comprehensive Guides**: Step-by-step tutorials for beginners and advanced users
 
+## Internationalization (i18n)
 
+Hello Dify supports multiple languages through a well-structured internationalization system. To help contributors with the i18n process:
+
+- **Cursor Rules Integration**: When using Cursor IDE, you can quickly access i18n guidelines by using `cursor rules:@i18n.mdc`
+- **Streamlined Workflow**: This rule provides templates for translation and automates the meta.json configuration
+- **File Naming Conventions**: Follow the pattern `filename.{lang}.mdx` for content files (e.g., `index.mdx`, `index.zh.mdx`, `index.ja.mdx`)
+- **Translation Status**: English content is considered the source of truth, with Chinese and Japanese translations maintained in parallel
+
+The i18n rule helps ensure consistent structure across all language versions while maintaining the unique linguistic nuances of each translation.
 
 ## Technology Stack
 
