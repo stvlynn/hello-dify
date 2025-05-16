@@ -4,6 +4,7 @@
     "defaultOpen": true,
     "pages": [
         "rsshub",
+        "doc",
         "artifacts",
         "x"
     ]
