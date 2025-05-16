@@ -1,0 +1,201 @@
+---
+title: "RSSHub"
+description: "RSSHub から RSS フィードにアクセスします。"
+---
+
+⬇️ 読む前に試してみてください
+
+<Callout title="使用方法">「Twitterユーザー @Stv_Lynn について何か教えて」または「トレンドニュースの確認を手伝って」と尋ねてみてください。</Callout>
+
+<iframe
+ src="http://instance.hellodify.com/chatbot/E08g4b69jJiy09Ke"
+ style={{
+   width: '100%',
+   minHeight: '500px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/RSSHub-Dify-Plugin" 
+    title="GitHub"
+  >
+  <p>GitHub でリポジトリを見る</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/stvlynn/rsshub" 
+    title="Dify マーケットプレイス"
+  >
+  <p>Dify マーケットプレイスからインストール</p>
+  </Card>
+</Cards>
+
+---
+
+
+## 特徴
+
+- RSSHub から RSS フィードを取得
+- カスタム RSSHub インスタンスのサポート
+- 返されるアイテム数の制限
+- 特定のサービス（X/Twitter、LinkedIn など）への便利なアクセス
+
+## 使用方法
+
+1. Dify にこのプラグインをインストールします
+2. プロンプトでプラグインを使用します。例：
+
+```
+RSSHub を使用して sspai から最新の記事を取得する
+```
+
+## 利用可能なツール
+
+### カスタムルート
+
+カスタムルートを使用して RSSHub から RSS フィードを取得します。
+
+**パラメータ：**
+- `base_url`: RSSHub インスタンスのベース URL、デフォルトは `https://rsshub.app`
+- `route`: RSSHub ルートパス、例：`/zhihu/hot`
+- `limit`: 返されるアイテムの最大数、デフォルトは 10
+
+### X (Twitter)
+
+RSSHub 経由で X (Twitter) から RSS フィードを取得します。
+
+![image.png](https://s2.loli.net/2025/05/16/EiYFhRWmt9xvcuI.png)
+
+**パラメータ：**
+- `route_type`: Twitter ルートタイプ、以下のオプションがあります：
+  - ユーザータイムライン
+  - キーワード検索
+  - リストタイムライン
+  - ホームタイムライン
+  - 最新ホームタイムライン
+  - ユーザーいいね
+  - ユーザーメディア
+- `base_url`: RSSHub インスタンスのベース URL、デフォルトは `https://rsshub.app`
+- `username`: Twitter ユーザー名（@なし、例：elonmusk）。ユーザータイムライン、ユーザーいいね、ユーザーメディアルートタイプに必要
+- `keyword`: 検索するキーワード。キーワード検索ルートタイプに必要
+- `list_id`: Twitter リスト ID。リストタイムラインルートタイプに必要
+- `exclude_replies`: 返信を除外するかどうか、デフォルトは false。ユーザータイムラインルートタイプにのみ適用
+- `exclude_rts`: リツイートを除外するかどうか、デフォルトは false。ユーザータイムラインルートタイプにのみ適用
+- `limit`: 返されるアイテムの最大数、デフォルトは 10
+
+### LinkedIn
+
+RSSHub 経由で LinkedIn から RSS フィードを取得します。
+
+![image.png](https://s2.loli.net/2025/05/16/zdktDTaBKjnH9O8.png)
+
+**パラメータ：**
+- `route_type`: LinkedIn ルートタイプ、以下のオプションがあります：
+  - 求人
+- `base_url`: RSSHub インスタンスのベース URL、デフォルトは `https://rsshub.app`
+- `keywords`: 求人検索キーワード
+- `job_types`: 求人タイプ、利用可能なオプション：
+  - フルタイム
+  - パートタイム
+  - 契約社員
+  - すべて
+- `exp_levels`: 経験レベル、利用可能なオプション：
+  - インターンシップ
+  - エントリーレベル
+  - アソシエイト
+  - 中堅レベル
+  - ディレクター
+  - すべて
+- `work_type`: 勤務形態、利用可能なオプション：
+  - オフィス勤務
+  - リモート
+  - ハイブリッド
+  - いずれか
+- `time_posted`: 求人掲載時期による絞り込み、利用可能なオプション：
+  - 過去 24 時間
+  - 過去 1 週間
+  - 過去 1 か月
+  - いつでも
+- `geo_id`: 地理的位置 ID（例：91000012 は東アジア）
+- `limit`: 返されるアイテムの最大数、デフォルトは 10
+
+### Threads
+
+RSSHub 経由で Threads から RSS フィードを取得します。
+
+![image.png](https://s2.loli.net/2025/05/16/ldmZ3OILsuW5pQS.png)
+
+**パラメータ：**
+- `route_type`: Threads ルートタイプ、以下のオプションがあります：
+  - ユーザー
+- `base_url`: RSSHub インスタンスのベース URL、デフォルトは `https://rsshub.app`
+- `username`: Threads ユーザー名（@記号なし）
+- `show_author_in_title`: タイトルに作成者名を表示、デフォルトは true
+- `show_author_in_desc`: 説明（RSS 本文）に作成者名を表示、デフォルトは true
+- `show_quoted_in_title`: タイトルに引用スレッドを表示、デフォルトは true
+- `show_emoji_for_quotes_and_reply`: QT の代わりに 🔁、Re の代わりに ↩️ を使用、デフォルトは true
+- `replies`: 返信を含める、デフォルトは true
+- `show_author_avatar_in_desc`: 説明に作成者のアバターを表示、デフォルトは false（RSS リーダーが説明から画像を抽出する場合は非推奨）
+- `show_quoted_author_avatar_in_desc`: 説明に引用された作成者のアバターを表示、デフォルトは false（RSS リーダーが説明から画像を抽出する場合は非推奨）
+- `limit`: 返されるアイテムの最大数、デフォルトは 10
+
+### Discord
+
+RSSHub 経由で Discord から RSS フィードを取得します。
+
+![image.png](https://s2.loli.net/2025/05/16/UHAOZpWM7dDjf3s.png)
+
+**パラメータ：**
+- `route_type`: Discord ルートタイプ、以下のオプションがあります：
+  - チャンネルメッセージ
+  - ギルド検索
+- `base_url`: RSSHub インスタンスのベース URL、デフォルトは `https://rsshub.app`
+- `channel_id`: Discord チャンネル ID、チャンネルメッセージルートタイプに必要
+- `guild_id`: Discord サーバー ID、ギルド検索ルートタイプに必要
+- `search_params`: ギルド検索ルートタイプの検索パラメータ（例：content=friendly&has=image,video）。content、author_id、mentions、has、min_id、max_id、channel_id、pinned などをサポート
+- `discord_authorization`: ブラウザからの Discord 認証ヘッダー（両方のルートタイプに必要）
+- `limit`: 返されるアイテムの最大数、デフォルトは 10
+
+### Google News
+
+RSSHub 経由で Google News から RSS フィードを取得します。
+
+![image.png](https://s2.loli.net/2025/05/16/DpIYBeKo4kfFjhq.png)
+
+**パラメータ：**
+- `base_url`: RSSHub インスタンスのベース URL、デフォルトは `https://rsshub.app`
+- `category`: Google News のカテゴリタイトル、例：「トップニュース」、「ワールド」、「ビジネス」
+- `language_code`: Google News コンテンツの言語コード、例：「en-US」、「zh-CN」、「ja-JP」
+- `country_code`: Google News コンテンツの国または地域コード、例：「US」、「CN」、「JP」
+- `country_edition`: Google News の国別版、通常は「国:言語」の形式、例：「US:en」、「CN:zh」
+- `limit`: 返されるアイテムの最大数、デフォルトは 10
+
+## サポートされているルート
+
+RSSHub は多数のルートをサポートしています。[RSSHub ドキュメント](https://docs.rsshub.app/)ですべてのサポートされているルートを表示できます。
+
+以下は一般的に使用されるルートの例です：
+
+- `/zhihu/hot` - 知乎ホットリスト
+- `/sspai/matrix` - Sspai Matrix
+- `/36kr/hot-list` - 36Kr ホットリスト
+- `/weibo/search/hot` - Weibo ホットサーチ 
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="ワークフローを入手する"
+  >
+  <p>DSLファイルを入手するには、FirstLabに参加してください</p>
+    <img src="https://s2.loli.net/2025/05/15/HFT2SE3uIyMflG4.png" alt="中国語の新解釈" />
+  </Card>
+</Cards>
