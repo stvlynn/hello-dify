@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Giscus from '@giscus/react';
+import type { Theme } from '@giscus/react';
 
 interface GiscusCommentProps {
-  theme?: 'light' | 'dark' | 'noborder_light';
+  theme?: Theme;
 }
 
 export function GiscusComment({ theme = 'noborder_light' }: GiscusCommentProps) {
@@ -13,7 +14,7 @@ export function GiscusComment({ theme = 'noborder_light' }: GiscusCommentProps) 
       <div className="giscus-fallback">
         <Giscus
           id="comments"
-          repo={process.env.NEXT_PUBLIC_GISCUS_REPO || 'stvlynn/hello-dify'}
+          repo={(process.env.NEXT_PUBLIC_GISCUS_REPO || 'stvlynn/hello-dify') as `${string}/${string}`}
           repoId={process.env.NEXT_PUBLIC_GISCUS_REPO_ID || 'R_kgDOOoLq8Q'}
           category={process.env.NEXT_PUBLIC_GISCUS_CATEGORY || 'Announcements'}
           categoryId={process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID || 'DIC_kwDOOoLq8c4CqOmC'}

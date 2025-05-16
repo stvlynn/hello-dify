@@ -5,11 +5,7 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  experimental: {
-    turbo: {
-      enabled: false
-    }
-  },
+  turbopack: false,
   images: {
     domains: ['s2.loli.net', 'hellodify.com'],
     remotePatterns: [
