@@ -7,6 +7,7 @@ import {
 } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/mdx-components';
+import { GiscusComment } from '@/components/docs';
 
 export default async function Page({
   params
@@ -36,6 +37,7 @@ export default async function Page({
 // 渲染页面内容
 function renderPage(page: any) {
   const MDXContent = page.data.body;
+  const enableComments = page.data.enableComments !== false; // 默认启用评论，除非明确设置为 false
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
@@ -45,6 +47,7 @@ function renderPage(page: any) {
         <MDXContent
           components={getMDXComponents({})}
         />
+        {enableComments && <GiscusComment />}
       </DocsBody>
     </DocsPage>
   );
