@@ -7,7 +7,7 @@ import {
 } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/mdx-components';
-import { GiscusComment } from '@/components/docs';
+import { ClientComments } from '@/components/docs';
 
 export default async function Page({
   params
@@ -47,7 +47,7 @@ function renderPage(page: any) {
         <MDXContent
           components={getMDXComponents({})}
         />
-        {enableComments && <GiscusComment />}
+        {enableComments && <ClientComments />}
       </DocsBody>
     </DocsPage>
   );
