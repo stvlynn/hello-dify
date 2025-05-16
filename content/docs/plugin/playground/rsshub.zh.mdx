@@ -1,0 +1,201 @@
+---
+title: "RSSHub"
+description: "从 RSSHub 获取 RSS 订阅源。"
+---
+
+⬇️ 先睹为快
+
+<Callout title="如何使用">尝试提问"告诉我一些关于 Twitter 用户 @Stv_Lynn 的事情"或"帮我查看热门新闻。"</Callout>
+
+<iframe
+ src="https://instance.hellodify.com/chatbot/E08g4b69jJiy09Ke"
+ style={{
+   width: '100%',
+   minHeight: '500px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/RSSHub-Dify-Plugin" 
+    title="GitHub"
+  >
+  <p>在 GitHub 上查看仓库</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-store-2-line" />} 
+    href="https://marketplace.dify.ai/plugins/stvlynn/rsshub" 
+    title="Dify 市场"
+  >
+  <p>从 Dify 市场安装</p>
+  </Card>
+</Cards>
+
+---
+
+
+## 功能特性
+
+- 从 RSSHub 获取 RSS 订阅源
+- 支持自定义 RSSHub 实例
+- 限制返回条目的数量
+- 便捷访问特定服务（例如 X/Twitter、LinkedIn）
+
+## 使用方法
+
+1. 在 Dify 中安装此插件
+2. 在您的提示词中使用该插件，例如：
+
+```
+使用 RSSHub 获取少数派的最新文章
+```
+
+## 可用工具
+
+### 自定义路由
+
+使用自定义路由从 RSSHub 获取 RSS 订阅源。
+
+**参数：**
+- `base_url`: RSSHub 实例的基础 URL，默认为 `https://rsshub.app`
+- `route`: RSSHub 路由路径，例如 `/zhihu/hot`
+- `limit`: 返回的最大条目数，默认为 10
+
+### X (Twitter)
+
+通过 RSSHub 获取 X (Twitter) 的 RSS 订阅源。
+
+![image.png](https://s2.loli.net/2025/05/16/EiYFhRWmt9xvcuI.png)
+
+**参数：**
+- `route_type`: Twitter 路由类型，可选值如下：
+  - 用户时间线
+  - 关键词搜索
+  - 列表时间线
+  - 首页时间线
+  - 最新首页时间线
+  - 用户喜欢
+  - 用户媒体
+- `base_url`: RSSHub 实例的基础 URL，默认为 `https://rsshub.app`
+- `username`: Twitter 用户名，不含 @（例如 elonmusk）。用户时间线、用户喜欢和用户媒体路由类型需要此参数
+- `keyword`: 要搜索的关键词。关键词搜索路由类型需要此参数
+- `list_id`: Twitter 列表 ID。列表时间线路由类型需要此参数
+- `exclude_replies`: 是否排除回复，默认为 false。仅适用于用户时间线路由类型
+- `exclude_rts`: 是否排除转推，默认为 false。仅适用于用户时间线路由类型
+- `limit`: 返回的最大条目数，默认为 10
+
+### LinkedIn
+
+通过 RSSHub 获取 LinkedIn 的 RSS 订阅源。
+
+![image.png](https://s2.loli.net/2025/05/16/zdktDTaBKjnH9O8.png)
+
+**参数：**
+- `route_type`: LinkedIn 路由类型，可选值如下：
+  - 职位
+- `base_url`: RSSHub 实例的基础 URL，默认为 `https://rsshub.app`
+- `keywords`: 职位搜索关键词
+- `job_types`: 职位类型，可选值：
+  - 全职
+  - 兼职
+  - 合同工
+  - 全部
+- `exp_levels`: 经验水平，可选值：
+  - 实习
+  - 初级
+  - 中级
+  - 中高级
+  - 总监
+  - 全部
+- `work_type`: 工作类型，可选值：
+  - 现场
+  - 远程
+  - 混合
+  - 任何
+- `time_posted`: 按职位发布时间筛选，可选值：
+  - 过去 24 小时
+  - 过去一周
+  - 过去一个月
+  - 任何时间
+- `geo_id`: 地理位置 ID（例如 91000012 代表东亚）
+- `limit`: 返回的最大条目数，默认为 10
+
+### Threads
+
+通过 RSSHub 获取 Threads 的 RSS 订阅源。
+
+![image.png](https://s2.loli.net/2025/05/16/ldmZ3OILsuW5pQS.png)
+
+**参数：**
+- `route_type`: Threads 路由类型，可选值如下：
+  - 用户
+- `base_url`: RSSHub 实例的基础 URL，默认为 `https://rsshub.app`
+- `username`: Threads 用户名，不含 @ 符号
+- `show_author_in_title`: 在标题中显示作者姓名，默认为 true
+- `show_author_in_desc`: 在描述（RSS 正文）中显示作者姓名，默认为 true
+- `show_quoted_in_title`: 在标题中显示引用的帖子，默认为 true
+- `show_emoji_for_quotes_and_reply`: 使用 🔁 代替 QT，↩️ 代替 Re，默认为 true
+- `replies`: 包括回复，默认为 true
+- `show_author_avatar_in_desc`: 在描述中显示作者头像，默认为 false（如果您的 RSS 阅读器从描述中提取图像，则不推荐）
+- `show_quoted_author_avatar_in_desc`: 在描述中显示引用作者的头像，默认为 false（如果您的 RSS 阅读器从描述中提取图像，则不推荐）
+- `limit`: 返回的最大条目数，默认为 10
+
+### Discord
+
+通过 RSSHub 获取 Discord 的 RSS 订阅源。
+
+![image.png](https://s2.loli.net/2025/05/16/UHAOZpWM7dDjf3s.png)
+
+**参数：**
+- `route_type`: Discord 路由类型，可选值如下：
+  - 频道消息
+  - 服务器搜索
+- `base_url`: RSSHub 实例的基础 URL，默认为 `https://rsshub.app`
+- `channel_id`: Discord 频道 ID，频道消息路由类型需要此参数
+- `guild_id`: Discord 服务器 ID，服务器搜索路由类型需要此参数
+- `search_params`: 服务器搜索路由类型的搜索参数（例如 content=friendly&has=image,video）。支持 content、author_id、mentions、has、min_id、max_id、channel_id、pinned 等
+- `discord_authorization`: 浏览器中的 Discord 授权标头（两种路由类型都需要）
+- `limit`: 返回的最大条目数，默认为 10
+
+### Google News
+
+通过 RSSHub 获取 Google News 的 RSS 订阅源。
+
+![image.png](https://s2.loli.net/2025/05/16/DpIYBeKo4kfFjhq.png)
+
+**参数：**
+- `base_url`: RSSHub 实例的基础 URL，默认为 `https://rsshub.app`
+- `category`: Google News 的类别标题，例如 '头条新闻'、'世界'、'商业'
+- `language_code`: Google News 内容的语言代码，例如 'en-US'、'zh-CN'、'ja-JP'
+- `country_code`: Google News 内容的国家或地区代码，例如 'US'、'CN'、'JP'
+- `country_edition`: Google News 的国家版本，通常格式为 '国家:语言'，例如 'US:en'、'CN:zh'
+- `limit`: 返回的最大条目数，默认为 10
+
+## 支持的路由
+
+RSSHub 支持大量路由。您可以在 [RSSHub 文档](https://docs.rsshub.app/) 中查看所有支持的路由。
+
+以下是一些常用的路由示例：
+
+- `/zhihu/hot` - 知乎热榜
+- `/sspai/matrix` - 少数派 Matrix
+- `/36kr/hot-list` - 36氪热榜
+- `/weibo/search/hot` - 微博热搜 
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="获取工作流"
+  >
+  <p>加入 FirstLab 获取 DSL 文件</p>
+    <img src="https://s2.loli.net/2025/05/15/HFT2SE3uIyMflG4.png" alt="汉语新解" />
+  </Card>
+</Cards>

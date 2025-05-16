@@ -114,6 +114,13 @@ export default function HomePage({
   const { lang } = resolvedParams;
   const t = texts[lang as keyof typeof texts] || texts.en;
 
+  // 根据不同语言设置链接文本
+  const docText = {
+    'zh': '开始使用',
+    'ja': '始めましょう',
+    'en': 'Get Started'
+  }[lang] || 'Get Started';
+
   return (
     <>
       <main className="flex flex-1 flex-col items-center text-center">
@@ -146,7 +153,7 @@ export default function HomePage({
                 text-lg font-medium shadow-md hover:shadow-lg"
             >
               <i className="ri-book-open-line"></i>
-              {t.documentation}
+              {docText}
             </Link>
             
             <Link

@@ -3,6 +3,7 @@
     "icon": "run-line",
     "defaultOpen": true,
     "pages": [
+        "rsshub",
         "artifacts",
         "x"
     ]

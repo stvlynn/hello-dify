@@ -11,7 +11,19 @@ const config = {
     }
   },
   images: {
-    domains: ['s2.loli.net'],
+    domains: ['s2.loli.net', 'hellodify.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.hellodify.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**.hellodify.com',
+        pathname: '**',
+      }
+    ],
   }
 };
 
@@ -21,7 +33,7 @@ config.headers = async () => [
     headers: [
       {
         key: 'Content-Security-Policy',
-        value: "frame-ancestors 'self' *.hellodify.com; frame-src 'self' *.hellodify.com; child-src 'self' *.hellodify.com;"
+        value: "frame-ancestors 'self' *.hellodify.com; frame-src 'self' *.hellodify.com http://*.hellodify.com https://*.hellodify.com; child-src 'self' *.hellodify.com http://*.hellodify.com https://*.hellodify.com; img-src 'self' data: *.hellodify.com http://*.hellodify.com https://*.hellodify.com s2.loli.net;"
       }
     ]
   }
