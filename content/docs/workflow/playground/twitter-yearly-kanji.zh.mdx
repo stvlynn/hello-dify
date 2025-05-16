@@ -1,0 +1,130 @@
+---
+title: "Twitter年度汉字"
+description: "获取一个总结你Twitter内容的个性化日本汉字"
+---
+
+⬇️ 先睹为快
+
+<Callout title="使用方法">输入您的Twitter ID（不带"@"）并选择输出语言。</Callout>
+
+<iframe
+ src="https://instance.hellodify.com/workflow/wlm4Co8dw18MgR4V"
+ style={{
+   width: '100%',
+   minHeight: '600px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill" />} 
+    href="https://github.com/stvlynn/TwitterYearlyKanji" 
+    title="GitHub"
+  >
+  <p>在GitHub上查看代码库</p>
+  </Card>
+  <Card 
+    icon={<i className="ri-pages-line" />} 
+    href="https://kanji.twi.am" 
+    title="完整演示"
+  >
+  <p>在twi.am上体验完整演示</p>
+  </Card>
+</Cards>
+
+---
+
+## 什么是Twitter年度汉字？
+
+Twitter年度汉字是一个Dify工作流，它分析用户的Twitter/X帖子并生成一个最能概括其内容的日本汉字。灵感来源于日本选择"年度汉字"代表过去一年重大事件和氛围的传统，这个工作流为每个Twitter用户创建个性化的汉字。
+
+![.png](https://s2.loli.net/2025/05/16/4Vn5jBCuRyNxTbp.png)
+
+### 1. LLM节点
+LLM节点的目的是分析用户的推文内容。
+
+该节点的系统提示如下：
+
+```
+<role>
+You are a Japanese Kanji expert who is experienced in summerizing user's tweets into one character.
+</role>
+
+<task>
+Read user's tweets, give one keyword to summarize those posts. The result should be one Kanji character, and the sample of the keyword. 
+You need to write at least 4 explainations for this character in Japanese dictionary format.
+Please also write detailed reason why choose this Kanji in Japanese.
+Ensure the selected kanji have sufficient literary merit.
+</task>
+
+<format>
+The output should be in markdown format, and the chosen character should be Japanese Kanji.
+You should also refer to Used_Japanese_Yearly_Kanji, and you can also choose character other than that.
+You should only choose one most important character.
+The titles are: Chosen Character, Character's Katakana, Character's Romaji, Kanji's Explaination, Reason
+<example_output>
+### Chosen Character
+新
+
+### Character's Katakana
+シン
+
+### Character's Romaji
+shin
+
+### Explaination
+
+
+### Reason
+ユーザーのツイートを読んでその内容を分析すると、Dify.AI という組織がリリースや更新に関する情報をツイートしていることが分かります。新しいバージョンのリリースや機能の強化、新しいモデルの追加、パフォーマンスの改善などがツイートの主なテーマであり、これらの全てが「新」という概念に関連しています。そのため、これらのツイートを1つの漢字で要約するならば「新」が最も適切と考えられます。
+</example_output>
+
+</format>
+
+<constraint>
+- Do not speak nonsense
+- Write in Japanese only. 
+- Do not use other languages. 
+- Do not translate into another language.
+- Do not copy character from example_output. Use kanji other than example_output.
+</constraint>
+```
+
+### 2. 参数提取
+
+![2025-05-16 12.51.43.png](https://s2.loli.net/2025/05/16/hJDjwF4e7gxuNmR.png)
+
+- 使用大语言模型(qwen3-4b)分析推文
+- 提取关键参数，包括：
+  - 选择的汉字
+  - 汉字的片假名读音
+  - 罗马音转写
+  - 汉字的详细解释
+  - 选择这个特定汉字的理由
+
+### 3. 语言处理
+- 使用IF/ELSE节点实现条件逻辑
+- 检测是否存在日语
+- 根据语言上下文路由到适当的语言模型
+
+### 4. 结果生成
+- 主要LLM(用于日语内容的gemma-3-4b-it-qat)综合所有信息
+- 生成带有字典风格解释的详细分析
+- 展示所选汉字及其读音和解释理由
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="获取工作流"
+  >
+  <p>加入FirstLab获取DSL文件</p>
+    <img src="https://s2.loli.net/2025/05/16/4Vn5jBCuRyNxTbp.png" alt="Twitter年度汉字" />
+  </Card>
+</Cards> 
