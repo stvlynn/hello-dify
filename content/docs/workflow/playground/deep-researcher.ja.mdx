@@ -1,0 +1,81 @@
+---
+title: "Deep Researcher"
+description: "数分で構造化された研究レポートを生成するマルチモデル協調ワークフロー"
+enableComments: true
+author: "AdamPlatin123"
+github_username: "AdamPlatin123"
+---
+
+⬇️ 読む前に試してみてください
+
+<iframe
+ src="http://instance.hellodify.com/chatbot/NKZ90sIADQ1PFxOz"
+ style={{
+   width: '100%',
+   minHeight: '600px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+## 📖 概要
+
+Deep Researcherは、Difyプラットフォーム上に構築されたワークフローで、Deep Researchの核心機能を再現しています。マルチソース検索（ローカルナレッジベース+ウェブ検索）とマルチモデル協調を統合することで、5分以内に数万語の構造化された研究レポートを生成できます。システムはモジュール化設計を採用し、基礎モデルとデータソースの柔軟な置き換えをサポートしています。
+
+## ✨ 主な機能
+
+### インテリジェントなトピック分析
+Gemini 2.0 Flashモデルを使用した多層トピック分解、4次元の詳細分析をサポート
+
+### ハイブリッド検索エンジン
+`ローカルナレッジベース + Wikipedia/Google/Bing API` マルチチャネル検索
+
+### 動的リズム制御
+2>1モデルカスケードアーキテクチャを採用し、条件分岐と対話ラウンドマーカーを通じて処理リズムを最適化
+
+### 効率的なレポート生成
+deepseek-r1-distillなどのモデルを統合し、段落レベルのコンテンツ生成を実現、Markdown構造化出力をサポート
+
+## 🛠️ 技術アーキテクチャ
+
+ワークフローは以下のアーキテクチャを採用しています：
+<Mermaid
+  chart="
+graph TD
+    A[ユーザー質問] --> B{トピック分析}
+    B --> F[質問生成]
+    F --> H[ユーザー回答]
+    H --> C
+    B --> I[トピック分析]
+    I --> C{二次トピック抽出}
+    C --> D[ハイブリッド反復検索エンジン]
+    D --> E[マルチモデル協調生成]
+    E --> G[構造化レポート]
+    
+    style B fill:#4CAF50,stroke:#388E3C
+    style D fill:#2196F3,stroke:#1565C0
+  "
+/>
+
+## ⚠️ 注意事項
+
+### パフォーマンス最適化の提案
+
+原則として、ワークフローはどのモデルもサポートしています。ローカルモデルの使用時にリクエスト圧力が高い場合、LLMノードの`Timepouterror`がトリガーされる可能性があります。オンラインAPIサービスに切り替えるか、Dify設定ファイルでタイムアウト時間を変更することを検討できます。
+
+Google無料APIユーザーの場合、ローカルモデルノードを挿入してRPMを制限できます（Googleのデフォルトレート制限は15RPMで、短時間に多くのリクエストがあるとエラーが報告されます）
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="ワークフローを入手"
+  >
+  <p>FirstLabに参加してDSLファイルを入手</p>
+    <img src="https://s2.loli.net/2025/05/15/HFT2SE3uIyMflG4.png" alt="Deep Researcher" />
+  </Card>
+</Cards> 

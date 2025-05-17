@@ -1,0 +1,81 @@
+---
+title: "Deep Researcher"
+description: "A multi-model collaborative workflow that generates structured research reports in minutes"
+enableComments: true
+author: "AdamPlatin123"
+github_username: "AdamPlatin123"
+---
+
+⬇️ Try it out before reading
+
+<iframe
+ src="http://instance.hellodify.com/chatbot/NKZ90sIADQ1PFxOz"
+ style={{
+   width: '100%',
+   minHeight: '600px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+## 📖 Overview
+
+Deep Researcher is a workflow built on the Dify platform that reproduces the core functionality of Deep Research. By integrating multi-source retrieval (local knowledge base + web search) with multi-model collaboration, it can generate structured research reports of tens of thousands of words in 5 minutes. The system adopts a modular design and supports flexible replacement of underlying models and data sources.
+
+## ✨ Core Features
+
+### Intelligent Topic Analysis
+Using Gemini 2.0 Flash model for multi-level topic decomposition, supporting 4-dimensional in-depth analysis
+
+### Hybrid Retrieval Engine
+`Local Knowledge Base + Wikipedia/Google/Bing API` multi-channel retrieval
+
+### Dynamic Rhythm Control
+Using a 2>1 model cascade architecture, implementing processing rhythm optimization through conditional branches and dialogue round markers
+
+### Efficient Report Generation
+Integrating models like deepseek-r1-distill for paragraph-level content generation, supporting Markdown structured output
+
+## 🛠️ Technical Architecture
+
+The workflow adopts the following architecture:
+<Mermaid
+  chart="
+graph TD
+    A[User Question] --> B{Topic Analysis}
+    B --> F[Question Generation]
+    F --> H[User Answer]
+    H --> C
+    B --> I[Topic Analysis]
+    I --> C{Secondary Topic Extraction}
+    C --> D[Hybrid Iterative Retrieval Engine]
+    D --> E[Multi-model Collaborative Generation]
+    E --> G[Structured Report]
+    
+    style B fill:#4CAF50,stroke:#388E3C
+    style D fill:#2196F3,stroke:#1565C0
+  "
+/>
+
+## ⚠️ Notes
+
+### Performance Optimization Suggestions
+
+In principle, the workflow supports any model. When the request pressure of using local models is high, it may trigger the `Timepouterror` of the LLM node. You can consider switching to an online API service or modifying the timeout time in the Dify configuration file.
+
+If you are a Google free API user, you can insert a local model node to limit the RPM (Google's default rate limit is 15 RPM, and errors will be reported if there are too many requests in a short time)
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="Get the workflow"
+  >
+  <p>Join FirstLab to get the DSL file</p>
+    <img src="https://s2.loli.net/2025/05/15/HFT2SE3uIyMflG4.png" alt="Deep Researcher" />
+  </Card>
+</Cards> 
