@@ -1,13 +1,12 @@
 import { source } from '@/lib/source';
 import {
-  DocsPage,
   DocsBody,
   DocsDescription,
   DocsTitle,
 } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/mdx-components';
-import { ClientComments } from '@/components/docs';
+import { ClientComments, CustomDocsPage } from '@/components/docs';
 
 export default async function Page({
   params
@@ -38,9 +37,27 @@ export default async function Page({
 function renderPage(page: any) {
   const MDXContent = page.data.body;
   const enableComments = page.data.enableComments !== false; // 默认启用评论，除非明确设置为 false
+  
+  // 提取作者相关信息
+  const author = page.data.author;
+  const avatar = page.data.avatar;
+  const githubUsername = page.data.github_username;
+  const xUsername = page.data.x_username;
+  
+  // 如果有GitHub用户名但没有头像，使用GitHub头像
+  const avatarUrl = avatar || (githubUsername ? `https://avatars.githubusercontent.com/${githubUsername}` : undefined);
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <CustomDocsPage 
+      toc={page.data.toc} 
+      full={page.data.full}
+      authorInfo={{
+        author,
+        avatar: avatarUrl,
+        githubUsername,
+        xUsername
+      }}
+    >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
@@ -49,7 +66,7 @@ function renderPage(page: any) {
         />
         {enableComments && <ClientComments />}
       </DocsBody>
-    </DocsPage>
+    </CustomDocsPage>
   );
 }
 

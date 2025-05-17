@@ -7,7 +7,7 @@ const config = {
   reactStrictMode: true,
   turbopack: false,
   images: {
-    domains: ['s2.loli.net', 'hellodify.com'],
+    domains: ['s2.loli.net', 'hellodify.com', 'avatars.githubusercontent.com'],
     remotePatterns: [
       {
         protocol: 'https',
