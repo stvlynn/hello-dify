@@ -283,6 +283,14 @@ export default function HomePage({
                 </li>
                 <li className="flex items-center gap-2">
                   <i className="ri-link text-lg"></i>
+                  <a href="https://dify101.com/" target="_blank" rel="noopener noreferrer" className="hover:text-fd-primary hover:underline">Dify101</a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <i className="ri-link text-lg"></i>
+                  <a href="https://1st.ac.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-fd-primary hover:underline">FirstLab</a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <i className="ri-link text-lg"></i>
                   <a href="https://github.com/WorkWorkLabs/Web3-Recruitment-Platform" target="_blank" rel="noopener noreferrer" className="hover:text-fd-primary hover:underline">WorkWork</a>
                 </li>
               </ul>
