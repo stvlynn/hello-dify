@@ -1,0 +1,8 @@
+{
+    "title": "知识库",
+    "icon": "book-read-line",
+    "defaultOpen": true,
+    "pages": [
+        "image-retrieval"
+    ]
+}

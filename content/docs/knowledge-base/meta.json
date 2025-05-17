@@ -1,0 +1,8 @@
+{
+    "title": "Knowledge Base",
+    "icon": "book-read-line",
+    "defaultOpen": true,
+    "pages": [
+        "image-retrieval"
+    ]
+}

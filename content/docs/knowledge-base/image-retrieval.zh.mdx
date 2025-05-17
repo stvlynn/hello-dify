@@ -1,0 +1,67 @@
+---
+title: 图文知识库如何输出图片内容
+description: 学习如何在Dify知识库中实现图文混排效果，输出包含图片的高质量RAG内容
+enableComments: true
+author: "Ron"
+github_username: "svcvit"
+x_username: "Ron568059256995"
+---
+
+<Callout title="阅读原文">
+<a href="https://blog.vcvit.me/2025/04/21/04-dify-knowledge-base-how-to-output-image-content/" target="_blank">一个无人问津的小站</a> - 04课-DIFY图文知识库如何输出图片内容
+</Callout>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TdtUzMfub9g?si=plHq27i7KaHQD3Hw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+首先，不要寄希望于丢几个 PDF 给嵌入模型，就可以有很好的效果。好的效果，往往需要你理解你真实的需求，高质量的材料整理，理解 RAG 的运行原理。
+
+如果你希望使用 DIFY 做出下图类似的图文混排效果，参考本教程。
+
+![图文混排的RAG召回示例图](https://s2.loli.net/2025/05/18/Ew1DeZxc7VAqt6K.png)
+
+## 图片存储方案
+
+在 DIFY 的知识库召回过程中，如果希望输出图文混排的内容，关键是图片的存储，目前有 2 个方案：
+
+1. 图片放在远程服务器，这样图文混排，实际是加载服务器上的图片
+2. 图片放在 Word 中，DIFY 在解析 Word 的时候，会自动生成图片的 URL 路径，供远程访问
+
+今天主要围绕第二个方案展开，这样不需要额外的服务器成本和域名配置，即可快速实现图文混排的效果。
+
+## 内容整理
+
+首先，将自己知识库的内容整理成 Word。如果你在处理 Word 过程中遇到各种解析报错，可以先把你的内容放入飞书知识库，然后使用飞书文档的功能，下载为 Word。你可以简单理解成飞书文档，把你需要的内容，整理成了一个更标准的 Word 内容，并且把图片嵌入 Word，而不是引用的外链。
+
+![飞书文档示例图](https://s2.loli.net/2025/05/18/p97lXjdZaW6teCq.png)
+
+在整理文档的过程中，尽可能使用**2个换行符**作为分隔符，方便后续 DIFY 默认的分段标识符可以正确地识别分段。当然，你也可以用一些特殊的标识符，后续 DIFY 配置的时候进行修改，例如下面我这里使用 2 个换行符，对应就是 `\n\n`
+
+![分隔符示例图](https://s2.loli.net/2025/05/18/svAOWZt68kmCq4G.png)
+
+## 知识库配置
+
+下载好 Word 之后，即可导入 DIFY 知识库进行处理。重点看一下分段标识符这里的配置，是否与你计划的一致。然后点击预览按钮，查看每个区块的分段效果。如下图所示，右侧预览与我文档期待的效果一致。
+
+![知识库配置示例图](https://s2.loli.net/2025/05/18/haUK12t7GfceYIr.png)
+
+下面的嵌入模型和 rerank 模型，选择硅基流动模型即可：
+
+![嵌入模型示意图](https://s2.loli.net/2025/05/18/LOm4fHxaVE3Ibei.png)
+
+保存之后，稍等片刻即可完成嵌入。此时，我们可以直接使用召回测试，看看图文效果。
+
+![召回测试示意图](https://s2.loli.net/2025/05/18/x9lTw5egiMKnc2U.png)
+
+## 问答流程设计
+
+接下来，我们就可以在 chatflow 中插入一个知识检索的节点，选中刚才添加的知识库内容。
+
+![知识检索节点配置](https://s2.loli.net/2025/05/18/uNnBbvhm4ALfCtE.png)
+
+之后，添加一个 LLM 节点，用来对检索到的内容进行二次加工，提示 LLM 进行图文混排，以免模型自动过滤了图片信息。
+
+![LLM节点配置](https://s2.loli.net/2025/05/18/uNnBbvhm4ALfCtE.png)
+
+最终，就可以得到一个图文混排的效果了。
+
+![最终效果展示](https://s2.loli.net/2025/05/18/k4jyVoAgYpHNDX9.png)

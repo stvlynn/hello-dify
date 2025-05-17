@@ -3,7 +3,8 @@
     "pages": [
         "index",
         "workflow",
-        "plugin"
+        "plugin",
+        "knowledge-base"
     ],
     "defaultOpen": true
 }

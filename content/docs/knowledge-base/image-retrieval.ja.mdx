@@ -1,0 +1,69 @@
+---
+title: テキストと画像のナレッジベースで画像コンテンツを出力する方法
+description: Difyナレッジベースでテキストと画像を混在表示する効果を実装し、画像を含む高品質なRAGコンテンツを出力する方法を学ぶ
+enableComments: true
+author: "Ron"
+github_username: "svcvit"
+x_username: "Ron568059256995"
+---
+
+<Callout title="ご注意" type="warn">本記事は中国語で執筆された内容を日本語に翻訳したものです。内容によっては分かりづらい箇所がある場合もございますので、あらかじめご了承ください。</Callout>
+
+<Callout title="原文を読む">
+<a href="https://blog.vcvit.me/2025/04/21/04-dify-knowledge-base-how-to-output-image-content/" target="_blank">一个无人问津的小站</a> - レッスン04：DIFYテキスト・画像ナレッジベースで画像コンテンツを出力する方法
+</Callout>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TdtUzMfub9g?si=plHq27i7KaHQD3Hw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+まず、単にいくつかのPDFを埋め込みモデルに与えるだけで良い結果が得られると期待しないでください。良い結果を得るためには、実際のニーズを理解し、高品質な資料を整理し、RAGの動作原理を理解する必要があります。
+
+以下の図のようなテキストと画像が混在した表示効果をDIFYで作成したい場合は、このチュートリアルを参考にしてください。
+
+![テキストと画像が混在するRAG検索の例](https://s2.loli.net/2025/05/18/Ew1DeZxc7VAqt6K.png)
+
+## 画像ストレージソリューション
+
+DIFYのナレッジベース検索プロセスでテキストと画像を混在させて出力する場合、鍵となるのは画像の保存方法です。現在、2つの解決策があります：
+
+1. 画像をリモートサーバーに保存し、テキストと画像の混在表示ではサーバーから画像を読み込む
+2. 画像をWordドキュメントに保存し、DIFYがWordファイルを解析する際に自動的にリモートアクセス用のURL経路を生成する
+
+このチュートリアルでは、追加のサーバーコストやドメイン設定なしでテキストと画像の混在効果を素早く実装できる2番目のアプローチに焦点を当てています。
+
+## コンテンツの整理
+
+まず、ナレッジベースのコンテンツをWordドキュメントに整理します。Wordファイルの処理中に様々な解析エラーが発生した場合は、コンテンツをFeishu（Lark）ドキュメントに入れてから、Feishuドキュメント機能を使用してWordファイルとしてダウンロードすることができます。これは、Feishuがコンテンツをより標準的なWord形式に標準化し、外部リンクを参照するのではなく、画像をWordファイルに埋め込むと簡単に理解できます。
+
+![Feishuドキュメントの例](https://s2.loli.net/2025/05/18/p97lXjdZaW6teCq.png)
+
+ドキュメントを整理する際は、DIFYのデフォルトのセグメント識別子が段落を正しく認識できるよう、**2つの改行**を区切り文字として使用するようにしてください。もちろん、特殊な識別子を使用し、後でDIFY設定で変更することもできます。例えば、ここでは2つの改行を使用しており、これは`\n\n`に対応します。
+
+![区切り文字の例](https://s2.loli.net/2025/05/18/svAOWZt68kmCq4G.png)
+
+## ナレッジベースの設定
+
+Wordファイルをダウンロードした後、DIFYナレッジベースにインポートして処理できます。セグメント識別子の設定に注意し、計画と一致することを確認してください。次に、プレビューボタンをクリックして、各ブロックのセグメンテーション効果を確認します。以下に示すように、右側のプレビューは私が期待するドキュメント効果と一致しています。
+
+![ナレッジベース設定の例](https://s2.loli.net/2025/05/18/haUK12t7GfceYIr.png)
+
+埋め込みモデルとrerankモデルについては、シリコンベースのフローモデルを選択するだけです：
+
+![埋め込みモデルの図解](https://s2.loli.net/2025/05/18/LOm4fHxaVE3Ibei.png)
+
+保存後、埋め込みが完了するまで少し待ちます。この時点で、検索テストを直接使用してテキストと画像の効果を確認できます。
+
+![検索テストの図解](https://s2.loli.net/2025/05/18/x9lTw5egiMKnc2U.png)
+
+## Q&Aプロセスの設計
+
+次に、chatflowにナレッジ検索ノードを挿入し、先ほど追加したナレッジベースコンテンツを選択できます。
+
+![ナレッジ検索ノードの設定](https://s2.loli.net/2025/05/18/uNnBbvhm4ALfCtE.png)
+
+次に、LLMノードを追加して、取得したコンテンツをさらに処理し、LLMにテキストと画像が混在した形式を維持するよう促します。これにより、モデルが自動的に画像情報をフィルタリングするのを防ぎます。
+
+![LLMノードの設定](https://s2.loli.net/2025/05/18/uNnBbvhm4ALfCtE.png)
+
+最終的に、テキストと画像が混在した表示効果を実現できます。
+
+![最終効果のデモンストレーション](https://s2.loli.net/2025/05/18/k4jyVoAgYpHNDX9.png) 

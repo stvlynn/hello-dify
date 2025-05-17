@@ -1,0 +1,69 @@
+---
+title: How to Output Image Content in a Text-Image Knowledge Base
+description: Learn how to implement text-image mixed display effects in Dify knowledge base, outputting high-quality RAG content with images
+enableComments: true
+author: "Ron"
+github_username: "svcvit"
+x_username: "Ron568059256995"
+---
+
+<Callout title="Note" type="warn">This article was originally written in Chinese, reading may be difficult for non-native speakers.</Callout>
+
+<Callout title="Original Article">
+<a href="https://blog.vcvit.me/2025/04/21/04-dify-knowledge-base-how-to-output-image-content/" target="_blank">一个无人问津的小站</a> - Lesson 04: How to Output Image Content in DIFY Text-Image Knowledge Base
+</Callout>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TdtUzMfub9g?si=plHq27i7KaHQD3Hw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+First, don't expect to get good results by simply feeding a few PDFs to the embedding model. Good results often require you to understand your actual needs, organize high-quality materials, and understand the operating principles of RAG.
+
+If you want to use DIFY to create text-image mixed display effects as shown below, refer to this tutorial.
+
+![Example of text-image mixed RAG retrieval](https://s2.loli.net/2025/05/18/Ew1DeZxc7VAqt6K.png)
+
+## Image Storage Solutions
+
+When outputting mixed text and images in the DIFY knowledge base retrieval process, the key is image storage. Currently, there are two solutions:
+
+1. Store images on a remote server, so text-image mixing actually loads images from the server
+2. Store images in Word documents, where DIFY automatically generates URL paths for remote access when parsing the Word file
+
+This tutorial focuses on the second approach, which allows you to quickly implement text-image mixing effects without additional server costs and domain configuration.
+
+## Content Organization
+
+First, organize your knowledge base content into a Word document. If you encounter various parsing errors when processing Word files, you can first put your content into a Feishu (Lark) document, then use the Feishu document features to download it as a Word file. You can simply understand this as Feishu standardizing your content into a more standard Word format, embedding images in the Word file rather than referencing external links.
+
+![Feishu document example](https://s2.loli.net/2025/05/18/p97lXjdZaW6teCq.png)
+
+When organizing your document, try to use **two line breaks** as separators, which helps DIFY's default segment identifier correctly recognize paragraphs. Of course, you can also use special identifiers and modify them later in the DIFY configuration. For example, I use two line breaks here, which corresponds to `\n\n`.
+
+![Separator example](https://s2.loli.net/2025/05/18/svAOWZt68kmCq4G.png)
+
+## Knowledge Base Configuration
+
+After downloading the Word file, you can import it into the DIFY knowledge base for processing. Pay attention to the segment identifier configuration to ensure it matches your plan. Then click the preview button to check the segmentation effect of each block. As shown below, the preview on the right matches my expected document effect.
+
+![Knowledge base configuration example](https://s2.loli.net/2025/05/18/haUK12t7GfceYIr.png)
+
+For the embedding model and rerank model, simply select the silicon-based flow model:
+
+![Embedding model illustration](https://s2.loli.net/2025/05/18/LOm4fHxaVE3Ibei.png)
+
+After saving, wait a moment for the embedding to complete. At this point, we can directly use retrieval testing to see the text-image effect.
+
+![Retrieval test illustration](https://s2.loli.net/2025/05/18/x9lTw5egiMKnc2U.png)
+
+## Q&A Process Design
+
+Next, we can insert a knowledge retrieval node in the chatflow and select the knowledge base content we just added.
+
+![Knowledge retrieval node configuration](https://s2.loli.net/2025/05/18/uNnBbvhm4ALfCtE.png)
+
+Then, add an LLM node to further process the retrieved content, prompting the LLM to maintain the text-image mixed format, preventing the model from automatically filtering out image information.
+
+![LLM node configuration](https://s2.loli.net/2025/05/18/uNnBbvhm4ALfCtE.png)
+
+Finally, you'll be able to achieve a text-image mixed display effect.
+
+![Final effect demonstration](https://s2.loli.net/2025/05/18/k4jyVoAgYpHNDX9.png)
