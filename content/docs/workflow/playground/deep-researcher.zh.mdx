@@ -1,0 +1,82 @@
+---
+title: "Deep Researcher"
+description: "5分钟内生成万字级结构化研究报告的多模型协作工作流"
+enableComments: true
+author: "AdamPlatin123"
+github_username: "AdamPlatin123"
+---
+
+⬇️ 先睹为快
+
+<iframe
+ src="https://instance.hellodify.com/chatbot/NKZ90sIADQ1PFxOz"
+ style={{
+   width: '100%',
+   minHeight: '600px'
+ }}
+ frameBorder="0"
+ allow="microphone">
+</iframe>
+
+---
+
+## 📖 概述
+
+Deep Researcher 工作流基于Dify平台构建，复现了Deep Research的核心功能，通过整合多源检索（本地知识库+网络搜索）与多模型协作，可在5分钟内生成万字级结构化研究报告。系统采用模块化设计，支持灵活替换底层模型与数据源。
+
+
+## ✨ 核心功能
+
+### 智能主题解析  
+使用Gemini 2.0 Flash模型进行多层级主题拆解，支持4个维度深度分析
+
+### 混合检索引擎  
+`本地知识库 + 维基百科/Google/Bing API` 多通道检索
+
+### 动态节奏控制  
+采用2>1模型级联架构，通过条件分支和对话轮次标记实现处理节奏优化
+
+### 高效报告生成  
+集成deepseek-r1-distill等模型实现段落级内容生成，支持Markdown结构化输出
+
+## 🛠️ 技术架构
+
+工作流采用以下架构：
+<Mermaid
+  chart="
+graph TD
+    A[用户提问] --> B{主题解析}
+    B --> F[问题生成]
+    F --> H[用户回答]
+    H --> C
+    B --> I[主题分析]
+    I --> C{次级主题提取}
+    C --> D[混合迭代检索引擎]
+    D --> E[多模型协作生成]
+    E --> G[结构化报告]
+    
+    style B fill:#4CAF50,stroke:#388E3C
+    style D fill:#2196F3,stroke:#1565C0
+  "
+/>
+
+## ⚠️ 注意事项
+
+### 性能优化建议
+
+工作流原则上支持任何模型，使用本地模型请求压力较大时可能会触发LLM节点的`Timepouterror`可以考虑切换线上API服务或是在Dify配置文件中修改timeout时间。
+
+若为Google免费API用户可以插入本地模型节点对RPM进行限流（Google默认限流为15RPM，若短时间请求过多会报错）
+
+---
+
+<Cards>
+  <Card 
+    icon={<i className="ri-flow-chart" />} 
+    href="https://discord.gg/drd3HnTv" 
+    title="获取工作流"
+  >
+  <p>加入 FirstLab 获取 DSL 文件</p>
+    <img src="https://s2.loli.net/2025/05/15/HFT2SE3uIyMflG4.png" alt="Deep Researcher" />
+  </Card>
+</Cards>

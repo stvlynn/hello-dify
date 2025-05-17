@@ -3,6 +3,7 @@
     "icon": "run-line",
     "defaultOpen": true,
     "pages": [
+        "deep-researcher",
         "hanyuxinjie",
         "twitter-yearly-kanji"
     ]
