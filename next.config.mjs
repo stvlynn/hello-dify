@@ -29,7 +29,7 @@ config.headers = async () => [
     headers: [
       {
         key: 'Content-Security-Policy',
-        value: "frame-ancestors 'self' *.hellodify.com; frame-src 'self' *.hellodify.com http://*.hellodify.com https://*.hellodify.com https://giscus.app; child-src 'self' *.hellodify.com http://*.hellodify.com https://*.hellodify.com https://giscus.app; img-src 'self' data: *.hellodify.com http://*.hellodify.com https://*.hellodify.com s2.loli.net https://avatars.githubusercontent.com https://twimg.com https://pbs.twimg.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://giscus.app; connect-src 'self' https://api.github.com;"
+        value: "frame-ancestors 'self' *.hellodify.com; frame-src 'self' *.hellodify.com http://*.hellodify.com https://*.hellodify.com https://giscus.app; child-src 'self' *.hellodify.com http://*.hellodify.com https://*.hellodify.com https://giscus.app; img-src 'self' data: *.hellodify.com http://*.hellodify.com https://*.hellodify.com s2.loli.net https://avatars.githubusercontent.com https://twimg.com https://pbs.twimg.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://giscus.app https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://analytics.google.com;"
       }
     ]
   }

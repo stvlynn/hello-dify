@@ -44,16 +44,22 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   
   // 根据不同语言设置不同的标题和描述
   const titles = {
-    en: 'Hello Dify - Learn and Share Dify Best Practices',
-    zh: 'Hello Dify - 学习和分享Dify最佳实践',
-    ja: 'Hello Dify - Difyベストプラクティスを学び共有する'
+    en: 'Hello Dify - Dify Tutorials with Best Practice',
+    zh: 'Hello Dify - 全网最齐全的免费Dify教程与最佳实践',
+    ja: 'Hello Dify - Dify チュートリアルとベストプラクティス'
   };
 
   const descriptions = {
-    en: 'Guide and best practices to help newcomers get started with Dify easily',
-    zh: '帮助新手轻松上手Dify的指南与最佳实践',
-    ja: '初心者がDifyを簡単に始められるガイドとベストプラクティス'
+    en: 'Dify tutorials, guides, and best practices for building AI workflows and applications with Dify',
+    zh: 'Dify教程、入门指南与最佳实践，涵盖AI应用与工作流构建',
+    ja: 'Difyのチュートリアル、ガイド、ベストプラクティスでAIアプリとワークフローを構築'
   };
+
+  const keywordsMap = {
+    en: ['Dify', 'Dify tutorial', 'Dify guide', 'Dify best practices', 'AI workflow', 'AI application'],
+    zh: ['Dify', 'Dify教程', 'Dify指南', 'Dify最佳实践', 'AI工作流', 'AI应用'],
+    ja: ['Dify', 'Difyチュートリアル', 'Difyガイド', 'Difyベストプラクティス', 'AIワークフロー', 'AIアプリ']
+  } as const;
 
   const locales = {
     en: 'en_US',
@@ -63,11 +69,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   const title = titles[lang as keyof typeof titles] || titles.en;
   const description = descriptions[lang as keyof typeof descriptions] || descriptions.en;
+  const keywords = keywordsMap[lang as keyof typeof keywordsMap] || keywordsMap.en;
   const locale = locales[lang as keyof typeof locales] || locales.en;
 
   return {
     title,
     description,
+    keywords,
     icons: {
       icon: '/images/favicon.png',
       apple: '/images/favicon.png',
