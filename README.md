@@ -1,11 +1,23 @@
 # Hello Dify
 
 <p align="center">
+  <a href="README.md">English</a> |
+  <a href="README.zh.md">中文</a> |
+  <a href="README.ja.md">日本語</a> |
+  <a href="README.pt.md">Português</a>
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/PwZDHH4mv3"><img src="https://img.shields.io/badge/Discord-Join%20Community-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
+  <a href="https://twitter.com/FirstLabAI"><img src="https://img.shields.io/badge/Twitter-Follow%20@FirstLabAI-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter"></a>
+</p>
+
+<p align="center">
   <img src="./public/images/hello-dify.png" alt="Hello Dify Logo" width="180" />
 </p>
 
 <p align="center">
-  A FirstLab project designed to help newcomers quickly learn Dify through best practices.
+  Free online tutorials, guides, and best practices for building AI workflows and applications with Dify.
 </p>
 
 <p align="center">
@@ -13,7 +25,7 @@
   ·
   <a href="https://github.com/stvlynn/hello-dify/issues">Report Bug</a>
   ·
-  <a href="https://github.com/stvlynn/hello-dify/issues">Request Feature</a>
+  <a href="https://github.com/stvlynn/hello-dify/issues">Contribute Usecases</a>
 </p>
 
 ## What is this?
@@ -33,16 +45,20 @@ Hello Dify is a documentation website. It serves as:
 - 🎨 **Modern UI**: Clean, accessible interface with dark mode support
 - 📚 **Comprehensive Guides**: Step-by-step tutorials for beginners and advanced users
 
-## Internationalization (i18n)
+## Contributing
 
-Hello Dify supports multiple languages through a well-structured internationalization system. To help contributors with the i18n process:
+Want to contribute to Hello Dify? Here's how you can help:
 
-- **Cursor Rules Integration**: When using Cursor IDE, you can quickly access i18n guidelines by using `cursor rules:@i18n.mdc`
-- **Streamlined Workflow**: This rule provides templates for translation and automates the meta.json configuration
-- **File Naming Conventions**: Follow the pattern `filename.{lang}.mdx` for content files (e.g., `index.mdx`, `index.zh.mdx`, `index.ja.mdx`)
-- **Translation Status**: English content is considered the source of truth, with Chinese and Japanese translations maintained in parallel
+- **Fork & Clone**: Fork the repository and clone it to your local machine
+- **Create Content**: Add your examples or improvements following our document structure
+- **Multi-language Support**: You must create all three language versions of each document:
+  - English (base version): `document.mdx`
+  - Chinese: `document.zh.mdx`
+  - Japanese: `document.ja.mdx`
+- **Test Your Changes**: Run `yarn build` to ensure everything compiles correctly (**all three language files are required for successful compilation**)
+- **Submit PR**: Create a branch and submit a pull request with your changes
 
-The i18n rule helps ensure consistent structure across all language versions while maintaining the unique linguistic nuances of each translation.
+For detailed contribution guidelines, see our [contribution documentation](content/docs/contributing.mdx).
 
 ## Technology Stack
 
@@ -80,8 +96,6 @@ hello-dify/
 ## Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=stvlynn/hello-dify)](https://github.com/stvlynn/hello-dify/graphs/contributors)
-
-Want to contribute? Check out our [contribution guidelines](content/docs/contributing.mdx).
 
 ## License
 
