@@ -1,0 +1,246 @@
+---
+title: 貢献について
+description: "Hello Difyに貢献する"
+enableComments: true
+author: "Steven Lynn"
+github_username: "stvlynn"
+x_username: "Stv_Lynn"
+---
+
+## 事例の貢献
+
+このプロジェクトに事例を提供したい場合は、以下の手順に従ってください：
+
+### 1. プロジェクトをフォークする
+
+<Cards>
+  <Card 
+    icon={<i className="ri-git-fork-line" />} 
+    href="https://github.com/stvlynn/hello-dify/fork" 
+    title="リポジトリをフォーク"
+  >
+    Hello Difyをフォークする
+  </Card>
+</Cards>
+
+### 2. フォークしたプロジェクトをクローンする
+
+プロジェクトをフォークした後、フォークしたプロジェクトのgitリンクをコピーします（例：`https://github.com/あなたのユーザー名/hello-dify.git`）
+
+![image.png](https://s2.loli.net/2025/05/18/PvtSY6hZ4xsO8FN.png)
+
+ターミナルを開き、希望の場所に移動し、次のコマンドを使用してプロジェクトをクローンします：
+
+```shell
+git clone https://github.com/あなたのユーザー名/hello-dify.git
+```
+
+### 3. MDXドキュメントを編集する
+
+文書作成にはAIアシスト機能を備えたIDE（Cursor、Windsurf、Clineなど）の使用を強くお勧めします。
+
+新しいウィンドウを開き、ディレクトリを選択してプロジェクトに入ります。
+
+プロジェクトのディレクトリ構造は以下の通りです：
+
+```
+content/                   # メインコンテンツディレクトリ
+├── docs/                  # すべてのドキュメントリソース
+│   ├── index.{lang}.mdx   # ホームページ文書
+│   ├── meta.{lang}.json   # メタデータ設定
+│   ├── contributing.{lang}.mdx # 貢献ガイドライン
+│   ├── knowledge-base/    # ナレッジベース関連文書
+│   │   ├── meta.{lang}.json    # ナレッジベースセクションのメタデータ
+│   │   └── image-retrieval.{lang}.mdx # テキスト画像ナレッジベースのドキュメント
+│   ├── plugin/            # プラグイン関連文書
+│   │   ├── meta.{lang}.json    # プラグインセクションのメタデータ
+│   │   └── ... 各種プラグインのドキュメント
+│   └── workflow/          # ワークフロー関連文書
+│       ├── meta.{lang}.json    # ワークフローセクションのメタデータ
+│       ├── node/              # ノード固有のドキュメント
+│       │   └── ... ノード関連文書
+│       ├── workflow-chatflow-difference.{lang}.mdx # ワークフローとチャットフローの比較
+│       └── twitter-mbti-receipt.{lang}.mdx # Twitter MBTIの事例
+```
+
+各ドキュメントディレクトリは、以下の基本原則に従っています：
+
+1. `meta.{lang}.json`ファイル：ナビゲーションメニューにおけるドキュメントの表示順序と構造を制御します。例：
+   ```json
+   {
+       "title": "ドキュメントタイトル",
+       "icon": "アイコン名",
+       "defaultOpen": true,
+       "pages": [
+           "ドキュメント1",
+           "ドキュメント2",
+           "サブディレクトリ"
+       ]
+   }
+   ```
+   このプロジェクトでは[RemixIcon](https://remixicon.com/)をアイコンとして使用しています
+
+2. ドキュメントファイル（`*.mdx`）：実際の内容、frontmatter（ファイル上部のYAML情報ブロック）を含める必要があります。例：
+   ```yaml
+   ---
+   title: ドキュメントタイトル
+   description: ドキュメント説明
+   enableComments: true
+   author: "著者名"
+   github_username: "GitHubユーザー名"
+   x_username: "Xユーザー名"
+   ---
+   ```
+
+3. サブディレクトリ：より具体的なコンテンツカテゴリ、各サブディレクトリには独自の`meta.{lang}.json`ファイルが必要です
+
+ドキュメントのファイル名は`document.{lang}.mdx`の形式に従います
+
+英語ドキュメント：`document.mdx`
+中国語ドキュメント：`document.zh.mdx`
+日本語ドキュメント：`document.ja.mdx`
+
+#### 国際化（i18n）
+
+一つの言語でコンテンツを書くだけで、Cursorが残りの作業を手伝ってくれます。
+
+このプロジェクトには内蔵のCursorルールがあります：`.cursor/rules/i18n.mdc`
+
+`@`を使って`i8n.mdc`を追加する必要があります。以下のプロンプトを参考にしてください：
+
+```
+Help me i18n xxx.{lang}.mdx, translate to xxx
+```
+
+![image.png](https://s2.loli.net/2025/05/18/PwH4iSQTJGpLtkv.png)
+
+Cursorルールには、ファイル名と`meta.{lang}.json`の設定方法についての指示が含まれています。
+
+#### 画像
+
+このプロジェクトは`next.config.mjs`を通じてドメインホワイトリストを制御しています。現在、集中的な画像管理のために[sm.ms](https://sm.ms)が画像ホスティングサービスとして許可されています。
+
+他の画像ホスティングソリューションを使用する場合は、`next.config.mjs`を修正してください。ただし、統一された保存の原則に従ってください。
+
+スクリーンショットを撮る前に言語を英語に設定することを強くお勧めします。これにより、異なる言語の読者が内容を理解しやすくなります。
+
+### 4. テスト
+
+提出する前に、ローカルテストを完了して正しくコンパイルされることを確認してください。テスト手順は以下の通りです：
+
+#### 依存関係のインストール
+
+まず、すべての依存関係がインストールされていることを確認します：
+
+```bash
+# npmを使用する場合
+npm install
+
+# またはyarnを使用する場合
+yarn
+```
+
+#### ローカルで実行
+
+開発サーバーを起動して結果を確認します：
+
+```bash
+# npmを使用する場合
+npm run dev
+
+# またはyarnを使用する場合
+yarn dev
+```
+
+`http://localhost:3000`にアクセスして、ドキュメントが正しく表示されるか確認します。
+
+#### i18n完全性チェック
+
+**重要な注意**：すべての言語バージョンのドキュメントを完成させてください。デフォルトでは、英語（`.mdx`）ファイルを作成しないと、他の言語のドキュメントはコンパイルに失敗します。
+
+必要なファイル：
+
+1. 英語版（基本バージョン）：`document.mdx`
+2. 中国語版：`document.zh.mdx`
+3. 日本語版：`document.ja.mdx`
+4. 各言語のメタデータファイル：`meta.json`、`meta.zh.json`、`meta.ja.json`
+
+チェック方法：
+
+- `yarn build`または`npm run build`を実行してビルドをテストします
+- コンソールにコンパイルエラーがあるかどうかを確認します
+- 一般的なエラーには以下が含まれます：
+  - 特定の言語のドキュメントの欠落
+  - frontmatterフォーマットエラー
+  - meta.jsonで存在しないドキュメントを参照している
+  - 画像リンクの破損
+
+コンパイルエラーが見つかった場合は、提出する前にエラーメッセージに基づいて問題を修正してください。
+
+#### すべての言語バージョンをテストする
+
+異なる言語を切り替えてドキュメントを表示します：
+- 英語版：`http://localhost:3000/en/docs/...`
+- 中国語版：`http://localhost:3000/zh/docs/...`
+- 日本語版：`http://localhost:3000/ja/docs/...`
+
+すべての言語バージョンが正しく表示され、内容に一貫性があることを確認してください。
+
+### 5. 提出
+
+IDEで<i className="ri-git-fork-line" />をクリックし、<i className="ri-more-line"></i>をクリックして、**ブランチ -> ブランチを作成**を選択します：
+
+![2025-05-18 15.55.32.png](https://s2.loli.net/2025/05/18/Vkj1gZ2CQy6iwpX.png)
+
+ブランチ名を入力します。ドキュメントのみを追加した場合は、`docs/ドキュメント名`と呼ぶことができます。
+
+![2025-05-18 15.56.41.png](https://s2.loli.net/2025/05/18/kGMVveXt5DKlBjZ.png)
+
+下のボタンをクリックし、作成したブランチを選択して、PR（プルリクエスト）を完了します
+
+<Cards>
+  <Card 
+    icon={<i className="ri-git-pr-draft-line" />} 
+    href="https://github.com/stvlynn/hello-dify/compare" 
+    title="プルリクエスト"
+  >
+    PRを作成
+  </Card>
+</Cards>
+
+---
+
+## 事例やフィードバックを提出する
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill ri-lg" />} 
+    href="https://github.com/stvlynn/hello-dify/issues/new" 
+    title="GitHub Issue"
+  >
+    このプロジェクトに事例やフィードバックを提出する
+  </Card>
+</Cards>
+
+事例を提出し、内容の作成を手伝ってほしい場合は、このリポジトリにIssueを提出できます。
+
+Issue形式の参考：
+
+```markdown
+## タイトル
+[ここに事例のタイトルを入力]
+
+## 説明
+[この事例の機能と目的を簡単に説明]
+
+## プロジェクトリンク
+[WorkflowのDSLファイルなど、プロジェクトのリンクをリスト]
+
+## 原文リンク
+[プロジェクトのREADMEなど、事例に関連する原文、リンク、または文書を提供]
+
+## その他の情報
+[指定する必要があるその他の情報]
+```
+
+提出されたIssueをレビューし、受け入れ後に対応するドキュメントを作成します。質問や詳細な議論が必要な場合は、Issueにコメントを残してください。 

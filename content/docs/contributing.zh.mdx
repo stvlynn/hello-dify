@@ -1,0 +1,250 @@
+---
+title: 贡献
+description: "给 Hello Dify 提供用例"
+enableComments: true
+author: "Steven Lynn"
+github_username: "stvlynn"
+x_username: "Stv_Lynn"
+---
+
+## 贡献用例
+
+如果你希望向本项目提交用例，请按以下步骤来进行：
+
+### 1. Fork 本项目
+
+<Cards>
+  <Card 
+    icon={<i className="ri-git-fork-line" />} 
+    href="https://github.com/stvlynn/hello-dify/fork" 
+    title="Fork Repository"
+  >
+    复刻 Hello Dify
+  </Card>
+</Cards>
+
+### 2. 拉取复刻项目到本地
+
+Fork 项目后，复制项目的 git 链接，例如 `https://github.com/你的用户名/hello-dify.git`
+
+![image.png](https://s2.loli.net/2025/05/18/PvtSY6hZ4xsO8FN.png)
+
+进入终端，在需要的位置克隆项目，使用以下命令：
+
+```shell
+git clone https://github.com/你的用户名/hello-dify.git
+```
+
+### 3. 编辑 mdx 文档
+
+我们非常推荐你使用 AI 辅助的 IDE 完成文档撰写（例如 Cursor、Windsurf、Cline等）。
+
+新建窗口，选择目录进入项目。
+
+本项目的目录结构如下：
+
+```
+content/                   # 文档内容主目录
+├── docs/                  # 所有文档资源
+│   ├── index.{lang}.mdx   # 首页文档
+│   ├── meta.{lang}.json   # 元数据配置
+│   ├── contributing.{lang}.mdx # 贡献指南
+│   ├── knowledge-base/    # 知识库相关文档
+│   │   ├── meta.{lang}.json    # 知识库板块元数据
+│   │   └── image-retrieval.{lang}.mdx # 图文知识库文档
+│   ├── plugin/            # 插件相关文档
+│   │   ├── meta.{lang}.json    # 插件板块元数据
+│   │   └── ... 各种插件文档
+│   └── workflow/          # 工作流相关文档
+│       ├── meta.{lang}.json    # 工作流板块元数据
+│       ├── node/              # 节点特定文档
+│       │   └── ... 节点相关文档
+│       ├── workflow-chatflow-difference.{lang}.mdx # 工作流和对话流比较
+│       └── twitter-mbti-receipt.{lang}.mdx # Twitter MBTI 案例
+```
+
+其中，每个文档目录下的结构基本遵循以下原则：
+
+1. `meta.{lang}.json`文件：控制该目录下的文档在导航菜单中的显示顺序和结构，例如：
+   ```json
+   {
+       "title": "文档标题",
+       "icon": "图标名称",
+       "defaultOpen": true,
+       "pages": [
+           "文档名1",
+           "文档名2",
+           "子目录名"
+       ]
+   }
+   ```
+   本项目使用的图标包是 [RemixIcon](https://remixicon.com/)
+
+2. 文档文件（`*.mdx`）：实际内容，必须包含frontmatter（文件头部的YAML信息块），例如：
+   ```yaml
+   ---
+   title: 文档标题
+   description: 文档描述
+   enableComments: true
+   author: "作者名"
+   github_username: "GitHub用户名"
+   x_username: "X用户名"
+   ---
+   ```
+
+3. 子目录：更细分的内容类别，每个子目录也需要有自己的`meta.{lang}.json`文件
+
+文档的文件名格式是 `document.{lang}.mdx`
+
+中文文档为： `document.zh.mdx`
+英文文档为： `document.en.mdx`
+日文文档为： `document.ja.mdx`
+
+#### 多语言化（i18n）
+
+你只需要写一个语言的内容，剩下的可以交给 Cursor 来完成。
+
+本项目内置了 Cursor rule： `.cursor/rules/i18n.mdc`
+
+你需要通过 `@` 添加 `i8n.mdc` ，以下的 prompt 可以作为参考：
+
+```
+帮我把 xxx.{lang}.mdx i8n，翻译为xxx
+```
+
+![image.png](https://s2.loli.net/2025/05/18/PwH4iSQTJGpLtkv.png)
+
+Cursor rule 中内置了如何配置文件名、`meta.{lang}.json`。
+
+#### 图片
+
+本项目通过 `next.config.mjs` 控制域名白名单，目前放行的图床是 [sm.ms](https://sm.ms)，方便集中管理图片。
+
+如果你使用了其他图片托管方案，请修改 `next.config.mjs`，但依然要遵循统一存放的原则。
+
+我们强烈建议你在在截图之前将语言设置为英文，方便不同语言的读者阅读。
+
+### 4. 测试
+
+在提交之前，请先完成本地测试确保能够正确编译。下面是测试步骤：
+
+#### 安装依赖
+
+首先，确保已安装所有依赖：
+
+```bash
+# 使用 npm
+npm install
+
+# 或使用 yarn
+yarn
+```
+
+#### 本地运行
+
+启动开发服务器查看效果：
+
+```bash
+# 使用 npm
+npm run dev
+
+# 或使用 yarn
+yarn dev
+```
+
+访问 `http://localhost:3000` 检查你的文档是否正确显示。
+
+#### i18n 完整性检查
+
+**重要提示**：确保完成所有语言版本的文档。默认情况下，如果没有创建英语（`.mdx`）文件，其他语言的文档都无法通过编译。
+
+必须完成的文件：
+
+1. 英文版本（基础版本）：`document.mdx`
+2. 中文版本：`document.zh.mdx`
+3. 日文版本：`document.ja.mdx`
+4. 各语言的元数据文件：`meta.json`、`meta.zh.json`、`meta.ja.json`
+
+检查方法：
+
+- 运行 `yarn build` 或 `npm run build` 进行构建测试
+- 观察控制台是否有编译错误
+- 常见的错误包括：
+  - 缺失某语言版本的文档
+  - frontmatter格式错误
+  - meta.json中引用了不存在的文档
+  - 图片链接失效
+
+如果发现编译错误，请根据错误信息修复问题后再提交。
+
+#### 测试所有语言版本
+
+切换不同语言查看文档：
+- 英文版：`http://localhost:3000/en/docs/...`
+- 中文版：`http://localhost:3000/zh/docs/...`
+- 日文版：`http://localhost:3000/ja/docs/...`
+
+确保所有语言版本都能正确显示，并且内容一致。
+
+### 5. 提交
+
+在 IDE 中，点击 <i className="ri-git-fork-line" />，点击 <i class="ri-more-line"></i>，选择 **分支 -> 创建分支**:
+
+![2025-05-18 15.55.32.png](https://s2.loli.net/2025/05/18/Vkj1gZ2CQy6iwpX.png)
+
+输入分支名称，如果你只添加了文档，可以叫做 `docs/文档名称`。
+
+![2025-05-18 15.56.41.png](https://s2.loli.net/2025/05/18/kGMVveXt5DKlBjZ.png)
+
+点击下面的按钮，选择刚刚创建的分支，完成 PR(Pull Request)
+
+<Cards>
+  <Card 
+    icon={<i className="ri-git-pr-draft-line" />} 
+    href="https://github.com/stvlynn/hello-dify/compare" 
+    title="Pull Request"
+  >
+    创建 PR
+  </Card>
+</Cards>
+
+---
+
+## 提交用例或反馈
+
+如果你希望提交用例，且希望我们来帮助你完成正文的话，可以向本仓库提交Issue。
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill ri-lg" />} 
+    href="https://github.com/stvlynn/hello-dify/issues/new" 
+    title="GitHub Issue"
+  >
+    向本项目提交用例或反馈
+  </Card>
+</Cards>
+
+Issue格式参考如下：
+
+```markdown
+## 标题
+[这里填写用例标题]
+
+## 描述
+[简单描述这个用例的功能和目的]
+
+## 项目链接
+[列出项目的链接，比如 Workflow 的 DSL 文件]
+
+## 原文链接
+[提供与用例相关的原文、链接或文档，比如项目 README]
+
+## 其他信息
+[任何其他需要说明的内容]
+```
+
+我们的会评审您提交的Issue，并在接受后为您创建相应的文档。如有问题或需要进一步讨论，请在Issue中留言。
+
+
+
+

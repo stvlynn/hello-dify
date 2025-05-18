@@ -1,0 +1,246 @@
+---
+title: Contributing
+description: "Contribute to Hello Dify"
+enableComments: true
+author: "Steven Lynn"
+github_username: "stvlynn"
+x_username: "Stv_Lynn"
+---
+
+## Contributing Examples
+
+If you wish to contribute examples to this project, please follow these steps:
+
+### 1. Fork the Project
+
+<Cards>
+  <Card 
+    icon={<i className="ri-git-fork-line" />} 
+    href="https://github.com/stvlynn/hello-dify/fork" 
+    title="Fork Repository"
+  >
+    Fork Hello Dify
+  </Card>
+</Cards>
+
+### 2. Clone the Forked Project
+
+After forking the project, copy the git link of your forked project, such as `https://github.com/your-username/hello-dify.git`
+
+![image.png](https://s2.loli.net/2025/05/18/PvtSY6hZ4xsO8FN.png)
+
+Open a terminal, navigate to the desired location, and clone the project using the following command:
+
+```shell
+git clone https://github.com/your-username/hello-dify.git
+```
+
+### 3. Edit MDX Documents
+
+We highly recommend using AI-assisted IDEs for document writing (such as Cursor, Windsurf, Cline, etc.).
+
+Open a new window and select the directory to enter the project.
+
+The project directory structure is as follows:
+
+```
+content/                   # Main content directory
+├── docs/                  # All document resources
+│   ├── index.{lang}.mdx   # Homepage documents
+│   ├── meta.{lang}.json   # Metadata configuration
+│   ├── contributing.{lang}.mdx # Contribution guidelines
+│   ├── knowledge-base/    # Knowledge base related documents
+│   │   ├── meta.{lang}.json    # Knowledge base section metadata
+│   │   └── image-retrieval.{lang}.mdx # Text-image knowledge base docs
+│   ├── plugin/            # Plugin related documents
+│   │   ├── meta.{lang}.json    # Plugin section metadata
+│   │   └── ... Various plugin documents
+│   └── workflow/          # Workflow related documents
+│       ├── meta.{lang}.json    # Workflow section metadata
+│       ├── node/              # Node-specific documents
+│       │   └── ... Node related documents
+│       ├── workflow-chatflow-difference.{lang}.mdx # Workflow and Chatflow comparison
+│       └── twitter-mbti-receipt.{lang}.mdx # Twitter MBTI case
+```
+
+Each document directory follows these basic principles:
+
+1. `meta.{lang}.json` file: Controls the display order and structure of documents in the navigation menu, for example:
+   ```json
+   {
+       "title": "Document Title",
+       "icon": "Icon Name",
+       "defaultOpen": true,
+       "pages": [
+           "document1",
+           "document2",
+           "subdirectory"
+       ]
+   }
+   ```
+   This project uses [RemixIcon](https://remixicon.com/) for icons
+
+2. Document files (`*.mdx`): Actual content, must include frontmatter (YAML information block at the top of the file), for example:
+   ```yaml
+   ---
+   title: Document Title
+   description: Document Description
+   enableComments: true
+   author: "Author Name"
+   github_username: "GitHub Username"
+   x_username: "X Username"
+   ---
+   ```
+
+3. Subdirectories: More specific content categories, each subdirectory needs its own `meta.{lang}.json` file
+
+Document filenames follow the format `document.{lang}.mdx`
+
+English documents: `document.mdx`
+Chinese documents: `document.zh.mdx`
+Japanese documents: `document.ja.mdx`
+
+#### Internationalization (i18n)
+
+You only need to write content in one language, and Cursor can help complete the rest.
+
+This project has a built-in Cursor rule: `.cursor/rules/i18n.mdc`
+
+You need to add `i8n.mdc` using `@`, the following prompt can be used as a reference:
+
+```
+Help me i18n xxx.{lang}.mdx, translate to xxx
+```
+
+![image.png](https://s2.loli.net/2025/05/18/PwH4iSQTJGpLtkv.png)
+
+The Cursor rule includes instructions on how to configure filenames and `meta.{lang}.json`.
+
+#### Images
+
+This project controls domain whitelists through `next.config.mjs`. Currently, [sm.ms](https://sm.ms) is allowed as the image hosting service for centralized image management.
+
+If you use other image hosting solutions, please modify `next.config.mjs`, but still follow the principle of unified storage.
+
+We strongly recommend setting your language to English before taking screenshots, to make it easier for readers of different languages.
+
+### 4. Testing
+
+Before submitting, please complete local testing to ensure correct compilation. Here are the testing steps:
+
+#### Install Dependencies
+
+First, make sure all dependencies are installed:
+
+```bash
+# Using npm
+npm install
+
+# Or using yarn
+yarn
+```
+
+#### Run Locally
+
+Start the development server to check the result:
+
+```bash
+# Using npm
+npm run dev
+
+# Or using yarn
+yarn dev
+```
+
+Visit `http://localhost:3000` to check if your document displays correctly.
+
+#### i18n Completeness Check
+
+**Important Note**: Make sure to complete all language versions of the documents. By default, if you don't create English (`.mdx`) files, documents in other languages will fail to compile.
+
+Required files:
+
+1. English version (base version): `document.mdx`
+2. Chinese version: `document.zh.mdx`
+3. Japanese version: `document.ja.mdx`
+4. Metadata files for each language: `meta.json`, `meta.zh.json`, `meta.ja.json`
+
+Check method:
+
+- Run `yarn build` or `npm run build` to test the build
+- Observe if there are any compilation errors in the console
+- Common errors include:
+  - Missing document in a particular language
+  - Frontmatter format errors
+  - Referencing non-existent documents in meta.json
+  - Broken image links
+
+If you find compilation errors, please fix the issues based on the error messages before submitting.
+
+#### Test All Language Versions
+
+Switch between different languages to view the documents:
+- English version: `http://localhost:3000/en/docs/...`
+- Chinese version: `http://localhost:3000/zh/docs/...`
+- Japanese version: `http://localhost:3000/ja/docs/...`
+
+Make sure all language versions display correctly and have consistent content.
+
+### 5. Submission
+
+In your IDE, click <i className="ri-git-fork-line" />, click <i className="ri-more-line"></i>, and select **Branch -> Create Branch**:
+
+![2025-05-18 15.55.32.png](https://s2.loli.net/2025/05/18/Vkj1gZ2CQy6iwpX.png)
+
+Enter a branch name. If you only added documentation, you can call it `docs/document-name`.
+
+![2025-05-18 15.56.41.png](https://s2.loli.net/2025/05/18/kGMVveXt5DKlBjZ.png)
+
+Click the button below, select the branch you just created, and complete the PR (Pull Request)
+
+<Cards>
+  <Card 
+    icon={<i className="ri-git-pr-draft-line" />} 
+    href="https://github.com/stvlynn/hello-dify/compare" 
+    title="Pull Request"
+  >
+    Create PR
+  </Card>
+</Cards>
+
+---
+
+## Submit Examples or Feedback
+
+<Cards>
+  <Card 
+    icon={<i className="ri-github-fill ri-lg" />} 
+    href="https://github.com/stvlynn/hello-dify/issues/new" 
+    title="GitHub Issue"
+  >
+    Submit examples or feedback to this project
+  </Card>
+</Cards>
+
+If you want to submit an example and would like us to help you complete the content, you can submit an Issue to this repository.
+
+Issue format reference:
+
+```markdown
+## Title
+[Enter example title here]
+
+## Description
+[Briefly describe the function and purpose of this example]
+
+## Project Link
+[List project links, such as Workflow DSL files]
+
+## Original Link
+[Provide original content, links, or documents related to the example, such as project README]
+
+## Other Information
+[Any other information that needs to be specified]
+```
+
+We will review your submitted Issue and create the corresponding document after acceptance. If you have any questions or need further discussion, please leave a comment in the Issue.

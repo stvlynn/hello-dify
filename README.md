@@ -81,7 +81,7 @@ hello-dify/
 
 [![Contributors](https://contrib.rocks/image?repo=stvlynn/hello-dify)](https://github.com/stvlynn/hello-dify/graphs/contributors)
 
-Want to contribute? Check out our [contribution guidelines](CONTRIBUTING.md).
+Want to contribute? Check out our [contribution guidelines](content/docs/contributing.mdx).
 
 ## License
 

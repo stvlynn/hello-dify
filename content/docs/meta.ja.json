@@ -2,6 +2,8 @@
     "icon":"home-4-line",
     "pages": [
         "index",
+        "quickstart",
+        "contributing",
         "workflow",
         "plugin",
         "knowledge-base"
