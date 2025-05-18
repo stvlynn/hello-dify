@@ -157,7 +157,7 @@ export default function HomePage({
             </Link>
             
             <Link
-              href="https://discord.gg/drd3HnTv"
+              href="https://discord.gg/PwZDHH4mv3"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full 
@@ -218,7 +218,7 @@ export default function HomePage({
               </div>
               <p className="text-fd-muted-foreground mb-4">{t.community.description}</p>
               <Link 
-                href="https://discord.gg/drd3HnTv" 
+                href="https://discord.gg/PwZDHH4mv3" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-fd-primary font-medium hover:underline"

@@ -47,7 +47,7 @@ export default function Layout({
         },
         {
           text: discordText,
-          url: 'https://discord.gg/drd3HnTv',
+          url: 'https://discord.gg/PwZDHH4mv3',
           external: true,
         },
       ]}

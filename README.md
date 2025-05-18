@@ -56,7 +56,7 @@ The i18n rule helps ensure consistent structure across all language versions whi
 
 FirstLab is a community of developers interested in AI development and Dify ecosystem.
 
-- **Discord**: Join our [Discord server](https://discord.gg/drd3HnTv) to connect with other developers
+- **Discord**: Join our [Discord server](https://discord.gg/PwZDHH4mv3) to connect with other developers
 - **X (Twitter)**: Follow [@FirstLabAI](https://twitter.com/FirstLabAI) for updates
 
 ## Project Structure
