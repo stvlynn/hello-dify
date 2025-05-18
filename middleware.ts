@@ -15,6 +15,7 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/api/') || 
     pathname.startsWith('/public/') ||
+    pathname === '/sitemap.xml' ||  // 排除sitemap.xml
     /\.(jpg|png|svg|gif)$/.test(pathname)
   ) {
     return;
