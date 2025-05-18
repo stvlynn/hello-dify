@@ -1,0 +1,69 @@
+---
+title: WorkflowとChatflowの違い
+description: Difyプラットフォームにおける「Workflow」と「Chatflow」の機能的な違いとその適用シナリオの詳細分析、ユーザーが適切なフロータイプを選ぶ手助けをします
+enableComments: true
+author: "Ron"
+github_username: "svcvit"
+x_username: "Ron568059256995"
+---
+
+<Callout title="ご注意" type="warn">本記事は中国語で執筆された内容を日本語に翻訳したものです。内容によっては分かりづらい箇所がある場合もございますので、あらかじめご了承ください。</Callout>
+
+<Callout title="原文">
+<a href="https://blog.vcvit.me/2025/04/11/03-dify-workflow-vs-chatflow/" target="_blank">一个无人问津的小站</a> - レッスン03：DIFYにおけるWorkflowとChatflowの違い
+</Callout>
+
+ChatflowとWorkflowの最大の違いは、会話シナリオがあるかどうかです。この違いにより、DIFYの設計上でいくつかの機能的な違いが生じています。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/quEA_7LVWA8?si=1H6YErHCrp-masdn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## スタート地点の違い
+
+Chatflowは会話関連の機能（会話ID、会話のターン数など）をサポートしています。これらはWorkflowにはない機能です。
+
+![スタート地点の違い](https://s2.loli.net/2025/05/18/MbfrQwoqIhU8WcH.png)
+
+![Chatflowの会話サポート](https://s2.loli.net/2025/05/18/yxKzw5mq29Uotnv.png)
+
+## LLMノードのメモリの違い
+
+Chatflowは会話に使用されるため、システム内蔵の会話コンテキスト（下図のメモリ設定領域）では、LLMノードでコンテキストの長さを設定できます。Workflowにはメモリ設定がないため、Workflowの実行は毎回新しく始まります。
+
+![Chatflowのメモリ設定](https://s2.loli.net/2025/05/18/WVFkl1DzLwO4ruy.png)
+
+![Workflowにはメモリ設定がない](https://s2.loli.net/2025/05/18/Kzaw5vsOe2uEfcD.png)
+
+## Chatflowのセッション変数
+
+Chatflowには会話IDに関連付けられたセッション変数があります。同じ会話IDの複数のダイアログラウンドでは、セッション変数を参照、割り当て、修正することができます。Workflowにはこれらの機能はありません。
+
+![Chatflowのセッション変数](https://s2.loli.net/2025/05/18/KaHitCZGh5pdUQW.png)
+
+## Workflowのバッチ処理
+
+Workflowには会話IDの概念がないため、各プロセス呼び出しは独立して実行されます。そのため、アプリケーションのウェブインターフェースでは、WorkflowとChatflowには明確な違いがあります。
+
+- Chatflowは会話を通じてインタラクションを提供します。
+- Workflowはタスクを通じてインタラクションを提供します。
+
+![Workflowインターフェースの例](https://s2.loli.net/2025/05/18/SqOXZtzvgmAKcfa.png)
+
+![Chatflowインターフェースの例](https://s2.loli.net/2025/05/18/d7k3RHgblEZ8map.png)
+
+これはWorkflowのインタラクションインターフェースで、バッチ処理インタラクションを提供します。
+
+![Workflowのバッチ処理](https://s2.loli.net/2025/05/18/wySKIBMguLGsQWk.png)
+
+これはChatflowのインタラクションインターフェースで、会話型インタラクションを提供します。
+
+## ツールとしてのWorkflow
+
+これはWorkflow特有の機能です。各呼び出しは独立して実行されるため、ツールとしてパッケージ化して他のプロセス（Workflow/Chatflow）で呼び出すことができます。これにより、一般的な機能をツールとして公開でき、将来のメンテナンスが容易になり、メインプロセスを短縮できます。同時に、バージョン1.0の新しいAgentノードと組み合わせると、さらに多くの異なる使用方法があるかもしれません。
+
+![ツールとしてのWorkflow機能](https://s2.loli.net/2025/05/18/V7J5gzRBCoQcaFL.png)
+
+例えば、コンテキストメッセージ処理のWorkflowをツールとしてパッケージ化しました。将来のプロセスでは、このWorkflowを直接参照できます。
+
+![パッケージ化されたWorkflowの例](https://s2.loli.net/2025/05/18/GhQdMjuWpA8k2nb.png)
+
+![パッケージ化されたWorkflowの参照](https://s2.loli.net/2025/05/18/PmSvtIEl2qgkN19.png)

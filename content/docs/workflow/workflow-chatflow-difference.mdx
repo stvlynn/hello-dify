@@ -1,0 +1,69 @@
+---
+title: Differences Between Workflow and Chatflow
+description: A detailed analysis of the functional differences and application scenarios of Workflow and Chatflow in the Dify platform, helping users choose the appropriate flow type
+enableComments: true
+author: "Ron"
+github_username: "svcvit"
+x_username: "Ron568059256995"
+---
+
+<Callout title="Note" type="warn">This article was originally written in Chinese, reading may be difficult for non-native speakers.</Callout>
+
+<Callout title="Original Article">
+<a href="https://blog.vcvit.me/2025/04/11/03-dify-workflow-vs-chatflow/" target="_blank">一个无人问津的小站</a> - Lesson 03: The Differences Between Workflow and Chatflow in DIFY
+</Callout>
+
+The biggest difference between Chatflow and Workflow is whether there's a conversation scenario. This leads to several functional differences in DIFY's design.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/quEA_7LVWA8?si=1H6YErHCrp-masdn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Differences in Starting Points
+
+Chatflow provides support for conversation-related features, such as conversation ID, number of conversation turns, etc. These are not available in Workflow.
+
+![Starting point differences](https://s2.loli.net/2025/05/18/MbfrQwoqIhU8WcH.png)
+
+![Conversation support in Chatflow](https://s2.loli.net/2025/05/18/yxKzw5mq29Uotnv.png)
+
+## Differences in LLM Node Memory
+
+Since Chatflow is used for conversations, the system's built-in conversation context (the memory settings area shown in the image below) allows you to configure the context length in the LLM node. Workflow doesn't have memory configuration, which means each Workflow run is a completely fresh start.
+
+![Memory settings in Chatflow](https://s2.loli.net/2025/05/18/WVFkl1DzLwO4ruy.png)
+
+![No memory settings in Workflow](https://s2.loli.net/2025/05/18/Kzaw5vsOe2uEfcD.png)
+
+## Chatflow Session Variables
+
+Chatflow has session variables that are associated with the conversation ID. In multiple rounds of dialogue with the same conversation ID, session variables can be referenced, assigned, and modified. Workflow doesn't have these features.
+
+![Session variables in Chatflow](https://s2.loli.net/2025/05/18/KaHitCZGh5pdUQW.png)
+
+## Workflow Batch Processing
+
+Since Workflow doesn't have the concept of a conversation ID, each process call runs independently. Therefore, in the application's web interface, there are clear differences between Workflow and Chatflow.
+
+- Chatflow provides interaction through conversations.
+- Workflow provides interaction through tasks.
+
+![Workflow interface example](https://s2.loli.net/2025/05/18/SqOXZtzvgmAKcfa.png)
+
+![Chatflow interface example](https://s2.loli.net/2025/05/18/d7k3RHgblEZ8map.png)
+
+This is the Workflow interaction interface, which provides batch processing interaction.
+
+![Workflow batch processing](https://s2.loli.net/2025/05/18/wySKIBMguLGsQWk.png)
+
+This is the Chatflow interaction interface, which provides conversational interaction.
+
+## Workflow as a Tool
+
+This is a feature unique to Workflow. Since each call runs independently, it can be packaged as a tool and called in other processes (Workflow/Chatflow). This allows you to publish some common functions as tools, making future maintenance easier and shortening the main process. At the same time, if paired with the new Agent node in version 1.0, you might have even more different ways to use it.
+
+![Workflow as tool feature](https://s2.loli.net/2025/05/18/V7J5gzRBCoQcaFL.png)
+
+For example, I packaged some context message processing Workflows as a tool. In future processes, this Workflow can be referenced directly.
+
+![Example of packaged Workflow](https://s2.loli.net/2025/05/18/GhQdMjuWpA8k2nb.png)
+
+![Referencing packaged Workflow](https://s2.loli.net/2025/05/18/PmSvtIEl2qgkN19.png)

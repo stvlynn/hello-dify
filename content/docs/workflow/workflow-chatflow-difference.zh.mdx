@@ -1,0 +1,66 @@
+---
+title: Workflow与Chatflow的区别
+description: 详细解析Dify平台中Workflow和Chatflow两种流程的功能差异与应用场景，帮助用户选择合适的流程类型
+enableComments: true
+author: "Ron"
+github_username: "svcvit"
+x_username: "Ron568059256995"
+---
+
+<Callout title="阅读原文">
+<a href="https://blog.vcvit.me/2025/04/11/03-dify-workflow-vs-chatflow/" target="_blank">一个无人问津的小站</a> - 03课-DIFY流程中workflow与chatflow的区别
+</Callout>
+
+Chatflow 和 Workflow 最大的区别就在于是否有对话场景。从 DIFY 设计上产生了一些功能性区别。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/quEA_7LVWA8?si=1H6YErHCrp-masdn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+# 起点的区别
+
+Chatflow 会对一些对话相关的支持，对话 ID、对话轮数等内容。这些是 workflow 没有的。
+
+![image.png](https://s2.loli.net/2025/05/18/MbfrQwoqIhU8WcH.png)
+
+![image.png](https://s2.loli.net/2025/05/18/yxKzw5mq29Uotnv.png)
+
+
+# LLM 节点记忆的区别
+因为 Chatflow 用于对话，所以系统内置的对话上下文（下图的记忆设置功能区），在 LLM 节点可以配置上下文的长度。Workflow 是没有记忆配置的，也就意味着，每次 workflow 的运行，都是全新的开始。
+
+![image.png](https://s2.loli.net/2025/05/18/WVFkl1DzLwO4ruy.png)
+
+![image.png](https://s2.loli.net/2025/05/18/Kzaw5vsOe2uEfcD.png)
+
+# Chatflow 会话变量
+Chatflow 会有会话变量，它和对话 ID 关联，同一个对话 ID 的多轮对话，会话变量可以被引用，赋值，修改。这些 workflow 都没有。
+
+![image.png](https://s2.loli.net/2025/05/18/KaHitCZGh5pdUQW.png)
+
+# Workflow 批量运行
+因为 workflow 没有会话 ID 的概念，所以它的流程每次调用都是独立运行。因此，在应用的启动 web 界面，workflow 和 chatflow 也有明显的区别。
+
+- Chatflow 是以对话的方式提供交互。
+- Workflow 是以任务的方式提供交互。
+
+![image.png](https://s2.loli.net/2025/05/18/SqOXZtzvgmAKcfa.png)
+
+![image.png](https://s2.loli.net/2025/05/18/d7k3RHgblEZ8map.png)
+
+这是 Workflow 的交互界面，它提供批量运行的交互方式。
+
+![image.png](https://s2.loli.net/2025/05/18/wySKIBMguLGsQWk.png)
+
+这是 Chatflow 的交互界面，它提供对话交互。
+
+# Workflow 发布为工具
+这是 workflow 特有的功能，因为每次调用都是独立一次运行，所以它可以打包成工具，在其它流程（workflow/chatflow）被调用，这样可以把一些通用的功能发布成工具，这样可以方便未来维护，且缩短主流程的长度。同时，如果搭配 1.0 新出来的 Agent 节点，你可能会有更多不一样的玩法。
+
+![image.png](https://s2.loli.net/2025/05/18/V7J5gzRBCoQcaFL.png)
+
+例如，我把一些处理上下文消息的 workflow，打包成一个工具。在未来其它流程里，就可以直接引用这个流程。
+
+![image.png](https://s2.loli.net/2025/05/18/GhQdMjuWpA8k2nb.png)
+
+![image.png](https://s2.loli.net/2025/05/18/PmSvtIEl2qgkN19.png)
+
