@@ -1,0 +1,176 @@
+---
+title: "学业优通"
+description: "询问关于学分、二课分、绩点、综测、评优评先、奖学金、保研的一切信息。"
+enableComments: true
+author: "Chase"
+github_username: "ChasePassion"
+---
+
+# ChatBot 搭建
+
+这个教程主要分为三个部分，一个是获取大模型 API，一个是搭建知识库，一个是搭建聊天流
+
+## 大模型 API
+
+大模型 API 是 AI 应用的基础，使用 API，我们就可以使用这个 API 对应的模型，那么如何获取模型的 API 呢？我们可以使用硅基流动（https://cloud.siliconflow.cn/models）
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/1.77dstzf7np.webp)
+
+广场显示了硅基流动支持的 API，下面我们点击左侧的 API 密钥
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/2.64e3j3k5ul.webp)
+
+点击新建 API 密钥即可得到 API（硅基流动中的这个 API 对于所有模型来说都是一样的，具体计费的时候会看你使用的是什么模型）
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/3.7zqobpz90v.webp)
+
+点击并输入备注之后，点击新建密钥，复制得到的 API 密钥，回到 Dify
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/4.175mp99or7.webp)
+
+点击设置
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/5.23244pjx31.webp)
+
+点击左侧的模型供应商，向下滑动到安装模型供应商界面，安装你需要的模型供应商，这里我们安装硅基流动，由于我已经安装过，所以这里不做演示，安装之后，在**待配置**列表里面，点击设置，输入 API 密钥，模型就配置成功了。
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/6.7w72e0830a.webp)
+
+## 知识库
+
+这最重要的一步，对于一个问答式的聊天机器人来说，其知识库和检索的准确性是最重要的。
+
+### First 点击创建知识库
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/7.26lq2fe5z4.webp)
+
+### Second 导入文件
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/8.1sfabk6act.webp)
+
+关于这一步，我们导入的文件最好是.md 或者.txt 格式，这里推荐.md 格式，因为 md 文档易于编辑并且易于模型理解转化。对于.md 格式，那么问题是，文件通常并不是这两个格式的，可能是 PPT 或者 PDF，那么如何把 PPT 和 PDF 转化为.md 呢？值得庆幸的是，并不需要学习 markdown 语法自己去写一个.md 文档，下面揭晓。
+
+### Third 将文件转化为 md 格式
+
+首先我们需要有一个 PDF 或者 PPT 等各种格式的文件，接着，访问 aistudio（需要翻墙开全局）
+
+[https://aistudio.google.com/prompts/new_chat](https://aistudio.google.com/prompts/new_chat)
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/9.3gon8qx7ku.webp)
+
+接着直接把文件拖入，输入 prompt：把这个文件的内容全部提取出来，转化为 markdown 格式，我需要写在 md 文档里面
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/10.23244pmum5.webp)
+
+接下来等待一会，就可以得到格式精美，信息完整的 markdown 格式的文件啦！
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/11.51ee87vsk3.webp)
+
+接下来我们点击文件夹，创建 md 文档，将模型的输出内容复制粘贴即可。这里我们还需要对 markdown 文档里的内容进行一定的整理，这里我们先按下不表。
+
+### Fouth 知识库处理设置
+
+直接的 md 文档事实上并不适合检索，我们需要对文档的内容分段，将文件拖入后，于是有下面的界面：
+
+#### 分段设置
+
+这是文本分段方式，下面介绍一下通用分段和父子分段
+
+- **通用分段：**将文章内容按照段落划分，每个段落有一些由 Dify 自动生成的关键词，当用户输入一段文本的时候，模型会提取关键词，用这些关键词去检索知识库，将关键词相同的分块返回，作为模型回复时的资料参考，也就是召回的块
+- **父子分段：**将文本的内容按照父段和字段划分，父段包含子段，当检索的时候会检索字段的内容，但是在返回的时候会返回整个父段的内容，这样模型就可以获得完整的上下文，这里我推荐父子分段。
+
+分段最大长度和分段重叠长度依据需要设置即可
+
+**<font style={{ color: "#117CEE" }}>上面的内容听不懂？没关系，关键在于使用，试验，试验多了就懂了！</font>**
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/12.1ovodufkv7.webp)
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/13.3k896gt0r0.webp)
+
+**预览块：**点击之后可以看到这种分段设置分出来的段是怎么样的
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/14.70akyk30to.webp)
+
+#### 索引方式
+
+也就是模型检索文件的方式，这里推荐高质量，因为直接拿关键词匹配准确度非常低，下面的 Embedding 模型就是对文本处理的模型，这个模型的作用是处理文本，我们使用 API 里面提供的模型即可。
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/15.6bhbejfzlb.webp)
+
+#### 检索设置
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/16.wisw418z5.webp)
+
+这里推荐混合检索，根据你的知识库的类型选择权重设置和 Rerank 模型，设置 Top K 和 Score 阈值，这里我的设置是 Rerank 模型，Top K 设置为 10，Score 不开启。Rerank 可以保证模型看到的第一个信息是最相关的，下面的两个设置可以保证模型得到的信息全面不会遗漏。
+
+**这里我们接续上文，我们需要继续处理 markdown 文档**
+
+### Fifth 处理 markdown 文档（使分段更准确）
+
+**为什么需要这一步呢？**
+
+这里是一个示例，右边是 md 文档，左边是分段效果
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/17.2a5c05cpng.webp)
+
+**<font style={{ color: "#117CEE" }}>从这个示例我们可以知道，如果我们想要让两个段落在一个父分段里面，那么我们最好让它们之间只有一个换行符，也就是紧挨着，中间不要有空行，而 H1，H2 没有影响，都是一个父分段。于是最简单的格式就是，</font>**
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/18.8ojxvqv0lc.webp)
+
+这样模型就可以把整个红色标题一直到下一个红色标题作为父段，其中的每一个段落作为子段。
+
+**对文档处理完成之后，就可以得到一份干净完整的数据库啦！**
+
+## 聊天流
+
+**接下来我们构建一个聊天机器人，大体思路是先实现模型选择，接着接入知识库**
+
+首先点击首页的创建空白应用，完成命名输入之后来到一个初始界面，这里的聊天流是新版 Dify 的初始化配置!
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/19.9kgfb75v2b.webp)
+
+来到开始这里，点击添加一个输入字段（图片中已经添加完成，下面会演示具体如何操作）
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/20.8vn5r6ioif.webp)
+
+点击之后会弹出一个窗口，接着我们选择下拉选项，将面板配置如下
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/21.32i7hvvk9o.webp)
+
+接着我们将鼠标移到开始，点击添加节点!
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/22.3gon8r482f.webp)
+
+选择条件分支!
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/23.esr7j38vm.webp)
+
+将条件分支的右侧面板配置为如下图所示
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/24.2a5c05g467.webp)
+
+接着右键空白界面，新建一个 LLM 节点，将分支配置如下（LLM2 后面的节点与初始配置相同）
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/25.7pjc3hub6.webp)
+
+接着我们在开始和条件分支之间添加一个知识检索的节点，将面板配置如下（这里我们的查询变量选择 sys.query，也就是用户输入）
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/26.1sfabkfh2g.webp)
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/27.13m0rjsc6g.webp)
+
+然后我们在模型的上下文中设置变量值为知识检索的 result
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/28.4cl4o7g7vh.webp)
+
+接着我们在 Prompt 中插入上下文
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/29.5j4fwt5h4c.webp)
+
+最终的效果如下!
+
+![Dify 教程截图](https://ChasePassion.github.io/picx-images-hosting/Dify教程/30.4ub6csie96.webp)
+
+至此，聊天机器人的搭建就完成了，快试试效果吧！
+
+---
