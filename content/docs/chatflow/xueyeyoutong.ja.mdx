@@ -1,0 +1,200 @@
+---
+title: "学業優通"
+description: "単位、第二教養単位、GPA、総合評価、優秀学生選抜、奨学金、大学院推薦など、すべての情報を質問できます。"
+enableComments: true
+author: "Chase"
+github_username: "ChasePassion"
+---
+
+⬇️ 読む前に、試してみてください
+
+学院の文書の機密性を考慮して、ここでは表示しません……
+
+<span style={{ color: "lightgrey" }}>
+  （ドメインを持っていないなんて、言えないけどね……）
+</span>
+
+---
+
+# チャットボットの構築
+
+このチュートリアルは、主に 3 つの部分に分かれています。大規模モデル API の取得、知識ベースの構築、そしてチャットフローの構築です。
+
+## 大規模モデル API
+
+大規模モデル API は AI アプリケーションの基盤です。API を使用することで、その API に対応するモデルを使用できます。では、モデルの API をどのように取得するのでしょうか？私たちは SiliconFlow（https://cloud.siliconflow.cn/models）を使用できます。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/1.77dstzf7np.webp)
+
+広場には SiliconFlow がサポートする API が表示されています。次に、左側の API キーをクリックします。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/2.64e3j3k5ul.webp)
+
+「新規 API キーを作成」をクリックすると API が取得できます（SiliconFlow のこの API はすべてのモデルで共通であり、具体的な課金は使用するモデルによって異なります）。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/3.7zqobpz90v.webp)
+
+クリックして備考を入力した後、「キーを作成」をクリックし、取得した API キーをコピーして Dify に戻ります。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/4.175mp99or7.webp)
+
+設定をクリックします。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/5.23244pjx31.webp)
+
+左側の「モデルプロバイダー」をクリックし、「モデルプロバイダーをインストール」インターフェースまでスクロールダウンし、必要なモデルプロバイダーをインストールします。ここでは SiliconFlow をインストールします。すでにインストール済みなので、ここではデモンストレーションは行いません。インストール後、**未設定**リストで「設定」をクリックし、API キーを入力すると、モデルの設定が成功します。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/6.7w72e0830a.webp)
+
+## 知識ベース
+
+これは最も重要なステップです。Q&A チャットボットにとって、その知識ベースと検索の正確性が最も重要です。
+
+### 最初に「知識ベースを作成」をクリック
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/7.26lq2fe5z4.webp)
+
+### 次にファイルをインポート
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/8.1sfabk6act.webp)
+
+このステップでは、インポートするファイルは.md または.txt 形式が最適です。ここでは.md 形式を推奨します。md ドキュメントは編集しやすく、モデルが理解して変換しやすいためです。.md 形式の場合、問題は、ファイルが通常これら 2 つの形式ではない可能性があることです。PPT または PDF の場合があります。では、PPT と PDF を.md に変換するにはどうすればよいでしょうか？幸いなことに、markdown の構文を学習して自分で.md ドキュメントを作成する必要はありません。以下に公開します。
+
+### 3 番目にファイルを md 形式に変換
+
+まず、PDF や PPT など、さまざまな形式のファイルが必要です。次に、aistudio にアクセスします（グローバル VPN が必要です）。
+
+[https://aistudio.google.com/prompts/new_chat](https://aistudio.google.com/prompts/new_chat)
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/9.3gon8qx7ku.webp)
+
+次に、ファイルを直接ドラッグして、プロンプトを入力します。「このファイルのコンテンツをすべて抽出し、markdown 形式に変換してください。md ドキュメントに記述する必要があります。」
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/10.23244pmum5.webp)
+
+次に、ファイルを直接ドラッグして、プロンプトを入力します。「このファイルのコンテンツをすべて抽出し、markdown 形式に変換してください。md ドキュメントに記述する必要があります。」
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/11.51ee87vsk3.webp)
+
+次に、フォルダをクリックし、md ドキュメントを作成し、モデルの出力コンテンツをコピーして貼り付けます。ここでは、markdown ドキュメントのコンテンツをある程度整理する必要がありますが、これについては後で詳しく説明します。
+
+### 4 番目に知識ベース処理設定
+
+直接的な md ドキュメントは、実際には検索には適していません。ドキュメントのコンテンツを分割する必要があります。ファイルをドラッグすると、次のインターフェースが表示されます。
+
+#### 分割設定
+
+これはテキストの分割方法です。以下では、一般的な分割と親子分割について説明します。
+
+- **一般的な分割：**記事の内容を段落に分割します。各段落には Dify によって自動生成されたキーワードがいくつか含まれています。ユーザーがテキストを入力すると、モデルはキーワードを抽出し、これらのキーワードを使用して知識ベースを検索し、同じキーワードを持つブロックをモデルの応答の参考資料として返します。これが呼び出されるブロックです。
+- **親子分割：**テキストのコンテンツを親セグメントと子セグメントに分割します。親セグメントは子セグメントを含みます。検索時には子セグメントの内容が検索されますが、応答時には親セグメント全体が返されるため、モデルは完全なコンテキストを取得できます。ここでは親子分割を推奨します。
+
+分割最大長と分割重複長は必要に応じて設定できます。
+
+**<font style={{ color: "#117CEE" }}>上記の内容が理解できませんか？大丈夫です。重要なのは、使用し、実験することです。たくさん実験すれば理解できるでしょう！</font>**
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/12.1ovodufkv7.webp)
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/13.3k896gt0r0.webp)
+
+**プレビューブロック：**クリックすると、この分割設定で分割されたセグメントがどのように見えるかを確認できます。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/14.70akyk30to.webp)
+
+#### インデックス作成方法
+
+これは、モデルがファイルを検索する方法です。ここでは高品質を推奨します。キーワードの直接一致は精度が非常に低いためです。以下の Embedding モデルはテキスト処理用のモデルです。このモデルの機能はテキストを処理することであり、API で提供されているモデルを使用できます。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/15.6bhbejfzlb.webp)
+
+#### 検索設定
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/16.wisw418z5.webp)
+
+ここではハイブリッド検索を推奨します。知識ベースのタイプに応じて重み設定と Rerank モデルを設定し、Top K とスコアしきい値を設定します。ここでは Rerank モデル、Top K を 10、スコアを無効に設定しています。Rerank により、モデルが最初に表示する情報が最も関連性の高い情報であることが保証され、以下の 2 つの設定により、モデルが取得する情報が包括的で完全であることが保証されます。
+
+**ここから続きです。markdown ドキュメントの処理を続行する必要があります。**
+
+### 5 番目に markdown ドキュメントの処理（より正確な分割のため）
+
+**なぜこのステップが必要なのですか？**
+
+ここに例があります。右側は md ドキュメント、左側は分割効果です。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/17.2a5c05cpng.webp)
+
+**<font style={{ color: "#117CEE" }}>この例から、2 つの段落を 1 つの親セグメントに含めたい場合、それらの間に改行を 1 つだけ設け、つまり隣接させ、間に空行を入れないのが最善であることがわかります。H1、H2 は影響せず、どちらも 1 つの親セグメントです。したがって、最も簡単な形式は次のとおりです。</font>**
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/18.8ojxvqv0lc.webp)
+
+このようにして、モデルは赤いタイトル全体から次の赤いタイトルまでを親セグメントとし、その中の各段落を子セグメントとすることができます。
+
+**ドキュメントの処理が完了すると、クリーンで完全なデータベースが完成します！**
+
+## チャットフロー
+
+**次に、チャットボットを構築します。一般的な考え方として、まずモデル選択を実装し、次に知識ベースにアクセスします。**
+
+まず、ホームページの「空白のアプリケーションを作成」をクリックします。名前の入力を完了すると、初期インターフェースが表示されます。ここでのチャットフローは、Dify の新しいバージョンの初期設定です！
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/19.9kgfb75v2b.webp)
+
+「開始」で「入力フィールドを追加」をクリックします（画像にはすでに GPGPU が追加されていますが、以下で具体的な操作方法をデモンストレーションします）。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/20.8vn5r6ioif.webp)
+
+クリックするとウィンドウがポップアップします。次にドロップダウンオプションを選択し、以下に示すようにパネルを設定します。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/21.32i7hvvk9o.webp)
+
+次にマウスを「開始」に移動し、「ノードを追加」をクリックします！
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/22.3gon8r482f.webp)
+
+「条件分岐」を選択します！
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/23.esr7j38vm.webp)
+
+条件分岐の右側のパネルを以下に示すように設定します。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/24.2a5c05g467.webp)
+
+次に、空白のインターフェースを右クリックし、新しい LLM ノードを作成し、以下に示すように分岐を設定します（LLM2 の後のノードは初期設定と同じです）。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/25.7pjc3hub6.webp)
+
+次に、「開始」と「条件分岐」の間に知識検索ノードを追加し、以下に示すようにパネルを設定します（ここではクエリ変数として sys.query、つまりユーザー入力を選択します）。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/26.1sfabkfh2g.webp)
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/27.13m0rjsc6g.webp)
+
+次に、モデルのコンテキストで変数値を知識検索の結果に設定します。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/28.4cl4o7g7vh.webp)
+
+次に、プロンプトにコンテキストを挿入します。
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/29.5j4fwt5h4c.webp)
+
+最終的な効果は以下の通りです！
+
+![Dify tutorial screenshot](https://ChasePassion.github.io/picx-images-hosting/Dify教程/30.4ub6csie96.webp)
+
+これでチャットボットの設定は完了です。ぜひ試してみてください！
+
+---
+
+<Cards>
+  <Card
+    icon={<i className="ri-flow-chart" />}
+    href="https://discord.gg/PwZDHH4mv3"
+    title="ワークフローを入手する"
+  >
+    <p>DSLファイルを入手するには、FirstLabに参加してください</p>
+    <img
+      src="https://s2.loli.net/2025/05/15/h2qntU94eHZyBXr.png"
+      alt="Twitterレシート"
+    />
+  </Card>
+</Cards>

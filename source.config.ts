@@ -3,8 +3,8 @@ import {
   defineDocs,
   frontmatterSchema,
   metaSchema,
-} from 'fumadocs-mdx/config';
-import { z } from 'zod';
+} from "fumadocs-mdx/config";
+import { z } from "zod";
 
 // 扩展frontmatterSchema以支持作者信息
 const extendedFrontmatterSchema = frontmatterSchema.extend({

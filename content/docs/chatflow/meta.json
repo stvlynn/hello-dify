@@ -1,0 +1,10 @@
+{
+    "title": "chatflow",
+    "icon": "flow-chart",
+    "defaultOpen": true,
+    "pages": [
+        "node",
+        "playground",
+        "xueyeyoutong"
+    ]
+} 
