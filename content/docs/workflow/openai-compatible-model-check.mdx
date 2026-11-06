@@ -1,0 +1,126 @@
+---
+title: Check an OpenAI-compatible model from credentials to workflow output
+description: Separate provider setup, model selection, variable binding, and returned results before debugging a larger workflow.
+icon: checkbox-circle-line
+enableComments: true
+author: "Luhui (云岚API)"
+github_username: "luhui111"
+---
+
+A saved model credential and a useful workflow result are different checkpoints. This guide builds a small diagnostic workflow so you can find which checkpoint failed before adding retrieval, tools, or loops.
+
+**Scope:** a text-only Workflow using Dify's OpenAI-API-compatible **model provider** plugin. The instructions were checked against public documentation and plugin source on November 6, 2026. No Dify instance or paid model endpoint was run for this contribution. The two inputs below are proposed acceptance cases, not recorded model results. Names and available settings can differ in your installed Dify and plugin versions.
+
+## 1. Write down the direction of the request
+
+| What you want | Request direction | Credential issued by |
+| --- | --- | --- |
+| Use a model in a Dify LLM node | Dify → model service | That model service |
+| Call a published Dify application from your backend | Your backend → Dify app | That Dify application |
+
+This guide covers the first row. A Dify application key does not replace a model-service key. Keep credentials in the provider's credential field, not in a prompt or an exported troubleshooting document. See [Model Providers](https://docs.dify.ai/en/cloud/use-dify/workspace/model-providers) and [Dify API authentication](https://docs.dify.ai/en/api-reference/guides/get-started).
+
+In current Dify Cloud documentation, provider management is under **Integrations → Model Provider** and requires a workspace owner or admin. Locate the equivalent setting in your version. Select a model-provider plugin; a similarly named tool or application adapter can serve a different direction.
+
+Before saving, make a configuration note without the secret:
+
+| Field | What to verify |
+| --- | --- |
+| Plugin | Exact name and installed version |
+| Model type | LLM for this text-generation exercise |
+| Model name | An ID actually accepted by the service, not a marketing name |
+| `display_name` | An interface label; changing it does not prove a different upstream model was selected |
+| `endpoint_model_name` | If set, check the upstream model override as well |
+| `endpoint_url` | The API base URL required by the plugin and service |
+| API type / mode | Match the endpoint's protocol; do not infer it from the word “chat” alone |
+| Capabilities and limits | Set only what this model and route support, rather than copying form defaults |
+
+The [reviewed provider schema](https://github.com/langgenius/dify-official-plugins/blob/5139339f0b3632494f4e15476c56ae2f82a1e7d8/models/openai_api_compatible/provider/openai_api_compatible.yaml) distinguishes the display label, upstream model override, API type, and model mode. Older installed releases may expose fewer fields.
+
+For a service that documents `https://model.example/v1` as its API base, use that base in the appropriate field; do not paste `https://model.example/v1/chat/completions` there just because it appears in a complete request example. Conversely, do not append `/v1` to every service blindly. Check the service's documented base and how your plugin builds the operation path. `model.example` is an illustrative hostname, not a service to call.
+
+**Saving or validating credentials can make a model request and incur a charge.** The [reviewed implementation](https://github.com/langgenius/dify-official-plugins/blob/5139339f0b3632494f4e15476c56ae2f82a1e7d8/models/openai_api_compatible/models/llm/llm.py) includes validation requests. Confirm the target, billing, and your permission to use the key before doing so. A successful credential check is not evidence that a whole workflow, long response, or stream works.
+
+## 2. Build one path with an explicit input and output
+
+Use a fresh diagnostic Workflow, separate from a production application:
+
+```text
+User Input (source_text) → LLM → Output (result_text)
+```
+
+1. Add a required text input named `source_text` in the input node. Some versions call this node **Start**.
+2. In the **LLM** node, explicitly select the configured provider and model. For this exercise, use a chat model on a route that supports Chat Completions; configure `mode: chat` and, if your plugin exposes API type, `chat_completions`. If the Model field uses an LLM environment variable, inspect that variable's selection. Changing a workspace default is not a substitute for checking this node.
+3. Use this short System instruction:
+
+   ```text
+   Read the input. Return only its order label and shipping day, separated by |.
+   Copy those two values from the input. Do not invent values or add commentary.
+   ```
+
+4. In the User prompt, use Dify's variable selector to insert **source_text from the input node**. Check the rendered variable reference in the editor. Typing the literal word `source_text` is not a binding, and a placeholder copied from another workflow may refer to a different node.
+5. In **Output**, create `result_text` and select the LLM node's **text** output as its value. Do not enter a fixed expected answer as the output value.
+
+The [LLM node documentation](https://docs.dify.ai/en/cloud/use-dify/nodes/llm) describes prompt variables and model selection. The current [Output node documentation](https://docs.dify.ai/en/cloud/use-dify/nodes/output) explains that a branch without an Output node can run but return no data. Older versions call it **End**. A Chatflow uses **Answer** instead; do not copy the final-node choice between application types without checking.
+
+## 3. Define two acceptance cases before running
+
+These are synthetic inputs with expected content, not a model benchmark:
+
+| Case | `source_text` | Expected `result_text` content |
+| --- | --- | --- |
+| A | `Order ALPHA17 ships Wednesday.` | `ALPHA17 \| Wednesday` |
+| B | `Order BETA28 ships Friday.` | `BETA28 \| Friday` |
+
+Allow whitespace around the separator, but require the correct label and day with no added explanation. The second case detects a stale input or a fixed answer that the first case would miss. Failure does not immediately identify the provider as the cause.
+
+Once you have authorization and have checked costs, run A and B as separate Workflow runs. For each run, open [Run History](https://docs.dify.ai/en/cloud/use-dify/debug/history-and-logs), then inspect the trace and the relevant node's **Last run**:
+
+- Did the input node receive the new string?
+- Did the intended LLM node run, and did its actual prompt contain that string?
+- Was the expected provider/model selected for that run?
+- What text did the LLM node return, and what did Output return?
+- Did the run finish successfully, or did an error/fallback path supply the visible result?
+
+If B still returns `ALPHA17`, start with the input and prompt binding. If the LLM output is correct but the returned result is empty, inspect the Output mapping and executed branch. If both fail before the LLM receives a usable response, inspect the provider request. These checks narrow the failing layer; they do not establish a model's general accuracy.
+
+## 4. Troubleshoot with evidence from the failing layer
+
+| Observation | First evidence to inspect | Avoid assuming |
+| --- | --- | --- |
+| 401 or 403 | Which server returned it; redacted error body; key issuer and permissions | Every authorization error is fixed by replacing the Dify app key |
+| 404 | Effective request path, base URL, API type, and model error text | Every 404 means the model name is wrong |
+| 400 or unsupported parameter | Error field and selected protocol; remove one unsupported optional setting at a time | Enabling a capability makes the upstream route support it |
+| 429 | Provider's error details and account/rate-limit state | Repeated immediate retries are free or helpful |
+| Timeout / TLS / connection error | Endpoint hostname and connectivity from the actual execution environment | A page opening in your browser proves the workflow can reach it |
+| Correct LLM text, empty caller result | Output source, executed branch, and final run result | A saved credential proves output wiring is correct |
+| Credential check passes, larger task fails | Actual failing node, payload size, parameters, and full completion state | A short validation request covers every feature or response length |
+
+A status code is a clue, not a diagnosis. Do not disable certificate verification or paste secrets into an issue to make a connection test “pass.” For a timeout with an unknown result, inspect the original execution and provider usage records before retrying, especially when a larger workflow also performs external actions.
+
+## 5. Keep a small, redacted execution record
+
+Copy this worksheet and fill it with observations. Leave unperformed checks as `not run`; never prefill them as successful.
+
+```text
+Date/time and timezone:
+Dify version / Cloud:
+Provider plugin and version:
+API base hostname/path (no query secrets):
+Protocol and model ID / override:
+Case: A / B
+Run ID:
+Input observed at LLM:
+LLM output observed:
+Output result observed:
+Final run status:
+Error source/status/request ID, if present:
+Actual cost: unknown / checked in provider billing
+Next change (one at a time):
+```
+
+After the diagnostic workflow passes, add retrieval, tools, and other branches individually and repeat the relevant checks. Verify the published application separately through its real entry point before treating an editor test as a production result.
+
+## Contribution and further reading
+
+This original tutorial was prepared with AI assistance for Luhui, maintainer of **云岚API**, an independent third-party API service. It is not an endorsement by Dify or any model vendor, and it does not report a tested 云岚API integration. The maintainer's [Chinese Dify connection checklist](https://www.cloudmist.cloud/dify-openai-compatible.html) provides related reading; this tutorial is usable on its own and does not require an account with that service.

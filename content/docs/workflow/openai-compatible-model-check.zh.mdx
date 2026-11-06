@@ -1,0 +1,126 @@
+---
+title: 从凭据到工作流输出，检查 OpenAI 兼容模型接入
+description: 将供应商配置、节点选模、变量绑定和结果返回分开验收，再排查复杂工作流。
+icon: checkbox-circle-line
+enableComments: true
+author: "Luhui (云岚API)"
+github_username: "luhui111"
+---
+
+模型凭据能保存，与工作流能返回正确结果，是两个不同的检查点。先搭建一个小型诊断工作流，可以在加入检索、工具和循环前，找到失败发生在哪一层。
+
+**适用范围：**使用 Dify 的 OpenAI-API-compatible **模型供应商**插件，构建纯文本 Workflow。本文于 2026 年 11 月 6 日核对了公开文档与插件源码，未运行 Dify 实例或付费模型接口。下面两份输入是建议的验收用例，不是模型实测记录。实际安装的 Dify 与插件版本可能使用不同名称，或提供不同配置项。
+
+## 1. 先写清调用方向
+
+| 你要做什么 | 调用方向 | 凭据由谁签发 |
+| --- | --- | --- |
+| 在 Dify 的 LLM 节点使用模型 | Dify → 模型服务 | 该模型服务 |
+| 从自己的后端调用已发布的 Dify 应用 | 你的后端 → Dify 应用 | 该 Dify 应用 |
+
+本文处理第一行。Dify 应用 Key 不能替代模型服务 Key。把凭据保存在供应商凭据字段中，不要写进提示词或导出的排错材料。相关说明见[模型供应商](https://docs.dify.ai/en/cloud/use-dify/workspace/model-providers)与 [Dify API 鉴权](https://docs.dify.ai/en/api-reference/guides/get-started)。
+
+当前 Dify Cloud 文档的入口是 **Integrations → Model Provider**，由工作区所有者或管理员管理。请在自己的版本中找到对应设置。选择模型供应商插件；名称相似的工具或应用适配器，可能处理相反的调用方向。
+
+保存前，写一份不含密钥的配置记录：
+
+| 字段 | 核对内容 |
+| --- | --- |
+| 插件 | 准确名称与实际安装版本 |
+| 模型类型 | 本次文本生成练习选择 LLM |
+| 模型名称 | 服务实际接受的模型 ID，而非营销名称 |
+| `display_name` | 界面标签；改名不能证明已切换上游模型 |
+| `endpoint_model_name` | 若有值，还要核对这个上游模型覆盖值 |
+| `endpoint_url` | 插件与服务要求的 API 基础地址 |
+| API 类型 / 模式 | 与端点协议一致，不能只看见“chat”就作判断 |
+| 能力与上限 | 按该模型及渠道实际支持的能力设置，不照抄表单默认值 |
+
+本次核对的[供应商配置定义](https://github.com/langgenius/dify-official-plugins/blob/5139339f0b3632494f4e15476c56ae2f82a1e7d8/models/openai_api_compatible/provider/openai_api_compatible.yaml)分别定义了显示名称、上游模型覆盖值、API 类型和模型模式。旧版插件可能没有全部字段。
+
+若服务明确把 `https://model.example/v1` 写作 API 基础地址，就在对应字段填写这个基础地址。不要因为完整请求示例里出现 `https://model.example/v1/chat/completions`，便把整个操作路径填进去；也不要给所有服务机械追加 `/v1`。同时核对服务文档的基础地址和所用插件的路径拼接方式。`model.example` 只是演示域名，不是供你调用的服务。
+
+**保存或验证凭据可能发起模型请求并产生费用。**本次核对的[插件实现](https://github.com/langgenius/dify-official-plugins/blob/5139339f0b3632494f4e15476c56ae2f82a1e7d8/models/openai_api_compatible/models/llm/llm.py)包含验证请求。操作前确认目标、计费以及使用该 Key 的权限。凭据校验通过，不等于完整工作流、长回答或完整流式响应都能成功。
+
+## 2. 只连一条路径，明确输入和输出
+
+新建一个与生产应用分开的诊断 Workflow：
+
+```text
+User Input (source_text) → LLM → Output (result_text)
+```
+
+1. 在输入节点添加必填文本变量 `source_text`。有些版本把该节点叫作 **Start**。
+2. 在 **LLM** 节点明确选择刚配置的供应商和模型。本练习使用支持 Chat Completions 的聊天模型与渠道，模式选择 `mode: chat`；若插件提供 API 类型字段，选择 `chat_completions`。若 Model 字段绑定了 LLM 环境变量，检查该变量的实际选模。不能只修改工作区默认模型，就认为此节点已切换。
+3. 使用下面这条简短的 System 指令：
+
+   ```text
+   Read the input. Return only its order label and shipping day, separated by |.
+   Copy those two values from the input. Do not invent values or add commentary.
+   ```
+
+4. 在 User 提示词中，通过 Dify 的变量选择器插入**来自输入节点的 source_text**，核对编辑器显示的变量引用。直接输入普通文本 `source_text` 不构成绑定；从别的工作流复制占位符，也可能指向不同节点。
+5. 在 **Output** 中创建 `result_text`，其值选择 LLM 节点的 **text** 输出，不要把预期答案写成固定值。
+
+[LLM 节点文档](https://docs.dify.ai/en/cloud/use-dify/nodes/llm)解释了提示词变量与模型选择。当前 [Output 节点文档](https://docs.dify.ai/en/cloud/use-dify/nodes/output)说明，缺少 Output 的分支可以运行，却不会返回数据。旧版本称它为 **End**。Chatflow 使用 **Answer** 节点，不能在不同应用类型之间直接照搬末节点。
+
+## 3. 先定义两份验收用例，再运行
+
+下面是合成输入与预期内容，不是模型基准测试：
+
+| 用例 | `source_text` | `result_text` 的预期内容 |
+| --- | --- | --- |
+| A | `Order ALPHA17 ships Wednesday.` | `ALPHA17 \| Wednesday` |
+| B | `Order BETA28 ships Friday.` | `BETA28 \| Friday` |
+
+可以容许分隔符两侧有空格，但订单标记和发货日必须正确，不能增加解释。第二份用例能发现第一份用例无法暴露的旧输入或固定答案问题。失败并不能立即归因于供应商。
+
+取得运行授权并确认费用后，把 A、B 分别作为两次 Workflow 运行。每次打开 [Run History](https://docs.dify.ai/en/cloud/use-dify/debug/history-and-logs)，检查执行轨迹以及对应节点的 **Last run**：
+
+- 输入节点是否收到新字符串？
+- 预期的 LLM 节点是否实际执行，其实际提示词是否包含新字符串？
+- 本次运行选择的供应商和模型是否正确？
+- LLM 节点返回什么文本，Output 又返回什么？
+- 运行是否成功结束，还是错误分支或兜底内容提供了当前可见结果？
+
+若 B 仍返回 `ALPHA17`，先查输入和提示词绑定。若 LLM 输出正确但调用方收到空结果，查 Output 映射与实际执行分支。若两个用例都在收到可用模型响应前失败，再查供应商请求。这样能缩小问题范围，但不能证明模型的普遍准确率。
+
+## 4. 按失败层收集证据
+
+| 现象 | 优先检查的证据 | 不要直接推断 |
+| --- | --- | --- |
+| 401 或 403 | 哪个服务器返回；脱敏错误正文；Key 的签发方与权限 | 所有鉴权错误都能通过更换 Dify 应用 Key 修复 |
+| 404 | 实际请求路径、基础地址、API 类型和模型错误说明 | 所有 404 都是模型名错误 |
+| 400 或参数不支持 | 报错字段与协议；每次只去掉一个不支持的可选参数 | 勾选能力就会让上游支持它 |
+| 429 | 供应商错误详情、账户额度与限流状态 | 立即反复重试既免费又有效 |
+| 超时 / TLS / 连接错误 | 端点主机名，以及实际执行环境的网络连通性 | 浏览器能打开网页，就证明工作流能访问端点 |
+| LLM 文本正确，调用方结果为空 | Output 来源、执行分支、最终运行结果 | 凭据能保存就证明输出连线正确 |
+| 凭据校验通过，复杂任务失败 | 实际失败节点、请求大小、参数与完整结束状态 | 短验证请求覆盖了所有功能和响应长度 |
+
+状态码是线索，不是诊断结论。不要通过关闭证书校验，或把密钥贴进 Issue 来让测试“通过”。如果超时后结果未知，先查原运行与供应商用量记录，再决定是否重试；工作流中还有外部写入动作时尤其要这样处理。
+
+## 5. 留下一份小型脱敏运行记录
+
+复制以下工作表，用观察到的事实填写。未执行的检查保留 `not run`，不要预填成功。
+
+```text
+Date/time and timezone:
+Dify version / Cloud:
+Provider plugin and version:
+API base hostname/path (no query secrets):
+Protocol and model ID / override:
+Case: A / B
+Run ID:
+Input observed at LLM:
+LLM output observed:
+Output result observed:
+Final run status:
+Error source/status/request ID, if present:
+Actual cost: unknown / checked in provider billing
+Next change (one at a time):
+```
+
+诊断工作流通过后，再逐个加入检索、工具和其他分支，重复相关检查。正式应用还需从实际发布入口独立验证，不能把编辑器测试当作生产验收。
+
+## 贡献说明与延伸阅读
+
+本文是为 **云岚API** 维护者 Luhui 准备的原创教程，使用了 AI 辅助。云岚API是独立第三方 API 服务；本文不代表 Dify 或模型厂商背书，也不报告已实测的云岚API接入结果。维护者的[中文 Dify 接入检查表](https://www.cloudmist.cloud/dify-openai-compatible.html)可作为延伸阅读；本教程内容完整，无需注册该服务即可使用。
