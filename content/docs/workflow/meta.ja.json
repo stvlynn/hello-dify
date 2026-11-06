@@ -6,6 +6,7 @@
         "node",
         "playground",
         "workflow-chatflow-difference",
+        "openai-compatible-model-check",
         "twitter-mbti-receipt"
     ]
 } 
